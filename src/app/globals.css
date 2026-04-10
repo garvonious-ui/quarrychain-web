@@ -1,26 +1,137 @@
 @import "tailwindcss";
 
+/* ===== QuarryChain Design Tokens ===== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Backgrounds */
+  --bg-primary: #08080f;
+  --bg-secondary: #0f1019;
+  --bg-tertiary: #161822;
+
+  /* Brand Colors */
+  --qc-blue: #3b82f6;
+  --qc-blue-glow: #60a5fa;
+  --qc-red: #ef4444;
+  --qc-red-muted: #dc2626;
+  --qc-green: #22c55e;
+  --qc-green-muted: #16a34a;
+  --qc-teal: #14b8a6;
+  --qc-teal-glow: #2dd4bf;
+
+  /* Text */
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+
+  /* Glow Effects */
+  --glow-blue: rgba(59, 130, 246, 0.15);
+  --glow-teal: rgba(20, 184, 166, 0.2);
+  --glow-red: rgba(239, 68, 68, 0.1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-qc-blue: var(--qc-blue);
+  --color-qc-blue-glow: var(--qc-blue-glow);
+  --color-qc-red: var(--qc-red);
+  --color-qc-red-muted: var(--qc-red-muted);
+  --color-qc-green: var(--qc-green);
+  --color-qc-green-muted: var(--qc-green-muted);
+  --color-qc-teal: var(--qc-teal);
+  --color-qc-teal-glow: var(--qc-teal-glow);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+
+  --color-glow-blue: var(--glow-blue);
+  --color-glow-teal: var(--glow-teal);
+  --color-glow-red: var(--glow-red);
+
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+  background-color: rgba(20, 184, 166, 0.3);
+  color: var(--text-primary);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% - var(--gap))); }
+}
+
+@keyframes marquee-reverse {
+  from { transform: translateX(calc(-100% - var(--gap))); }
+  to { transform: translateX(0); }
+}
+
+.animate-marquee {
+  animation: marquee linear infinite;
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse linear infinite;
+}
+
+/* Animated gradient text */
+@keyframes gradient {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-gradient {
+  animation: gradient 3s linear infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-gradient {
+    animation: none;
+  }
 }
