@@ -48,9 +48,7 @@ export default function Footer() {
                 <span className="text-text-primary">Chain</span>
               </span>
             </div>
-            <p className="mt-3 text-sm text-text-muted">
-              Get quality, with quarry.
-            </p>
+            <div className="mt-3" />
           </div>
 
           {/* Link columns */}

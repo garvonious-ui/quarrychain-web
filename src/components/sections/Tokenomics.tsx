@@ -117,7 +117,7 @@ export default function Tokenomics() {
                 {[
                   { label: "Total Supply", value: "200M QRY" },
                   { label: "Seed Price", value: "$0.25" },
-                  { label: "Symbol", value: "QRC" },
+                  { label: "Symbol", value: "QRY" },
                   { label: "Decimals", value: "18" },
                 ].map((item) => (
                   <div

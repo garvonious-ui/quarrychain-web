@@ -2,19 +2,15 @@
 
 export const TOKENOMICS = {
   totalSupply: 200_000_000,
-  symbol: "QRC",
+  symbol: "QRY",
   decimals: 18,
   seedPrice: 0.25,
   allocation: [
-    { name: "Public Sale / Liquidity", percentage: 30, color: "#3b82f6" },
+    { name: "Public Sale & Liquidity", percentage: 30, color: "#3b82f6" },
     { name: "Staking & Farming", percentage: 20, color: "#14b8a6" },
     { name: "Team", percentage: 20, color: "#ef4444" },
-    { name: "Angel Investors", percentage: 10, color: "#60a5fa" },
-    { name: "Dev", percentage: 5, color: "#22c55e" },
-    { name: "Ecosystem", percentage: 5, color: "#2dd4bf" },
-    { name: "Marketing", percentage: 5, color: "#a855f7" },
-    { name: "Private Presale", percentage: 2.5, color: "#f97316" },
-    { name: "Private Sale", percentage: 2.5, color: "#eab308" },
+    { name: "Ecosystem & Growth", percentage: 15, color: "#22c55e" },
+    { name: "Private & Angel Rounds", percentage: 15, color: "#a855f7" },
   ],
 } as const;
 
@@ -91,32 +87,32 @@ export const ROADMAP: RoadmapPhase[] = [
 export const ECOSYSTEM = [
   {
     name: "QuarryWallet",
-    tagline: "Your keys. Your crypto. Your control.",
+    tagline: "Non-custodial wallet for QRY and QRC-20 tokens.",
     icon: "Wallet",
   },
   {
     name: "QuarrySwap",
-    tagline: "Swap, stake, and earn — decentralized.",
+    tagline: "Swap, stake, farm. Fully decentralized.",
     icon: "ArrowLeftRight",
   },
   {
     name: "QuarryScan",
-    tagline: "Explore every block, transaction, and contract.",
+    tagline: "Block explorer. Every transaction, every contract.",
     icon: "Search",
   },
   {
     name: "QVM",
-    tagline: "EVM-compatible. Deploy Solidity contracts instantly.",
+    tagline: "EVM-compatible virtual machine. Solidity-native.",
     icon: "Cpu",
   },
   {
     name: "QRC-20 Tokens",
-    tagline: "Launch tokens with enterprise-grade standards.",
+    tagline: "Launch tokens with the standard developers already know.",
     icon: "Coins",
   },
   {
     name: "Asset Tokenization",
-    tagline: "Bridge physical assets to the blockchain.",
+    tagline: "Bridge physical assets to the blockchain. Trade 24/7.",
     icon: "Building",
   },
 ] as const;

@@ -41,7 +41,7 @@ export default function Ecosystem() {
               Ecosystem
             </p>
             <h2 className="text-3xl md:text-5xl font-bold font-display text-text-primary">
-              One Network. Infinite Possibilities.
+              One chain. Everything you need.
             </h2>
           </div>
         </BlurFade>

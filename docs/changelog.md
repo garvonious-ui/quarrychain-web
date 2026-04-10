@@ -1,5 +1,29 @@
 # Changelog
 
+## 2026-04-10 — Session 2: V2 Homepage Overhaul
+- Removed ProblemSolution and HowDPoSWorks from homepage (kept files for future /technology page)
+- Created StatsBar section — 5-column stat bar (TPS, Finality, Fees, Validators, EVM) with NumberTicker animations, responsive 3+2 mobile layout
+- Created DeveloperCTA section — two-column with Solidity code block, syntax highlighting, copy-to-clipboard, EVM compatibility badges, "Read the Docs" / "View on GitHub" CTAs
+- Created GovernancePreview section — 27-node circular visualization with 3 active highlights, slow rotation, governance stats row
+- Updated Features — removed "Built Different" header and subtitle titles, tightened card copy to max 2 sentences
+- Updated Ecosystem — headline changed to "One chain. Everything you need.", tightened taglines
+- Updated Tokenomics — fixed symbol QRC → QRY, consolidated 9 chart slices to 5
+- Updated CTA — "Start building on QuarryChain." (statement not question), "Read the Docs" / "Join Discord"
+- Updated Footer — removed "Get quality, with quarry." tagline
+- Updated constants.ts — new ecosystem taglines, consolidated tokenomics allocation, QRY symbol fix
+- New page.tsx section order: Hero → StatsBar → AsSeenIn → Features → DeveloperCTA → Ecosystem → GovernancePreview → LiveStats → Tokenomics → Roadmap → Team → CTA → Footer
+
+### Decisions
+- ProblemSolution/HowDPoSWorks are educational content, not homepage content — moved to Phase 2 /technology page
+- DeveloperCTA is critical — every serious L1 needs a "deploy in 5 lines" section
+- Tokenomics consolidated from 9 to 5 slices for cleaner visualization
+- Copy direction: stop explaining, start stating. Solana doesn't justify, neither should we.
+
+### Remaining
+- Responsive testing across all new sections
+- Social link hrefs still placeholder
+- LiveStats may show zeros if testnet API unavailable — consider gating
+
 ## 2026-04-08 — Session 1
 - Initialized full project structure: CLAUDE.md, docs/, .claude/commands/, .claude/rules/
 - Created Next.js 15 + TypeScript + Tailwind CSS 4 project with pnpm

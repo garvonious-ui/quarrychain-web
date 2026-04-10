@@ -1,12 +1,12 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
-import MarqueeBanner from "@/components/sections/MarqueeBanner";
+import StatsBar from "@/components/sections/StatsBar";
 import AsSeenIn from "@/components/sections/AsSeenIn";
-import ProblemSolution from "@/components/sections/ProblemSolution";
 import Features from "@/components/sections/Features";
-import HowDPoSWorks from "@/components/sections/HowDPoSWorks";
+import DeveloperCTA from "@/components/sections/DeveloperCTA";
 import Ecosystem from "@/components/sections/Ecosystem";
+import GovernancePreview from "@/components/sections/GovernancePreview";
 import LiveStats from "@/components/sections/LiveStats";
 import Tokenomics from "@/components/sections/Tokenomics";
 import Roadmap from "@/components/sections/Roadmap";
@@ -19,11 +19,12 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <StatsBar />
         <AsSeenIn />
-        <ProblemSolution />
         <Features />
-        <HowDPoSWorks />
+        <DeveloperCTA />
         <Ecosystem />
+        <GovernancePreview />
         <LiveStats />
         <Tokenomics />
         <Roadmap />

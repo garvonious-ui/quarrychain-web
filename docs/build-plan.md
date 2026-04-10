@@ -25,28 +25,34 @@
 - [x] Scroll indicator animation at bottom
 - [x] Performance: lazy load, requestAnimationFrame throttle, dispose on unmount
 
-### Problem → Solution
-- [x] Two-column layout with contrasting treatments
-- [x] Animated stat counter bar (4 stats: TPS, block time, fee %, miners)
-- [x] Scroll-triggered entrance animations
+### StatsBar (V2 — replaces ProblemSolution)
+- [x] 5-column stat bar: TPS, Finality, Fees, Validators, EVM Compatible
+- [x] NumberTicker animated count-up on scroll
+- [x] Responsive: 3+2 layout on mobile, 5-col on desktop
 
-### Key Features Bento Grid
-- [x] Bento grid layout (asymmetric cards)
+### Key Features Bento Grid (V2 — updated)
+- [x] Bento grid layout (asymmetric cards) — no section header
+- [x] Tightened copy (max 2 sentences per card)
 - [x] Spotlight/glow hover effect on each card
-- [ ] DPoS card with orbit animation (future enhancement)
 - [x] QuarrySwap card
 - [x] Asset Tokenization card
-- [x] Icons and brief copy for each
 
-### How DPoS Works
-- [x] Timeline or step-through component
-- [x] 4 steps with scroll-triggered reveals
-- [ ] Simple animated diagram or node visualization (future enhancement)
+### DeveloperCTA (V2 — NEW)
+- [x] Two-column: copy left, code block right
+- [x] Solidity code block with syntax highlighting
+- [x] Copy-to-clipboard button
+- [x] EVM compatibility badges
+- [x] "Read the Docs" + "View on GitHub" CTAs
 
-### Ecosystem Grid
+### Ecosystem Grid (V2 — updated)
+- [x] Updated headline: "One chain. Everything you need."
+- [x] Tightened taglines (one line max)
 - [x] 2×3 card grid with spotlight effect
-- [x] 6 ecosystem tools with icons and one-liners
-- [x] Hover animations, link-outs
+
+### GovernancePreview (V2 — NEW)
+- [x] 27-node circular visualization with 3 active highlights
+- [x] Slow rotation animation (respects reduced-motion)
+- [x] Stats row: 6hr voting, 1 QRY minimum, 100% community-elected
 
 ### Live Network Stats
 - [x] Blockscout API integration (SWR polling)
@@ -54,9 +60,10 @@
 - [x] Animated number transitions on data refresh
 - [x] Fallback static values if API unavailable
 
-### Tokenomics
+### Tokenomics (V2 — updated)
+- [x] Fixed symbol QRC → QRY
+- [x] Consolidated 9 slices → 5 slices
 - [x] Animated donut chart (Recharts, dark themed)
-- [x] Token allocation data + key stats
 - [x] Revenue model callout
 
 ### Roadmap
@@ -69,10 +76,10 @@
 - [x] Staggered entrance animation
 - [x] Minimal, clean layout
 
-### CTA + Footer
-- [x] CTA section with gradient background and social links
-- [x] Footer with logo, link columns, copyright
-- [x] Social icons row
+### CTA + Footer (V2 — updated)
+- [x] CTA: "Start building on QuarryChain." (statement, not question)
+- [x] CTAs: "Read the Docs" / "Join Discord"
+- [x] Footer: removed tagline, just logo
 
 ### Polish & QA
 - [ ] Responsive testing (mobile, tablet, desktop)
@@ -82,8 +89,21 @@
 - [ ] Favicon
 - [ ] Vercel deployment config
 
+## Phase 1.5 — V2 Overhaul (Completed 2026-04-10)
+- [x] Removed ProblemSolution section from homepage
+- [x] Removed HowDPoSWorks from homepage (kept file for /technology page)
+- [x] Created StatsBar section
+- [x] Created DeveloperCTA section with code block
+- [x] Created GovernancePreview section with node visualization
+- [x] Updated Features (removed header, tightened copy)
+- [x] Updated Ecosystem (new headline, tightened taglines)
+- [x] Updated Tokenomics (QRY fix, 5 slices)
+- [x] Updated CTA (statement copy)
+- [x] Updated Footer (removed tagline)
+- [x] New section order in page.tsx
+
 ## Phase 2 — Additional Pages (Future)
-- [ ] /technology — deep dive on DPoS, QVM, architecture
+- [ ] /technology — deep dive on DPoS, QVM, architecture (move HowDPoSWorks here)
 - [ ] /ecosystem — expanded tool pages
 - [ ] /tokenomics — full breakdown
 - [ ] /developers — docs, API reference, SDK links
@@ -95,3 +115,4 @@
 - Logo SVG needed from client
 - OG image asset needed
 - Blockscout API availability on testnet TBD
+- Social link hrefs (Discord, Telegram, LinkedIn, YouTube, Instagram)
