@@ -140,9 +140,9 @@ export const NAV_LINKS = [
 
 export const SOCIAL_LINKS = [
   { name: "X", href: "https://x.com/QuarryChain", icon: "Twitter" },
-  { name: "Discord", href: "#", icon: "MessageCircle" },
-  { name: "Telegram", href: "#", icon: "Send" },
-  { name: "LinkedIn", href: "#", icon: "Linkedin" },
-  { name: "YouTube", href: "#", icon: "Youtube" },
-  { name: "Instagram", href: "#", icon: "Instagram" },
+  { name: "Discord", href: "https://discord.gg/quarrychain", icon: "MessageCircle" },
+  { name: "Telegram", href: "https://t.me/quarrychain", icon: "Send" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/alec-arrambide-91a7b321a/", icon: "Linkedin" },
+  { name: "YouTube", href: "https://youtube.com/@quarrychain", icon: "Youtube" },
+  { name: "GitHub", href: "https://github.com/QuarryLabsInc", icon: "Github" },
 ] as const;

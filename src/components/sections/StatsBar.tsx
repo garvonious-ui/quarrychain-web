@@ -20,7 +20,10 @@ const stats = [
     value: 0.25,
     label: "Fees",
     suffix: "%",
-    formatOptions: { minimumFractionDigits: 2, maximumFractionDigits: 2 } as Intl.NumberFormatOptions,
+    formatOptions: {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    } as Intl.NumberFormatOptions,
   },
   {
     value: 27,
@@ -29,41 +32,35 @@ const stats = [
     formatOptions: {} as Intl.NumberFormatOptions,
   },
   {
-    value: null,
+    staticText: "EVM",
     label: "Compatible",
-    static: "EVM",
   },
 ] as const;
+
+type NumericStat = { value: number; label: string; suffix: string; formatOptions: Intl.NumberFormatOptions };
+type StaticStat = { staticText: string; label: string };
+type Stat = NumericStat | StaticStat;
 
 export default function StatsBar() {
   return (
     <section className="border-y border-white/[0.04] bg-bg-secondary">
       <div className="mx-auto max-w-[1000px] px-6 py-10">
         <BlurFade>
-          {/* Desktop: 5-col. Mobile: 3 top + 2 bottom centered */}
-          <div className="grid grid-cols-3 md:grid-cols-5 gap-y-8 gap-x-4">
-            {stats.map((stat, i) => (
-              <div
-                key={stat.label}
-                className={`text-center ${
-                  i >= 3
-                    ? "hidden md:block"
-                    : ""
-                }`}
-              >
-                <StatValue stat={stat} />
-                <p className="text-xs uppercase tracking-widest text-text-muted font-mono mt-1">
-                  {stat.label}
+          <div className="flex flex-wrap justify-center gap-x-12 gap-y-8 sm:gap-x-16 md:gap-x-8 md:flex-nowrap">
+            {(stats as readonly Stat[]).map((stat) => (
+              <div key={stat.label} className="text-center min-w-[80px]">
+                <p className="text-2xl sm:text-3xl font-bold text-text-primary font-display">
+                  {"staticText" in stat ? (
+                    stat.staticText
+                  ) : (
+                    <NumberTicker
+                      value={stat.value}
+                      suffix={stat.suffix}
+                      formatOptions={stat.formatOptions}
+                      duration={1.5}
+                    />
+                  )}
                 </p>
-              </div>
-            ))}
-            {/* Last 2 on mobile — centered 2-col below the 3 */}
-            {stats.slice(3).map((stat) => (
-              <div
-                key={`mobile-${stat.label}`}
-                className="text-center md:hidden col-span-1 first:col-start-1 last:col-start-3"
-              >
-                <StatValue stat={stat} />
                 <p className="text-xs uppercase tracking-widest text-text-muted font-mono mt-1">
                   {stat.label}
                 </p>
@@ -73,22 +70,5 @@ export default function StatsBar() {
         </BlurFade>
       </div>
     </section>
-  );
-}
-
-function StatValue({ stat }: { stat: (typeof stats)[number] }) {
-  return (
-    <p className="text-3xl font-bold text-text-primary font-display">
-      {"static" in stat ? (
-        stat.static
-      ) : (
-        <NumberTicker
-          value={stat.value}
-          suffix={stat.suffix}
-          formatOptions={stat.formatOptions}
-          duration={1.5}
-        />
-      )}
-    </p>
   );
 }

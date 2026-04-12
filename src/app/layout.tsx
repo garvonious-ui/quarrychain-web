@@ -27,18 +27,30 @@ export const metadata: Metadata = {
   title: "QuarryChain — The Blockchain Built for What's Next",
   description:
     "Layer 1 blockchain with 100,000 TPS, 3-second finality, and Delegated Proof of Stake consensus. Build, trade, and tokenize on QuarryChain.",
+  icons: {
+    icon: "/favicon.svg",
+  },
   openGraph: {
     title: "QuarryChain — The Blockchain Built for What's Next",
     description:
       "Layer 1 blockchain with 100,000 TPS, 3-second finality, and Delegated Proof of Stake consensus.",
     type: "website",
     url: "https://quarrychain.network",
+    images: [
+      {
+        url: "/og-image.svg",
+        width: 1200,
+        height: 630,
+        alt: "QuarryChain — The Blockchain Built for What's Next",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "QuarryChain — The Blockchain Built for What's Next",
     description:
       "Layer 1 blockchain with 100,000 TPS, 3-second finality, and Delegated Proof of Stake consensus.",
+    images: ["/og-image.svg"],
   },
 };
 

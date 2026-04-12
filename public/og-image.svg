@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#08080f"/>
+
+  <!-- Subtle hex grid hint -->
+  <g opacity="0.06" stroke="#14b8a6" stroke-width="0.8" fill="none">
+    <polygon points="200,150 240,127 280,150 280,196 240,219 200,196"/>
+    <polygon points="280,150 320,127 360,150 360,196 320,219 280,196"/>
+    <polygon points="360,150 400,127 440,150 440,196 400,219 360,196"/>
+    <polygon points="440,150 480,127 520,150 520,196 480,219 440,196"/>
+    <polygon points="520,150 560,127 600,150 600,196 560,219 520,196"/>
+    <polygon points="240,219 280,196 320,219 320,265 280,288 240,265"/>
+    <polygon points="320,219 360,196 400,219 400,265 360,288 320,265"/>
+    <polygon points="400,219 440,196 480,219 480,265 440,288 400,265"/>
+    <polygon points="480,219 520,196 560,219 560,265 520,288 480,265"/>
+    <polygon points="800,350 840,327 880,350 880,396 840,419 800,396"/>
+    <polygon points="880,350 920,327 960,350 960,396 920,419 880,396"/>
+    <polygon points="960,350 1000,327 1040,350 1040,396 1000,419 960,396"/>
+    <polygon points="840,419 880,396 920,419 920,465 880,488 840,465"/>
+    <polygon points="920,419 960,396 1000,419 1000,465 960,488 920,465"/>
+  </g>
+
+  <!-- Logo area -->
+  <text x="600" y="260" font-family="system-ui, sans-serif" font-weight="700" font-size="64" text-anchor="middle">
+    <tspan fill="#3b82f6">Quarry</tspan><tspan fill="#f1f5f9">Chain</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="600" y="330" font-family="system-ui, sans-serif" font-weight="700" font-size="36" fill="#f1f5f9" text-anchor="middle">The Blockchain Built for What's Next</text>
+
+  <!-- Stats -->
+  <text x="600" y="400" font-family="system-ui, sans-serif" font-weight="400" font-size="20" fill="#94a3b8" text-anchor="middle">100,000 TPS  ·  3-Second Finality  ·  DPoS Consensus  ·  EVM Compatible</text>
+
+  <!-- Gradient line -->
+  <defs>
+    <linearGradient id="ogGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#14b8a6" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#14b8a6"/>
+      <stop offset="70%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <line x1="300" y1="450" x2="900" y2="450" stroke="url(#ogGrad)" stroke-width="1"/>
+
+  <!-- URL -->
+  <text x="600" y="500" font-family="monospace" font-weight="400" font-size="16" fill="#475569" text-anchor="middle">quarrychain.network</text>
+</svg>
