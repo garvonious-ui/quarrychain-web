@@ -26,22 +26,18 @@ GET /api/v2/stats/charts/market      → if token is listed
 
 All static data lives in `src/lib/constants.ts`:
 
-### Tokenomics Allocation
+### Tokenomics Allocation (V2 — consolidated)
 | Category | Percentage |
 |---|---|
-| Public Sale / Liquidity | 30% |
+| Public Sale & Liquidity | 30% |
 | Staking & Farming | 20% |
 | Team | 20% |
-| Angel Investors | 10% |
-| Dev | 5% |
-| Ecosystem | 5% |
-| Marketing | 5% |
-| Private Presale | 2.5% |
-| Private Sale | 2.5% |
+| Ecosystem & Growth | 15% |
+| Private & Angel Rounds | 15% |
 
 ### Token Details
 - Total Supply: 200,000,000 QRY
-- Symbol: QRC
+- Symbol: QRY
 - Decimals: 18
 - Seed Price: $0.25 (50% discount)
 

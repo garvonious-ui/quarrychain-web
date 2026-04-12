@@ -1,68 +1,89 @@
-# Content & Copy Direction
+# Content & Copy Direction (V2)
 
 ## Tone
-Confident, technical but accessible, punchy. Not corporate. Not hype-bro. Think "engineers who know they built something good."
+Confident, technical but accessible, punchy. Not corporate. Not hype-bro. Think "engineers who know they built something good." State, don't ask. Show capability, don't compare.
 
-## Hero Headlines (Test Options)
-- "The Blockchain Built for What's Next"
-- "Speed Without Sacrifice"
-- "Mine Smarter. Build Faster. Own Everything."
-- "100,000 Transactions Per Second. Welcome to QuarryChain."
+## Writing Rules
+1. State, don't ask. "Start building." not "Ready to build?"
+2. Show capability, don't compare. No "unlike Ethereum..." framing.
+3. Short paragraphs. Bold stats. No walls of text.
+4. Two sentences max per feature card.
+5. Technical accuracy matters — don't oversimplify to inaccuracy.
+6. CTAs use action verbs, never questions.
 
-## Section Copy
+## Homepage Sections (V2)
 
 ### Hero
-- **Pill badge:** "Layer 1 Blockchain • DPoS Consensus"
+- **Headline:** "The Blockchain Built for What's Next" (split: "What's Next" in blue)
 - **Subheadline:** "100,000 TPS. 3-second finality. Minimal fees. Zero compromise."
 - **CTA 1:** "Read Whitepaper" (primary)
 - **CTA 2:** "Explore Testnet" (secondary)
 
-### Problem → Solution
-- **Left (Problem):** "Current blockchains hit a wall" — brief copy on PoW energy waste, PoS centralization, slow speeds, high fees. Use crossed-out or dimmed text treatment.
-- **Right (Solution):** "QuarryChain removes the ceiling" — highlight DPoS speed, low cost, decentralized governance, energy efficiency. Bright/glowing text.
-- **Stat bar:** 100,000 TPS (vs Bitcoin 3, Ethereum 15-30) | 3s block time | 0.25% transaction fee | 27 elected Quarry Miners per round
+### StatsBar (NEW — V2)
+5-column stat strip below hero:
+- 100,000 → TPS
+- 3s → Finality
+- 0.25% → Fees
+- 27 → Validators
+- EVM → Compatible
 
-### Key Features (Bento Grid)
+### As Seen In
+Marquee: CoinDesk, CoinTelegraph, Bloomberg Crypto, The Block, Decrypt, CoinMarketCap, Yahoo Finance, Benzinga (placeholder — will get real links later)
+
+### Features (V2 — no section header)
+No "Built Different" header. Cards only.
 
 **Card 1 (large): DPoS Consensus**
-- Title: "Democracy Meets Performance"
-- Brief: daily elections, 27 Quarry Miners, community-voted, energy efficient
+- "Community-elected validators. 6-hour voting rounds. Energy-efficient block production."
 
 **Card 2: QuarrySwap DEX**
-- Title: "Trade Without Trust Issues"
-- Brief: self-custodial, AMM liquidity pools, QLP tokens, AI smart contract auditing, real-world marketplace
+- "Non-custodial AMM with liquidity pools, yield farming, and AI-powered contract auditing."
 
-**Card 3: Real-World Asset Tokenization**
-- Title: "Tokenize Anything. Trade Everything."
-- Brief: fractionalization, continuous trading, faster execution, cost efficiency
+**Card 3: Real-World Assets**
+- "Tokenize, fractionalize, and trade real-world assets on-chain. 1% commission. Continuous settlement."
 
-### How DPoS Works
-1. Stakeholders freeze QRY tokens to gain Quarry Power
-2. Community votes to elect 27 Quarry Miners
-3. Miners produce blocks in 3-second rounds
-4. Voters and miners both earn rewards
+### DeveloperCTA (NEW — V2)
+- **Label:** "Build on QuarryChain"
+- **Headline:** "Your Solidity contracts" / "work natively." (teal→blue gradient)
+- **Body:** "QVM is fully EVM-compatible. Deploy existing contracts, use familiar tooling, and access 100K TPS — no rewrites required."
+- **Badges:** EVM Compatible, Solidity Native, Web3.js, Ethers.js, MetaMask Ready
+- **CTA 1:** "Read the Docs →" (primary)
+- **CTA 2:** "View on GitHub" (secondary)
+- **Code block:** MyToken.sol Solidity example with syntax highlighting + copy button
 
-### Ecosystem Grid
-- **QuarryWallet** — "Your keys. Your crypto. Your control."
-- **QuarrySwap** — "Swap, stake, and earn — decentralized."
-- **QuarryScan** — "Explore every block, transaction, and contract."
-- **QVM** — "EVM-compatible. Deploy Solidity contracts instantly."
-- **QRC-20 Tokens** — "Launch tokens with enterprise-grade standards."
-- **Asset Tokenization** — "Bridge physical assets to the blockchain."
+### Ecosystem (V2 — updated)
+- **Headline:** "One chain. Everything you need."
+- QuarryWallet: "Non-custodial wallet for QRY and QRC-20 tokens."
+- QuarrySwap: "Swap, stake, farm. Fully decentralized."
+- QuarryScan: "Block explorer. Every transaction, every contract."
+- QVM: "EVM-compatible virtual machine. Solidity-native."
+- QRC-20: "Launch tokens with the standard developers already know."
+- Asset Tokenization: "Bridge physical assets to the blockchain. Trade 24/7."
 
-### Tokenomics
-- Section headline: "Quarry Coin (QRY) — Powering the Network"
+### GovernancePreview (NEW — V2)
+- **Label:** "Governance"
+- **Headline:** "Decentralized by design."
+- **Subhead:** "27 Quarry Miners are elected every 6 hours by QRY stakers. No foundation override. No insider control."
+- **Stats:** 6hr Voting rounds | 1 QRY Minimum stake | 100% Community-elected
+
+### Live Stats
+- Total Blocks, Total Transactions, Active Addresses, Avg Block Time
+- Green pulse: "Live from testnet"
+
+### Tokenomics (V2 — updated)
+- **Headline:** "Quarry Coin (QRY) — Powering the Network"
 - Total Supply: 200,000,000 QRY
-- Symbol: QRC
+- Symbol: **QRY** (not QRC)
 - Decimals: 18
-- Seed Price: $0.25 (50% discount)
-- Revenue model: 0.25% tx fees, smart contract deployment fees, 1% asset tokenization commission
+- Seed Price: $0.25
+- **5-slice allocation:** Public Sale & Liquidity 30%, Staking & Farming 20%, Team 20%, Ecosystem & Growth 15%, Private & Angel Rounds 15%
+- Revenue: 0.25% tx fees, smart contract deployment fees, 1% asset tokenization commission
 
-### Roadmap Phases
-- **Phase 1** (Complete ✓): Website launch, Seed round
-- **Phase 2** (In Progress): DPoS network dev, QVM sandbox, QRC-20 dev, QuarryWallet, QuarrySwap, Team expansion
-- **Phase 3** (Upcoming): Mainnet launch, public ICO, wallet + QVM + QRC-20 launch, CoinMarketCap/CoinGecko listings, QuarrySwap launch, first delegate voting
-- **Phase 4** (Future): Giveaways, AMAs, real-world marketplace expansion, mobile wallet, ecosystem DApp growth
+### Roadmap
+- Phase 1 (Complete): Website launch, Seed round
+- Phase 2 (In Progress): DPoS dev, QVM, QRC-20, QuarryWallet, QuarrySwap, Team expansion
+- Phase 3 (Upcoming): Mainnet, ICO, launches, listings, first delegate voting
+- Phase 4 (Future): Giveaways, AMAs, marketplace, mobile wallet, DApp growth
 
 ### Team
 - Alec Arrambide — Founder & CEO
@@ -72,12 +93,13 @@ Confident, technical but accessible, punchy. Not corporate. Not hype-bro. Think 
 - Toyama Haruo — Senior Full Stack Developer
 - John Wachi — Full Stack Developer
 
-### CTA / Pre-Footer
-- Headline: "Ready to Build on QuarryChain?"
-- CTA 1: "Read the Whitepaper"
-- CTA 2: "Join the Community"
-- Social: X, Discord, Telegram, LinkedIn, YouTube, Instagram
+### CTA (V2 — updated)
+- **Headline:** "Start building on QuarryChain." (statement, not question)
+- **CTA 1:** "Read the Docs"
+- **CTA 2:** "Join Discord"
+- Social links: X, Discord, Telegram, LinkedIn, YouTube, Instagram
 
-### Footer
-- Tagline: "Get quality, with quarry."
-- Link columns: Technology, Ecosystem, Community, Legal
+### Footer (V2 — updated)
+- Logo only — no tagline
+- Link columns: Technology, Ecosystem, Community
+- Copyright + social icons
