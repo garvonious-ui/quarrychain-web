@@ -12,6 +12,8 @@ export default function BlogPage() {
         label="Blog"
         headline="Updates"
         subheadline="News and updates from the QuarryChain team."
+        shape="icosahedron"
+        shapeColors={{ primary: "#60a5fa", secondary: "#14b8a6" }}
       />
 
       <section className="py-12 px-4 sm:px-6 lg:px-8 pb-24">
