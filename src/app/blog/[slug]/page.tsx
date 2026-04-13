@@ -59,6 +59,8 @@ export default async function BlogPostPage({
           </span>
           <span>·</span>
           <span>{post.author}</span>
+          <span>·</span>
+          <span>{post.readingTime}</span>
         </div>
 
         <div dangerouslySetInnerHTML={{ __html: html }} />

@@ -70,18 +70,24 @@ const STEPS = [
     title: "Set up your environment",
     description: "Install Web3.js or Ethers.js. Connect to QuarryChain RPC. Use your existing Solidity toolchain.",
     icon: Terminal,
+    color: "text-qc-teal",
+    bg: "bg-qc-teal/10",
   },
   {
     step: 2,
     title: "Deploy a smart contract",
     description: "Write Solidity. Compile. Deploy to QuarryChain — the same workflow you already know.",
     icon: Upload,
+    color: "text-qc-blue",
+    bg: "bg-qc-blue/10",
   },
   {
     step: 3,
     title: "Interact with the network",
     description: "Query blocks, send transactions, and read contract state via the QuarryScan explorer.",
     icon: Globe,
+    color: "text-qc-green",
+    bg: "bg-qc-green/10",
   },
 ];
 
@@ -114,7 +120,7 @@ export default function DevelopersPage() {
         <div className="mx-auto max-w-5xl">
           <BlurFade>
             <p className="text-xs uppercase tracking-widest text-qc-teal font-mono mb-4">Quick Start</p>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-16">Three steps. That&apos;s it.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-16">Three steps. <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-teal to-qc-green">That&apos;s it.</span></h2>
           </BlurFade>
 
           <div className="grid md:grid-cols-3 gap-4">
@@ -122,8 +128,8 @@ export default function DevelopersPage() {
               <BlurFade key={step.step} delay={0.1 + i * 0.1}>
                 <div className="rounded-xl bg-bg-secondary border border-white/5 p-6 h-full">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-lg bg-qc-teal/10 flex items-center justify-center">
-                      <step.icon className="w-5 h-5 text-qc-teal" />
+                    <div className={`w-10 h-10 rounded-lg ${step.bg} flex items-center justify-center`}>
+                      <step.icon className={`w-5 h-5 ${step.color}`} />
                     </div>
                     <span className="text-xs font-mono text-text-muted">0{step.step}</span>
                   </div>
@@ -142,7 +148,7 @@ export default function DevelopersPage() {
           <BlurFade>
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-widest text-qc-blue font-mono mb-4">Deploy</p>
-              <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary">Your familiar workflow.</h2>
+              <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary">Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-blue to-qc-teal">familiar workflow.</span></h2>
             </div>
           </BlurFade>
           <BlurFade delay={0.1}>
@@ -156,7 +162,7 @@ export default function DevelopersPage() {
         <div className="mx-auto max-w-5xl">
           <BlurFade>
             <p className="text-xs uppercase tracking-widest text-qc-teal font-mono mb-4">Resources</p>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-16">Everything you need.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-16">Everything <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-red to-qc-blue">you need.</span></h2>
           </BlurFade>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -190,7 +196,7 @@ export default function DevelopersPage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <BlurFade>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-4">Your toolchain works here.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-4">Your toolchain <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-green to-qc-teal">works here.</span></h2>
             <p className="text-text-secondary text-lg mb-10">QuarryChain is fully EVM-compatible. Solidity contracts, development frameworks, and client libraries work out of the box.</p>
           </BlurFade>
           <BlurFade delay={0.1}>

@@ -82,12 +82,14 @@
 - [x] Footer: removed tagline, just logo
 
 ### Polish & QA
-- [ ] Responsive testing (mobile, tablet, desktop)
-- [ ] prefers-reduced-motion fallbacks
-- [ ] Lighthouse audit (target 90+ performance)
-- [ ] OG image and meta tags
-- [ ] Favicon
-- [ ] Vercel deployment config
+- [x] Responsive testing (mobile, tablet, desktop)
+- [x] prefers-reduced-motion fallbacks
+- [x] Lighthouse audit (84 perf, 96 best practices)
+- [x] OG image and meta tags
+- [x] Favicon (SVG)
+- [x] Vercel deployment config
+- [x] All homepage buttons wired to real destinations
+- [x] Social links updated (X, GitHub, LinkedIn confirmed)
 
 ## Phase 1.5 — V2 Overhaul (Completed 2026-04-10)
 - [x] Removed ProblemSolution section from homepage
@@ -102,17 +104,75 @@
 - [x] Updated Footer (removed tagline)
 - [x] New section order in page.tsx
 
-## Phase 2 — Additional Pages (Future)
-- [ ] /technology — deep dive on DPoS, QVM, architecture (move HowDPoSWorks here)
-- [ ] /ecosystem — expanded tool pages
-- [ ] /tokenomics — full breakdown
-- [ ] /developers — docs, API reference, SDK links
+## Phase 2 — Subpages (Completed 2026-04-11)
+
+### Shared Infrastructure
+- [x] PageHero component (centered text + wireframe shape backdrop)
+- [x] PageCTA component (reusable CTA footer)
+- [x] WireframeShape component (5 geometries, 3-layer, 3-color)
+- [x] Navbar moved to root layout (all pages)
+- [x] Footer moved to root layout (all pages)
+- [x] MobileNav updated for page routes
+- [x] Nav links: Technology, Ecosystem, Developers, Blog
+- [x] CTA button: "Start Building" → /developers
+
+### /technology
+- [x] DPoS timeline (4 steps, vertical with colored icons)
+- [x] Consensus comparison grid (PoW vs PoS vs DPoS, animated counters)
+- [x] QVM section with compatibility badges
+- [x] Token standards (QRC-10 / QRC-20 cards)
+- [x] Gradient text accents on section headlines
+- [x] Torus knot wireframe hero (blue/red/green)
+
+### /developers
+- [x] Quick start (3 steps with colored icons)
+- [x] Terminal typing animation (auto-types deploy commands)
+- [x] Resources grid (6 cards, "Coming soon" badges)
+- [x] EVM compatibility badge row
+- [x] Gradient text accents
+- [x] Octahedron wireframe hero (teal/green/red)
+
+### /ecosystem
+- [x] Hub page with 3D tilt cards (6 products)
+- [x] /ecosystem/quarryswap — swap animation, yield stacking, fee structure
+- [x] /ecosystem/quarrywallet — 4 feature cards with spotlight
+- [x] Gradient text accents on headlines
+- [x] Unique wireframe shapes per page
+
+### /blog
+- [x] MDX-based (gray-matter frontmatter)
+- [x] 4 starter posts
+- [x] PostCard with reading time
+- [x] Blog post page with markdown rendering
+- [x] Static generation via generateStaticParams
+- [x] Icosahedron wireframe hero (red/blue/green)
+
+### /whitepaper
+- [x] Page counter animation (81 counts up)
+- [x] Key highlights with numbered list
+- [x] Table of contents with left border
+- [x] Gradient text on counter and headlines
+- [x] Tetrahedron wireframe hero (teal/blue/red)
+
+### /privacy
+- [x] Standard privacy policy text page
+- [x] Proper heading hierarchy
+
+### Color & Polish
+- [x] Gradient text on key headlines across all subpages
+- [x] Colored icon backgrounds per section
+- [x] Brand colors (teal, blue, red, green) used in wireframe shapes
+- [x] SectionGlow divider component
+
+## Phase 3 — Future
+- [ ] /tokenomics — standalone page with full breakdown
 - [ ] Light mode toggle
 - [ ] CMS integration (TBD)
-- [ ] Blog / News section
+- [ ] Real Discord/Telegram/YouTube handles (currently placeholder patterns)
+- [ ] Whitepaper PDF at /public/quarrychain-whitepaper-v2.pdf
 
 ## Pending Data / Blockers
-- Logo SVG needed from client
-- OG image asset needed
+- Logo SVG refinement from client
+- Whitepaper PDF file needed
+- Discord/Telegram/YouTube exact handles TBD
 - Blockscout API availability on testnet TBD
-- Social link hrefs (Discord, Telegram, LinkedIn, YouTube, Instagram)

@@ -47,7 +47,7 @@ export default function WhitepaperPage() {
       <section className="pb-16 px-4">
         <div className="text-center">
           <BlurFade>
-            <p className="text-6xl font-bold font-display text-text-primary">
+            <p className="text-6xl font-bold font-display text-transparent bg-clip-text bg-gradient-to-r from-qc-teal to-qc-blue">
               <NumberTicker value={81} duration={2.5} />
             </p>
             <p className="text-sm text-text-muted font-mono uppercase tracking-widest mt-2">pages of technical specification</p>
@@ -59,7 +59,7 @@ export default function WhitepaperPage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <BlurFade>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-12">Key highlights</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-12">Key <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-red to-qc-blue">highlights</span></h2>
           </BlurFade>
 
           <div className="space-y-4">

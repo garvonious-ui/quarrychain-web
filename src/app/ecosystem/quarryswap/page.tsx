@@ -93,7 +93,7 @@ export default function QuarrySwapPage() {
         <div className="mx-auto max-w-5xl">
           <BlurFade>
             <p className="text-xs uppercase tracking-widest text-qc-teal font-mono mb-4">How It Works</p>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-16">Three ways to earn.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-16">Three ways to <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-green to-qc-teal">earn.</span></h2>
           </BlurFade>
 
           <div className="grid md:grid-cols-3 gap-4">
@@ -119,7 +119,7 @@ export default function QuarrySwapPage() {
         <div className="mx-auto max-w-5xl">
           <BlurFade>
             <p className="text-xs uppercase tracking-widest text-qc-blue font-mono mb-4">Yield</p>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-16">Triple yield stacking.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-16"><span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-blue to-qc-green">Triple yield</span> stacking.</h2>
           </BlurFade>
 
           <div className="grid md:grid-cols-3 gap-4">
@@ -141,7 +141,7 @@ export default function QuarrySwapPage() {
         <div className="mx-auto max-w-3xl">
           <BlurFade>
             <p className="text-xs uppercase tracking-widest text-qc-teal font-mono mb-4 text-center">Fees</p>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-12 text-center">Transparent fee structure.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-12 text-center"><span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-red to-qc-blue">Transparent</span> fee structure.</h2>
           </BlurFade>
 
           <div className="grid sm:grid-cols-3 gap-4">

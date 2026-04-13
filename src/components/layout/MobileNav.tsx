@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { NAV_LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -9,6 +10,8 @@ interface MobileNavProps {
 }
 
 export default function MobileNav({ open, onClose }: MobileNavProps) {
+  const pathname = usePathname();
+
   return (
     <div
       className={cn(
@@ -38,18 +41,23 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
               key={link.href}
               href={link.href}
               onClick={onClose}
-              className="text-lg text-text-secondary hover:text-text-primary transition-colors py-2"
+              className={cn(
+                "text-lg transition-colors py-2",
+                pathname === link.href || pathname.startsWith(link.href + "/")
+                  ? "text-qc-teal"
+                  : "text-text-secondary hover:text-text-primary"
+              )}
             >
               {link.label}
             </a>
           ))}
           <hr className="border-white/5 my-2" />
           <a
-            href="#cta"
+            href="/developers"
             onClick={onClose}
             className="inline-flex items-center justify-center px-4 py-3 text-sm font-medium text-white rounded-lg border border-qc-teal/50 bg-qc-teal/10"
           >
-            Explore Ecosystem
+            Start Building
           </a>
         </div>
       </div>

@@ -143,7 +143,7 @@ export default function TechnologyPage() {
         <div className="mx-auto max-w-5xl">
           <BlurFade>
             <p className="text-xs uppercase tracking-widest text-qc-teal font-mono mb-4">Consensus</p>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-16">Delegated Proof of Stake</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-16">Delegated <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-teal to-qc-blue">Proof of Stake</span></h2>
           </BlurFade>
 
           <div className="relative">
@@ -175,7 +175,7 @@ export default function TechnologyPage() {
         <div className="mx-auto max-w-5xl">
           <BlurFade>
             <p className="text-xs uppercase tracking-widest text-qc-blue font-mono mb-4">Comparison</p>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-4">Why DPoS wins.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-4">Why DPoS <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-green to-qc-teal">wins.</span></h2>
             <p className="text-text-secondary text-lg mb-16 max-w-2xl">Side-by-side with PoW and PoS — QuarryChain&apos;s Delegated Proof of Stake delivers on every metric.</p>
           </BlurFade>
           <ComparisonGrid />
@@ -187,7 +187,7 @@ export default function TechnologyPage() {
         <div className="mx-auto max-w-5xl">
           <BlurFade>
             <p className="text-xs uppercase tracking-widest text-qc-teal font-mono mb-4">Virtual Machine</p>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-4">QuarryChain Virtual Machine</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-4">QuarryChain <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-blue to-qc-teal">Virtual Machine</span></h2>
             <p className="text-text-secondary text-lg mb-8 max-w-2xl">
               Lightweight, Turing-complete VM built for the QuarryChain ecosystem. Fully EVM-compatible — deploy existing Solidity contracts with zero modifications. Connects seamlessly with Web3.js, Ethers.js, Hardhat, and Remix.
             </p>
@@ -209,7 +209,7 @@ export default function TechnologyPage() {
         <div className="mx-auto max-w-5xl">
           <BlurFade>
             <p className="text-xs uppercase tracking-widest text-qc-blue font-mono mb-4">Token Standards</p>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-16">Two standards. Full compatibility.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-16">Two standards. <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-red to-qc-blue">Full compatibility.</span></h2>
           </BlurFade>
 
           <div className="grid md:grid-cols-2 gap-4">

@@ -11,6 +11,7 @@ export interface BlogPost {
   author: string;
   excerpt: string;
   content: string;
+  readingTime: string;
 }
 
 export function getAllPosts(): BlogPost[] {
@@ -22,6 +23,9 @@ export function getAllPosts(): BlogPost[] {
     const fileContent = fs.readFileSync(filePath, "utf-8");
     const { data, content } = matter(fileContent);
 
+    const words = content.trim().split(/\s+/).length;
+    const readingTime = `${Math.max(1, Math.ceil(words / 200))} min read`;
+
     return {
       slug,
       title: data.title || slug,
@@ -29,6 +33,7 @@ export function getAllPosts(): BlogPost[] {
       author: data.author || "QuarryChain Team",
       excerpt: data.excerpt || "",
       content,
+      readingTime,
     };
   });
 
@@ -42,6 +47,9 @@ export function getPostBySlug(slug: string): BlogPost | null {
   const fileContent = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(fileContent);
 
+  const words = content.trim().split(/\s+/).length;
+  const readingTime = `${Math.max(1, Math.ceil(words / 200))} min read`;
+
   return {
     slug,
     title: data.title || slug,
@@ -49,6 +57,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     author: data.author || "QuarryChain Team",
     excerpt: data.excerpt || "",
     content,
+    readingTime,
   };
 }
 
