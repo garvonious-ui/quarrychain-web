@@ -46,25 +46,26 @@ const fragmentShader = `
     float scale = 36.0;
     vec2 hexUv = uv * scale;
 
-    // Ambient wave — gentle but visible
-    float wave = sin(hexUv.x * 0.15 + uTime * 0.3) * 0.2
-               + cos(hexUv.y * 0.12 + uTime * 0.2) * 0.16;
+    // Ambient wave — exaggerated undulation
+    float wave = sin(hexUv.x * 0.12 + uTime * 0.4) * 0.55
+               + cos(hexUv.y * 0.10 + uTime * 0.25) * 0.4
+               + sin(hexUv.x * 0.08 - hexUv.y * 0.06 + uTime * 0.15) * 0.25;
 
-    // Mouse influence — smooth ripple with a bit more presence
+    // Mouse influence — stronger ripple
     vec2 mouseUv = (uMouse - 0.5) * vec2(uResolution.x / uResolution.y, 1.0) * 2.0;
     float mouseDist = length(uv - mouseUv);
-    float mouseWave = sin(mouseDist * 5.0 - uTime * 1.5) * 0.2 * smoothstep(0.7, 0.0, mouseDist);
+    float mouseWave = sin(mouseDist * 6.0 - uTime * 2.0) * 0.35 * smoothstep(0.8, 0.0, mouseDist);
 
     hexUv.y += wave + mouseWave;
-    hexUv.x += wave * 0.2;
+    hexUv.x += wave * 0.3;
 
     vec4 hex = hexCoords(hexUv);
 
-    // Draw hex edges — thin lines
-    float edge = smoothstep(0.0, 0.03, hex.y) - smoothstep(0.03, 0.06, hex.y);
+    // Draw hex edges — crisp thin lines
+    float edge = smoothstep(0.0, 0.015, hex.y) - smoothstep(0.015, 0.03, hex.y);
 
     // Subtle glow around edges
-    float glow = smoothstep(0.1, 0.0, hex.y) * 0.15;
+    float glow = smoothstep(0.08, 0.0, hex.y) * 0.12;
 
     // Color — teal with slight variation based on wave
     vec3 tealColor = vec3(0.078, 0.722, 0.651); // #14b8a6
@@ -73,8 +74,8 @@ const fragmentShader = `
     float colorMix = sin(hex.z * 0.5 + uTime * 0.3) * 0.5 + 0.5;
     vec3 lineColor = mix(tealColor, blueColor, colorMix * 0.3);
 
-    // Compose — keep it subtle
-    float alpha = edge * 0.2 + glow * 0.1;
+    // Compose — thin but visible
+    float alpha = edge * 0.3 + glow * 0.12;
 
     // Light vignette to soften corners
     float vignette = 1.0 - length(uv) * 0.25;
