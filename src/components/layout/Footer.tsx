@@ -26,6 +26,7 @@ const FOOTER_COLUMNS = [
       { label: "Telegram", href: "https://t.me/quarrychain", external: true },
       { label: "X (Twitter)", href: "https://x.com/QuarryChain", external: true },
       { label: "Blog", href: "/blog" },
+      { label: "Brand Guidelines", href: "/brand" },
     ],
   },
 ];
