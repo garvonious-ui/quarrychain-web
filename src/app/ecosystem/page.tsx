@@ -52,6 +52,7 @@ export default function EcosystemPage() {
         label="Ecosystem"
         headline="One chain. Everything you need."
         subheadline="Wallets, DEX, explorer, smart contracts, and real-world asset tokenization — all native to QuarryChain."
+        shape="dodecahedron"
       />
 
       {/* Product Grid */}

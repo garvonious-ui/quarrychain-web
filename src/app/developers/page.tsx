@@ -105,6 +105,7 @@ export default function DevelopersPage() {
         label="Developers"
         headline="Start building."
         subheadline="Everything you need to deploy on QuarryChain."
+        shape="octahedron"
       />
 
       {/* Quick Start */}

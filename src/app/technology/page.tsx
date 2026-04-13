@@ -134,6 +134,7 @@ export default function TechnologyPage() {
         label="Technology"
         headline="How QuarryChain works."
         subheadline="Delegated Proof of Stake. EVM-compatible. Built for scale."
+        shape="torusKnot"
       />
 
       {/* DPoS Consensus */}
