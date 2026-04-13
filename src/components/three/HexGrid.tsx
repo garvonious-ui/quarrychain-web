@@ -43,7 +43,7 @@ const fragmentShader = `
     vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
 
     // Scale the hex grid — dense mesh for visible wave flow
-    float scale = 42.0;
+    float scale = 36.0;
     vec2 hexUv = uv * scale;
 
     // Multi-layer wave — ocean-like undulation
@@ -58,11 +58,11 @@ const fragmentShader = `
     float ripple1 = sin(centerDist * 12.0 - uTime * 1.8) * 0.15 * smoothstep(1.5, 0.0, centerDist);
     float ripple2 = sin(centerDist * 8.0 + uTime * 1.2) * 0.1 * smoothstep(1.2, 0.0, centerDist);
 
-    // Mouse influence — concentric ripples that follow cursor
+    // Mouse influence — big concentric ripples that follow cursor
     vec2 mouseUv = (uMouse - 0.5) * vec2(uResolution.x / uResolution.y, 1.0) * 2.0;
     float mouseDist = length(uv - mouseUv);
-    float mouseWave = sin(mouseDist * 10.0 - uTime * 3.0) * 0.3 * smoothstep(0.6, 0.0, mouseDist);
-    float mouseWave2 = sin(mouseDist * 16.0 - uTime * 4.0) * 0.12 * smoothstep(0.4, 0.0, mouseDist);
+    float mouseWave = sin(mouseDist * 8.0 - uTime * 3.0) * 0.5 * smoothstep(1.0, 0.0, mouseDist);
+    float mouseWave2 = sin(mouseDist * 14.0 - uTime * 4.5) * 0.2 * smoothstep(0.7, 0.0, mouseDist);
 
     hexUv.y += wave + ripple1 + ripple2 + mouseWave + mouseWave2;
     hexUv.x += wave * 0.3 + ripple1 * 0.5 + mouseWave * 0.4;
