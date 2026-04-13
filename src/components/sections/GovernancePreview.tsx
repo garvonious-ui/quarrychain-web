@@ -9,38 +9,108 @@ const GOVERNANCE_STATS = [
   { value: 100, suffix: "%", label: "Community-elected" },
 ];
 
+// Each node gets a color from the brand palette
+const NODE_COLORS = [
+  { color: "#14b8a6", glow: "rgba(20,184,166,0.6)" },   // teal
+  { color: "#3b82f6", glow: "rgba(59,130,246,0.6)" },    // blue
+  { color: "#22c55e", glow: "rgba(34,197,94,0.6)" },     // green
+  { color: "#ef4444", glow: "rgba(239,68,68,0.6)" },     // red
+];
+
 function NodeRing() {
   const totalNodes = 27;
-  const activeIndices = [3, 11, 22]; // 3 highlighted nodes
   const radius = 150;
+
+  // Groups of active nodes — simulates blocks being produced across the network
+  const activeIndices = [0, 1, 2, 7, 8, 13, 14, 15, 20, 21, 25, 26];
+
+  // Assign colors to active nodes in rotation
+  const getNodeStyle = (i: number) => {
+    if (!activeIndices.includes(i)) {
+      return { bg: "rgba(71,85,105,0.25)", shadow: "none" }; // muted gray
+    }
+    const colorIndex = activeIndices.indexOf(i) % NODE_COLORS.length;
+    const nc = NODE_COLORS[colorIndex];
+    return { bg: nc.color, shadow: `0 0 12px ${nc.glow}` };
+  };
+
+  // Draw connection lines between clustered active nodes
+  const getNodePos = (i: number) => {
+    const angle = (i / totalNodes) * 2 * Math.PI - Math.PI / 2;
+    return {
+      x: 170 + radius * Math.cos(angle),
+      y: 170 + radius * Math.sin(angle),
+    };
+  };
+
+  // Connection pairs (clusters of adjacent active nodes)
+  const connections = [
+    [0, 1], [1, 2],
+    [7, 8],
+    [13, 14], [14, 15],
+    [20, 21],
+    [25, 26],
+  ];
 
   return (
     <div className="relative w-[340px] h-[340px] mx-auto">
-      {/* Outer ring */}
-      <div className="absolute inset-0 rounded-full border border-[rgba(20,184,166,0.15)] shadow-[0_0_30px_rgba(20,184,166,0.05)]" />
+      {/* Outer ring with gradient */}
+      <div className="absolute inset-0 rounded-full border border-[rgba(20,184,166,0.12)]" />
+
+      {/* Second subtle ring */}
+      <div className="absolute inset-3 rounded-full border border-[rgba(59,130,246,0.06)]" />
+
+      {/* Connection lines SVG */}
+      <svg className="absolute inset-0 w-full h-full motion-safe:animate-[spin_60s_linear_infinite]" viewBox="0 0 340 340">
+        {connections.map(([a, b]) => {
+          const posA = getNodePos(a);
+          const posB = getNodePos(b);
+          const colorIndex = activeIndices.indexOf(a) % NODE_COLORS.length;
+          return (
+            <line
+              key={`${a}-${b}`}
+              x1={posA.x} y1={posA.y}
+              x2={posB.x} y2={posB.y}
+              stroke={NODE_COLORS[colorIndex].color}
+              strokeOpacity={0.2}
+              strokeWidth={1}
+            />
+          );
+        })}
+      </svg>
 
       {/* Rotating dot container */}
-      <div
-        className="absolute inset-0 motion-safe:animate-[spin_60s_linear_infinite]"
-      >
+      <div className="absolute inset-0 motion-safe:animate-[spin_60s_linear_infinite]">
         {Array.from({ length: totalNodes }).map((_, i) => {
           const angle = (i / totalNodes) * 2 * Math.PI - Math.PI / 2;
           const x = 170 + radius * Math.cos(angle);
           const y = 170 + radius * Math.sin(angle);
           const isActive = activeIndices.includes(i);
+          const style = getNodeStyle(i);
 
           return (
             <div
               key={i}
-              className="absolute w-3 h-3 -translate-x-1.5 -translate-y-1.5"
-              style={{ left: x, top: y }}
+              className="absolute -translate-x-1.5 -translate-y-1.5"
+              style={{
+                left: x,
+                top: y,
+                width: isActive ? 14 : 10,
+                height: isActive ? 14 : 10,
+                marginLeft: isActive ? -1 : 0,
+                marginTop: isActive ? -1 : 0,
+              }}
             >
               <div
                 className={`w-full h-full rounded-full transition-all duration-300 ${
-                  isActive
-                    ? "bg-qc-teal shadow-[0_0_12px_rgba(20,184,166,0.6)]"
-                    : "bg-[rgba(20,184,166,0.3)]"
+                  isActive ? "motion-safe:animate-pulse" : ""
                 }`}
+                style={{
+                  backgroundColor: style.bg,
+                  boxShadow: style.shadow,
+                  animationDelay: isActive ? `${(activeIndices.indexOf(i) * 200)}ms` : undefined,
+                  animationDuration: isActive ? "2s" : undefined,
+                }}
               />
             </div>
           );
@@ -50,7 +120,7 @@ function NodeRing() {
       {/* Center text */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-4xl font-bold font-display text-text-primary">
+          <p className="text-4xl font-bold font-display text-transparent bg-clip-text bg-gradient-to-r from-qc-teal to-qc-blue">
             27
           </p>
           <p className="text-xs uppercase tracking-widest text-text-muted mt-1">
@@ -74,7 +144,7 @@ export default function GovernancePreview() {
 
         <BlurFade delay={0.05}>
           <h2 className="text-3xl md:text-5xl font-bold font-display text-text-primary mb-4">
-            Decentralized by design.
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-green to-qc-teal">Decentralized</span> by design.
           </h2>
         </BlurFade>
 
@@ -92,20 +162,24 @@ export default function GovernancePreview() {
 
         {/* Stats */}
         <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto mt-16">
-          {GOVERNANCE_STATS.map((stat, i) => (
-            <BlurFade key={stat.label} delay={0.2 + i * 0.05}>
-              <div className="p-6 bg-bg-secondary rounded-xl border border-white/5">
-                <p className="text-2xl font-bold font-display text-text-primary">
-                  <NumberTicker
-                    value={stat.value}
-                    suffix={stat.suffix}
-                    duration={1.5}
-                  />
-                </p>
-                <p className="text-sm text-text-muted mt-1">{stat.label}</p>
-              </div>
-            </BlurFade>
-          ))}
+          {GOVERNANCE_STATS.map((stat, i) => {
+            const colors = ["border-qc-teal/20", "border-qc-blue/20", "border-qc-green/20"];
+            const textColors = ["text-qc-teal", "text-qc-blue", "text-qc-green"];
+            return (
+              <BlurFade key={stat.label} delay={0.2 + i * 0.05}>
+                <div className={`p-6 bg-bg-secondary rounded-xl border ${colors[i]}`}>
+                  <p className={`text-2xl font-bold font-display ${textColors[i]}`}>
+                    <NumberTicker
+                      value={stat.value}
+                      suffix={stat.suffix}
+                      duration={1.5}
+                    />
+                  </p>
+                  <p className="text-sm text-text-muted mt-1">{stat.label}</p>
+                </div>
+              </BlurFade>
+            );
+          })}
         </div>
       </div>
     </section>
