@@ -4,6 +4,8 @@ import "./globals.css";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import CursorGlow from "@/components/layout/CursorGlow";
 import ScrollProgress from "@/components/layout/ScrollProgress";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -68,7 +70,9 @@ export default function RootLayout({
         <SmoothScroll />
         <ScrollProgress />
         <CursorGlow />
-        {children}
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

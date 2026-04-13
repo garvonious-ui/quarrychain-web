@@ -1,5 +1,3 @@
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
 import StatsBar from "@/components/sections/StatsBar";
 import AsSeenIn from "@/components/sections/AsSeenIn";
@@ -16,22 +14,18 @@ import CTA from "@/components/sections/CTA";
 export default function Home() {
   return (
     <>
-      <Navbar />
-      <main>
-        <Hero />
-        <StatsBar />
-        <AsSeenIn />
-        <Features />
-        <DeveloperCTA />
-        <Ecosystem />
-        <GovernancePreview />
-        <LiveStats />
-        <Tokenomics />
-        <Roadmap />
-        <Team />
-        <CTA />
-      </main>
-      <Footer />
+      <Hero />
+      <StatsBar />
+      <AsSeenIn />
+      <Features />
+      <DeveloperCTA />
+      <Ecosystem />
+      <GovernancePreview />
+      <LiveStats />
+      <Tokenomics />
+      <Roadmap />
+      <Team />
+      <CTA />
     </>
   );
 }
