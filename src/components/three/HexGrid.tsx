@@ -46,18 +46,26 @@ const fragmentShader = `
     float scale = 36.0;
     vec2 hexUv = uv * scale;
 
-    // Ambient wave — exaggerated undulation
-    float wave = sin(hexUv.x * 0.12 + uTime * 0.4) * 0.55
-               + cos(hexUv.y * 0.10 + uTime * 0.25) * 0.4
-               + sin(hexUv.x * 0.08 - hexUv.y * 0.06 + uTime * 0.15) * 0.25;
+    // Multi-layer wave — ocean-like undulation
+    float wave1 = sin(hexUv.x * 0.10 + uTime * 0.5) * 0.6;
+    float wave2 = cos(hexUv.y * 0.08 + uTime * 0.35) * 0.45;
+    float wave3 = sin((hexUv.x + hexUv.y) * 0.07 + uTime * 0.2) * 0.35;
+    float wave4 = sin(hexUv.x * 0.2 - hexUv.y * 0.15 + uTime * 0.6) * 0.2;
+    float wave = wave1 + wave2 + wave3 + wave4;
 
-    // Mouse influence — stronger ripple
+    // Propagating ripple rings from center
+    float centerDist = length(uv);
+    float ripple1 = sin(centerDist * 12.0 - uTime * 1.8) * 0.15 * smoothstep(1.5, 0.0, centerDist);
+    float ripple2 = sin(centerDist * 8.0 + uTime * 1.2) * 0.1 * smoothstep(1.2, 0.0, centerDist);
+
+    // Mouse influence — concentric ripples that follow cursor
     vec2 mouseUv = (uMouse - 0.5) * vec2(uResolution.x / uResolution.y, 1.0) * 2.0;
     float mouseDist = length(uv - mouseUv);
-    float mouseWave = sin(mouseDist * 6.0 - uTime * 2.0) * 0.35 * smoothstep(0.8, 0.0, mouseDist);
+    float mouseWave = sin(mouseDist * 10.0 - uTime * 3.0) * 0.3 * smoothstep(0.6, 0.0, mouseDist);
+    float mouseWave2 = sin(mouseDist * 16.0 - uTime * 4.0) * 0.12 * smoothstep(0.4, 0.0, mouseDist);
 
-    hexUv.y += wave + mouseWave;
-    hexUv.x += wave * 0.3;
+    hexUv.y += wave + ripple1 + ripple2 + mouseWave + mouseWave2;
+    hexUv.x += wave * 0.3 + ripple1 * 0.5 + mouseWave * 0.4;
 
     vec4 hex = hexCoords(hexUv);
 
@@ -81,8 +89,8 @@ const fragmentShader = `
     float vignette = 1.0 - length(uv) * 0.25;
     alpha *= vignette;
 
-    // Gentle mouse proximity glow
-    float mouseGlow = smoothstep(0.5, 0.0, mouseDist) * 0.08;
+    // Mouse proximity glow — visible halo
+    float mouseGlow = smoothstep(0.5, 0.0, mouseDist) * 0.12;
     alpha += mouseGlow;
 
     gl_FragColor = vec4(lineColor, alpha);
