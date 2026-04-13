@@ -47,28 +47,19 @@ export default function PageHero({
     );
   }
 
-  // With shape: two-column layout
+  // With shape: centered text, shape as atmospheric backdrop
   return (
     <section className={cn("py-24 lg:py-32 px-6 relative overflow-hidden", className)}>
-      <div className="mx-auto max-w-7xl">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left — text */}
-          <div>
-            <HeroContent label={label} headline={headline} subheadline={subheadline} ctas={ctas} />
-          </div>
-
-          {/* Right — shape */}
-          <div className="hidden lg:flex items-center justify-center">
-            <div className="w-[450px] h-[450px]">
-              <WireframeShape shape={shape} className="w-full h-full" primaryColor={shapeColors?.primary} secondaryColor={shapeColors?.secondary} />
-            </div>
-          </div>
+      {/* Shape as backdrop behind text */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[500px] h-[500px] lg:w-[600px] lg:h-[600px] opacity-40">
+          <WireframeShape shape={shape} className="w-full h-full" primaryColor={shapeColors?.primary} secondaryColor={shapeColors?.secondary} />
         </div>
       </div>
 
-      {/* Mobile: shape as subtle background */}
-      <div className="lg:hidden absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 w-[300px] h-[300px] opacity-30 pointer-events-none">
-        <WireframeShape shape={shape} className="w-full h-full" />
+      {/* Centered text on top */}
+      <div className="relative z-10 mx-auto max-w-3xl text-center">
+        <HeroContent label={label} headline={headline} subheadline={subheadline} ctas={ctas} center />
       </div>
     </section>
   );
