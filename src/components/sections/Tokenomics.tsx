@@ -67,12 +67,12 @@ export default function Tokenomics() {
                       <Cell
                         key={`cell-${index}`}
                         fill={entry.color}
-                        opacity={activeIndex !== null && activeIndex !== index ? 0.45 : 1}
+                        opacity={activeIndex !== null && activeIndex !== index ? 0.35 : 1}
                         stroke={activeIndex === index ? entry.color : "none"}
                         strokeWidth={activeIndex === index ? 2 : 0}
                         style={{
-                          transition: "all 0.6s ease",
-                          filter: activeIndex === index ? `drop-shadow(0 0 8px ${entry.color}40)` : "none",
+                          transition: "opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), filter 0.8s cubic-bezier(0.4, 0, 0.2, 1), stroke-width 0.5s ease",
+                          filter: activeIndex === index ? `drop-shadow(0 0 12px ${entry.color}50)` : "none",
                         }}
                       />
                     ))}
@@ -82,11 +82,11 @@ export default function Tokenomics() {
 
               {/* Center label */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="text-center transition-all duration-200">
+                <div className="text-center transition-all duration-500 ease-out">
                   {activeItem ? (
                     <>
                       <p
-                        className="text-3xl font-bold font-display transition-colors duration-200"
+                        className="text-3xl font-bold font-display transition-colors duration-500 ease-out"
                         style={{ color: activeItem.color }}
                       >
                         {activeItem.value}%
@@ -142,14 +142,14 @@ export default function Tokenomics() {
                     onMouseLeave={() => setActiveIndex(null)}
                   >
                     <span
-                      className="w-3 h-3 rounded-full shrink-0 transition-transform duration-200"
+                      className="w-3 h-3 rounded-full shrink-0 transition-transform duration-500 ease-out"
                       style={{
                         backgroundColor: item.color,
                         transform: activeIndex === i ? "scale(1.4)" : "scale(1)",
                       }}
                     />
                     <span
-                      className="text-sm flex-1 transition-colors duration-200"
+                      className="text-sm flex-1 transition-colors duration-500 ease-out"
                       style={{
                         color: activeIndex === i ? "#f1f5f9" : "#94a3b8",
                       }}
