@@ -7,12 +7,12 @@ import PageCTA from "@/components/layout/PageCTA";
 import BlurFade from "@/components/ui/blur-fade";
 
 const PRODUCTS = [
-  { name: "QuarrySwap", description: "Non-custodial DEX with AMM liquidity pools and yield farming.", href: "/ecosystem/quarryswap", icon: ArrowLeftRight },
-  { name: "QuarryWallet", description: "Self-custodial wallet for QRY and QRC-20 tokens.", href: "/ecosystem/quarrywallet", icon: Wallet },
-  { name: "QuarryScan", description: "Block explorer. Every transaction, every contract.", href: "https://test.quarrychain.network", icon: Search, external: true },
-  { name: "QVM", description: "EVM-compatible virtual machine. Solidity-native.", href: "/technology", icon: Cpu },
-  { name: "QRC-20 Tokens", description: "Launch tokens with the standard developers already know.", href: "/technology", icon: Coins },
-  { name: "Asset Tokenization", description: "Bridge physical assets to the blockchain. Trade 24/7.", href: "#", icon: Building, comingSoon: true },
+  { name: "QuarrySwap", description: "Non-custodial DEX with AMM liquidity pools and yield farming.", href: "/ecosystem/quarryswap", icon: ArrowLeftRight, color: "text-qc-green", bg: "bg-qc-green/10" },
+  { name: "QuarryWallet", description: "Self-custodial wallet for QRY and QRC-20 tokens.", href: "/ecosystem/quarrywallet", icon: Wallet, color: "text-qc-blue", bg: "bg-qc-blue/10" },
+  { name: "QuarryScan", description: "Block explorer. Every transaction, every contract.", href: "https://test.quarrychain.network", icon: Search, external: true, color: "text-qc-red", bg: "bg-qc-red/10" },
+  { name: "QVM", description: "EVM-compatible virtual machine. Solidity-native.", href: "/technology", icon: Cpu, color: "text-qc-teal", bg: "bg-qc-teal/10" },
+  { name: "QRC-20 Tokens", description: "Launch tokens with the standard developers already know.", href: "/technology", icon: Coins, color: "text-qc-blue", bg: "bg-qc-blue/10" },
+  { name: "Asset Tokenization", description: "Bridge physical assets to the blockchain. Trade 24/7.", href: "#", icon: Building, comingSoon: true, color: "text-qc-green", bg: "bg-qc-green/10" },
 ];
 
 // 3D tilt card
@@ -59,6 +59,12 @@ export default function EcosystemPage() {
       {/* Product Grid */}
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
+          <BlurFade>
+            <div className="text-center mb-16">
+              <p className="text-xs uppercase tracking-widest text-qc-green font-mono mb-4">Products</p>
+              <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary">Built for the <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-green to-qc-blue">QuarryChain ecosystem.</span></h2>
+            </div>
+          </BlurFade>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {PRODUCTS.map((product, i) => (
               <BlurFade key={product.name} delay={0.05 + i * 0.05}>
@@ -71,8 +77,8 @@ export default function EcosystemPage() {
                     }`}
                   >
                     <div className="flex items-start justify-between mb-4">
-                      <div className="w-12 h-12 rounded-lg bg-qc-teal/10 flex items-center justify-center">
-                        <product.icon className="w-6 h-6 text-qc-teal" />
+                      <div className={`w-12 h-12 rounded-lg ${product.bg} flex items-center justify-center`}>
+                        <product.icon className={`w-6 h-6 ${product.color}`} />
                       </div>
                       {product.comingSoon ? (
                         <span className="text-[10px] text-text-muted bg-white/5 px-2 py-0.5 rounded-full font-mono">Coming soon</span>
