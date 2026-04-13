@@ -52,7 +52,7 @@ export default function PageHero({
     <section className={cn("py-24 lg:py-32 px-6 relative overflow-hidden", className)}>
       {/* Shape as backdrop behind text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[500px] h-[500px] lg:w-[600px] lg:h-[600px] opacity-40">
+        <div className="w-[320px] h-[320px] lg:w-[400px] lg:h-[400px] opacity-40">
           <WireframeShape shape={shape} className="w-full h-full" primaryColor={shapeColors?.primary} secondaryColor={shapeColors?.secondary} />
         </div>
       </div>
