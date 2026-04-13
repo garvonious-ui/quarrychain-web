@@ -11,24 +11,32 @@ const FEATURES = [
     title: "Self-Custody",
     description: "Your private keys never leave your device. Full ownership, zero compromises.",
     icon: Shield,
+    color: "text-qc-teal",
+    bg: "bg-qc-teal/10",
     spotlight: "rgba(20, 184, 166, 0.08)",
   },
   {
     title: "Multi-Token",
     description: "QRY, QRC-10, QRC-20 — manage all your QuarryChain assets in one place.",
     icon: Layers,
+    color: "text-qc-blue",
+    bg: "bg-qc-blue/10",
     spotlight: "rgba(59, 130, 246, 0.08)",
   },
   {
     title: "QuarrySwap Integration",
     description: "Swap and stake tokens directly from your wallet. No need to visit a separate dApp.",
     icon: ArrowLeftRight,
+    color: "text-qc-green",
+    bg: "bg-qc-green/10",
     spotlight: "rgba(34, 197, 94, 0.08)",
   },
   {
     title: "Governance",
     description: "Vote for Quarry Miners and participate in network governance. Earn staking rewards.",
     icon: Vote,
+    color: "text-qc-red",
+    bg: "bg-qc-red/10",
     spotlight: "rgba(239, 68, 68, 0.08)",
   },
 ];
@@ -51,13 +59,20 @@ export default function QuarryWalletPage() {
       {/* Features */}
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
+          <BlurFade>
+            <div className="text-center mb-16">
+              <p className="text-xs uppercase tracking-widest text-qc-red font-mono mb-4">Features</p>
+              <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary">Everything in <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-red to-qc-blue">one wallet.</span></h2>
+            </div>
+          </BlurFade>
+
           <div className="grid sm:grid-cols-2 gap-4">
             {FEATURES.map((feature, i) => (
               <BlurFade key={feature.title} delay={0.1 + i * 0.1}>
                 <SpotlightCard spotlightColor={feature.spotlight} className="h-full">
                   <div className="p-8">
-                    <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center mb-4">
-                      <feature.icon className="w-6 h-6 text-qc-teal" />
+                    <div className={`w-12 h-12 rounded-lg ${feature.bg} flex items-center justify-center mb-4`}>
+                      <feature.icon className={`w-6 h-6 ${feature.color}`} />
                     </div>
                     <h3 className="text-xl font-bold font-display text-text-primary mb-2">{feature.title}</h3>
                     <p className="text-text-secondary">{feature.description}</p>
