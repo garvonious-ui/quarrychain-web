@@ -41,12 +41,12 @@ export default function Features() {
   return (
     <section id="technology" className="py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Bento grid — no section header */}
-        <div className="grid md:grid-cols-2 gap-4">
+        {/* 3-col equal grid */}
+        <div className="grid md:grid-cols-3 gap-4">
           {features.map((feature, i) => (
             <BlurFade key={feature.subtitle} delay={0.1 + i * 0.1}>
               <SpotlightCard
-                className={feature.large ? "md:row-span-2" : ""}
+                className="h-full"
                 spotlightColor={feature.spotlightColor}
               >
                 <div className="p-8 h-full">
