@@ -42,8 +42,8 @@ const fragmentShader = `
   void main() {
     vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
 
-    // Scale the hex grid — smaller hexes
-    float scale = 36.0;
+    // Scale the hex grid — dense mesh for visible wave flow
+    float scale = 52.0;
     vec2 hexUv = uv * scale;
 
     // Multi-layer wave — ocean-like undulation
