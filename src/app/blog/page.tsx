@@ -24,7 +24,7 @@ export default function BlogPage() {
               <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary">From the <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-red to-qc-blue">QuarryChain team.</span></h2>
             </div>
           </BlurFade>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 max-w-2xl mx-auto">
             {posts.map((post, i) => (
               <BlurFade key={post.slug} delay={0.05 + i * 0.08}>
                 <PostCard post={post} index={i} />
