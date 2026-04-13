@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NAV_LINKS } from "@/lib/constants";
@@ -9,25 +10,11 @@ import MobileNav from "./MobileNav";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-
-      // Detect active section
-      const sections = NAV_LINKS.map((link) =>
-        document.querySelector(link.href)
-      ).filter(Boolean) as HTMLElement[];
-
-      let current = "";
-      for (const section of sections) {
-        const rect = section.getBoundingClientRect();
-        if (rect.top <= 150) {
-          current = `#${section.id}`;
-        }
-      }
-      setActiveSection(current);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -66,13 +53,13 @@ export default function Navbar() {
                   href={link.href}
                   className={cn(
                     "text-sm transition-colors relative",
-                    activeSection === link.href
+                    pathname === link.href || pathname.startsWith(link.href + "/")
                       ? "text-qc-teal"
                       : "text-text-secondary hover:text-text-primary"
                   )}
                 >
                   {link.label}
-                  {activeSection === link.href && (
+                  {(pathname === link.href || pathname.startsWith(link.href + "/")) && (
                     <span className="absolute -bottom-1 left-0 right-0 h-px bg-qc-teal" />
                   )}
                 </a>
@@ -82,10 +69,10 @@ export default function Navbar() {
             {/* CTA */}
             <div className="hidden md:block">
               <a
-                href="#cta"
+                href="/developers"
                 className="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-lg border border-qc-teal/50 bg-transparent hover:bg-qc-teal/10 hover:shadow-[0_0_20px_rgba(20,184,166,0.15)] transition-all"
               >
-                Explore Ecosystem
+                Start Building
               </a>
             </div>
 

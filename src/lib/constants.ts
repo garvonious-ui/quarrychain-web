@@ -129,11 +129,10 @@ export const FALLBACK_STATS = {
 // ===== Navigation =====
 
 export const NAV_LINKS = [
-  { label: "Technology", href: "#technology" },
-  { label: "Ecosystem", href: "#ecosystem" },
-  { label: "Tokenomics", href: "#tokenomics" },
-  { label: "Roadmap", href: "#roadmap" },
-  { label: "Team", href: "#team" },
+  { label: "Technology", href: "/technology" },
+  { label: "Ecosystem", href: "/ecosystem" },
+  { label: "Developers", href: "/developers" },
+  { label: "Blog", href: "/blog" },
 ] as const;
 
 // ===== Social Links =====

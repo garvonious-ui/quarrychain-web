@@ -1,31 +1,31 @@
-import { NAV_LINKS, SOCIAL_LINKS } from "@/lib/constants";
+import { SOCIAL_LINKS } from "@/lib/constants";
 
 const FOOTER_COLUMNS = [
   {
     title: "Technology",
     links: [
-      { label: "DPoS Consensus", href: "#technology" },
-      { label: "QVM", href: "#ecosystem" },
-      { label: "QRC-20 Standard", href: "#ecosystem" },
-      { label: "Whitepaper", href: "#" },
+      { label: "DPoS Consensus", href: "/technology" },
+      { label: "QVM", href: "/technology" },
+      { label: "QRC-20 Standard", href: "/technology" },
+      { label: "Whitepaper", href: "/whitepaper" },
     ],
   },
   {
     title: "Ecosystem",
     links: [
-      { label: "QuarrySwap", href: "#ecosystem" },
-      { label: "QuarryWallet", href: "#ecosystem" },
-      { label: "QuarryScan", href: "#ecosystem" },
-      { label: "Asset Tokenization", href: "#ecosystem" },
+      { label: "QuarrySwap", href: "/ecosystem/quarryswap" },
+      { label: "QuarryWallet", href: "/ecosystem/quarrywallet" },
+      { label: "QuarryScan", href: "https://test.quarrychain.network", external: true },
+      { label: "Asset Tokenization", href: "/ecosystem" },
     ],
   },
   {
     title: "Community",
     links: [
-      { label: "Discord", href: "#" },
-      { label: "Telegram", href: "#" },
-      { label: "X (Twitter)", href: "https://x.com/QuarryChain" },
-      { label: "Blog", href: "#" },
+      { label: "Discord", href: "https://discord.gg/quarrychain", external: true },
+      { label: "Telegram", href: "https://t.me/quarrychain", external: true },
+      { label: "X (Twitter)", href: "https://x.com/QuarryChain", external: true },
+      { label: "Blog", href: "/blog" },
     ],
   },
 ];
@@ -37,7 +37,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2.5">
+            <a href="/" className="flex items-center gap-2.5">
               <img
                 src="/logo-hero.png"
                 alt="QuarryChain"
@@ -47,8 +47,7 @@ export default function Footer() {
                 <span className="text-qc-blue">Quarry</span>
                 <span className="text-text-primary">Chain</span>
               </span>
-            </div>
-            <div className="mt-3" />
+            </a>
           </div>
 
           {/* Link columns */}
@@ -62,6 +61,9 @@ export default function Footer() {
                   <li key={link.label}>
                     <a
                       href={link.href}
+                      {...("external" in link && link.external
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
                       className="text-sm text-text-muted hover:text-text-secondary transition-colors"
                     >
                       {link.label}
@@ -83,6 +85,8 @@ export default function Footer() {
               <a
                 key={social.name}
                 href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-text-muted hover:text-text-secondary transition-colors"
                 aria-label={social.name}
               >
