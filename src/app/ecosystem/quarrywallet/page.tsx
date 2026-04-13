@@ -41,6 +41,7 @@ export default function QuarryWalletPage() {
         headline="Your keys. Your crypto. Your control."
         subheadline="Non-custodial wallet for QRY, QRC-10, and QRC-20 tokens."
         shape="octahedron"
+        shapeColors={{ primary: "#ef4444", secondary: "#3b82f6" }}
         ctas={[
           { text: "Download", href: "#", primary: true, badge: "Coming soon" },
           { text: "Learn More", href: "/technology" },

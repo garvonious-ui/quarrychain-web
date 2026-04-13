@@ -80,7 +80,7 @@ export default function WireframeShape({
       color: new THREE.Color(primaryColor),
       wireframe: true,
       transparent: true,
-      opacity: 0.1,
+      opacity: 0.25,
     });
     const mesh1 = new THREE.Mesh(geo1, mat1);
     scene.add(mesh1);
@@ -91,7 +91,7 @@ export default function WireframeShape({
       color: new THREE.Color(secondaryColor),
       wireframe: true,
       transparent: true,
-      opacity: 0.05,
+      opacity: 0.12,
     });
     const mesh2 = new THREE.Mesh(geo2, mat2);
     scene.add(mesh2);

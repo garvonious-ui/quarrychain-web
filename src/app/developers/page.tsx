@@ -106,6 +106,7 @@ export default function DevelopersPage() {
         headline="Start building."
         subheadline="Everything you need to deploy on QuarryChain."
         shape="octahedron"
+        shapeColors={{ primary: "#14b8a6", secondary: "#22c55e" }}
       />
 
       {/* Quick Start */}

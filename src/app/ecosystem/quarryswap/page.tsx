@@ -74,6 +74,7 @@ export default function QuarrySwapPage() {
         headline="Swap, stake, farm. Fully decentralized."
         subheadline="Non-custodial AMM DEX on QuarryChain. Trade tokens, provide liquidity, and earn yield."
         shape="icosahedron"
+        shapeColors={{ primary: "#22c55e", secondary: "#14b8a6" }}
         ctas={[
           { text: "Launch App", href: "#", primary: true, badge: "Coming soon" },
           { text: "Read Docs", href: "/developers" },

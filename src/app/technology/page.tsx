@@ -135,6 +135,7 @@ export default function TechnologyPage() {
         headline="How QuarryChain works."
         subheadline="Delegated Proof of Stake. EVM-compatible. Built for scale."
         shape="torusKnot"
+        shapeColors={{ primary: "#3b82f6", secondary: "#14b8a6" }}
       />
 
       {/* DPoS Consensus */}

@@ -23,6 +23,7 @@ interface PageHeroProps {
   subheadline?: string;
   ctas?: PageHeroCTA[];
   shape?: ShapeType;
+  shapeColors?: { primary: string; secondary: string };
   className?: string;
 }
 
@@ -32,6 +33,7 @@ export default function PageHero({
   subheadline,
   ctas,
   shape,
+  shapeColors,
   className,
 }: PageHeroProps) {
   // If no shape, centered layout (fallback)
@@ -58,7 +60,7 @@ export default function PageHero({
           {/* Right — shape */}
           <div className="hidden lg:flex items-center justify-center">
             <div className="w-[450px] h-[450px]">
-              <WireframeShape shape={shape} className="w-full h-full" />
+              <WireframeShape shape={shape} className="w-full h-full" primaryColor={shapeColors?.primary} secondaryColor={shapeColors?.secondary} />
             </div>
           </div>
         </div>
