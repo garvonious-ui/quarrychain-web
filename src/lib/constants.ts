@@ -89,31 +89,38 @@ export const ECOSYSTEM = [
     name: "QuarryWallet",
     tagline: "Non-custodial wallet for QRY and QRC-20 tokens.",
     icon: "Wallet",
+    href: "/ecosystem/quarrywallet",
   },
   {
     name: "QuarrySwap",
     tagline: "Swap, stake, farm. Fully decentralized.",
     icon: "ArrowLeftRight",
+    href: "/ecosystem/quarryswap",
   },
   {
     name: "QuarryScan",
     tagline: "Block explorer. Every transaction, every contract.",
     icon: "Search",
+    href: "https://test.quarrychain.network",
+    external: true,
   },
   {
     name: "QVM",
     tagline: "EVM-compatible virtual machine. Solidity-native.",
     icon: "Cpu",
+    href: "/technology",
   },
   {
     name: "QRC-20 Tokens",
     tagline: "Launch tokens with the standard developers already know.",
     icon: "Coins",
+    href: "/technology",
   },
   {
     name: "Asset Tokenization",
     tagline: "Bridge physical assets to the blockchain. Trade 24/7.",
     icon: "Building",
+    href: "/ecosystem",
   },
 ] as const;
 

@@ -21,7 +21,6 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Building,
 };
 
-// Cycle through brand colors for each card
 const cardColors = [
   { color: "text-qc-blue", spotlight: "rgba(59, 130, 246, 0.08)" },
   { color: "text-qc-green", spotlight: "rgba(34, 197, 94, 0.08)" },
@@ -50,26 +49,36 @@ export default function Ecosystem() {
           {ECOSYSTEM.map((item, i) => {
             const Icon = iconMap[item.icon];
             const colors = cardColors[i];
+            const isExternal = "external" in item && item.external;
+
             return (
               <BlurFade key={item.name} delay={0.05 + i * 0.05}>
-                <SpotlightCard
-                  className="cursor-pointer h-full"
-                  spotlightColor={colors.spotlight}
+                <a
+                  href={item.href}
+                  {...(isExternal
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className="block h-full"
                 >
-                  <div className="p-6">
-                    <div className="mb-4 inline-flex items-center justify-center rounded-lg bg-white/5 p-3">
-                      {Icon && (
-                        <Icon className={`w-6 h-6 ${colors.color}`} />
-                      )}
+                  <SpotlightCard
+                    className="cursor-pointer h-full"
+                    spotlightColor={colors.spotlight}
+                  >
+                    <div className="p-6">
+                      <div className="mb-4 inline-flex items-center justify-center rounded-lg bg-white/5 p-3">
+                        {Icon && (
+                          <Icon className={`w-6 h-6 ${colors.color}`} />
+                        )}
+                      </div>
+                      <h3 className="text-lg font-bold font-display text-text-primary mb-1">
+                        {item.name}
+                      </h3>
+                      <p className="text-sm text-text-secondary">
+                        {item.tagline}
+                      </p>
                     </div>
-                    <h3 className="text-lg font-bold font-display text-text-primary mb-1">
-                      {item.name}
-                    </h3>
-                    <p className="text-sm text-text-secondary">
-                      {item.tagline}
-                    </p>
-                  </div>
-                </SpotlightCard>
+                  </SpotlightCard>
+                </a>
               </BlurFade>
             );
           })}
