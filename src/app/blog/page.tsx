@@ -18,6 +18,12 @@ export default function BlogPage() {
 
       <section className="py-12 px-4 sm:px-6 lg:px-8 pb-24">
         <div className="mx-auto max-w-4xl">
+          <BlurFade>
+            <div className="text-center mb-12">
+              <p className="text-xs uppercase tracking-widest text-qc-red font-mono mb-4">Latest</p>
+              <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary">From the <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-red to-qc-blue">QuarryChain team.</span></h2>
+            </div>
+          </BlurFade>
           <div className="grid sm:grid-cols-2 gap-4">
             {posts.map((post, i) => (
               <BlurFade key={post.slug} delay={0.05 + i * 0.08}>
