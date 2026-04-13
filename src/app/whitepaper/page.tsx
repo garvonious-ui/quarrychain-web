@@ -36,7 +36,7 @@ export default function WhitepaperPage() {
         headline="QuarryChain Whitepaper"
         subheadline="81 pages covering architecture, consensus, tokenomics, and the full technical specification."
         shape="tetrahedron"
-        shapeColors={{ primary: "#14b8a6", secondary: "#3b82f6" }}
+        shapeColors={{ primary: "#14b8a6", secondary: "#3b82f6", tertiary: "#ef4444" }}
         ctas={[
           { text: "Download PDF", href: "/quarrychain-whitepaper-v2.pdf", primary: true },
           { text: "View Online", href: "/quarrychain-whitepaper-v2.pdf" },

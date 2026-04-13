@@ -53,7 +53,7 @@ export default function EcosystemPage() {
         headline="One chain. Everything you need."
         subheadline="Wallets, DEX, explorer, smart contracts, and real-world asset tokenization — all native to QuarryChain."
         shape="dodecahedron"
-        shapeColors={{ primary: "#3b82f6", secondary: "#a855f7" }}
+        shapeColors={{ primary: "#22c55e", secondary: "#3b82f6", tertiary: "#ef4444" }}
       />
 
       {/* Product Grid */}

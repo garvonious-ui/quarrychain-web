@@ -10,6 +10,7 @@ interface WireframeShapeProps {
   className?: string;
   primaryColor?: string;
   secondaryColor?: string;
+  tertiaryColor?: string;
 }
 
 // Inner — most visible, high detail
@@ -68,6 +69,7 @@ export default function WireframeShape({
   className,
   primaryColor = "#14b8a6",
   secondaryColor = "#3b82f6",
+  tertiaryColor,
 }: WireframeShapeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<number>(0);
@@ -118,10 +120,10 @@ export default function WireframeShape({
     // Layer 3 — outer, subtle
     const geo3 = createOuterGeometry(shape, scale);
     const mat3 = new THREE.MeshBasicMaterial({
-      color: new THREE.Color(primaryColor),
+      color: new THREE.Color(tertiaryColor || primaryColor),
       wireframe: true,
       transparent: true,
-      opacity: 0.07,
+      opacity: 0.1,
     });
     const mesh3 = new THREE.Mesh(geo3, mat3);
     scene.add(mesh3);
@@ -163,7 +165,7 @@ export default function WireframeShape({
         container.removeChild(renderer.domElement);
       }
     };
-  }, [shape, primaryColor, secondaryColor]);
+  }, [shape, primaryColor, secondaryColor, tertiaryColor]);
 
   return (
     <div

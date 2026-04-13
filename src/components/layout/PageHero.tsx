@@ -23,7 +23,7 @@ interface PageHeroProps {
   subheadline?: string;
   ctas?: PageHeroCTA[];
   shape?: ShapeType;
-  shapeColors?: { primary: string; secondary: string };
+  shapeColors?: { primary: string; secondary: string; tertiary?: string };
   className?: string;
 }
 
@@ -53,7 +53,7 @@ export default function PageHero({
       {/* Shape as backdrop behind text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div className="w-[320px] h-[320px] lg:w-[400px] lg:h-[400px] opacity-40">
-          <WireframeShape shape={shape} className="w-full h-full" primaryColor={shapeColors?.primary} secondaryColor={shapeColors?.secondary} />
+          <WireframeShape shape={shape} className="w-full h-full" primaryColor={shapeColors?.primary} secondaryColor={shapeColors?.secondary} tertiaryColor={shapeColors?.tertiary} />
         </div>
       </div>
 

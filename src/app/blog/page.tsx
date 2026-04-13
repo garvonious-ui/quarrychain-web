@@ -13,7 +13,7 @@ export default function BlogPage() {
         headline="Updates"
         subheadline="News and updates from the QuarryChain team."
         shape="icosahedron"
-        shapeColors={{ primary: "#60a5fa", secondary: "#14b8a6" }}
+        shapeColors={{ primary: "#ef4444", secondary: "#3b82f6", tertiary: "#22c55e" }}
       />
 
       <section className="py-12 px-4 sm:px-6 lg:px-8 pb-24">
