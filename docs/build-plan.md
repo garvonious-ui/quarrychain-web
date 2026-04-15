@@ -209,15 +209,21 @@
 - [ ] Add `revalidate = 60` to `src/app/page.tsx` (or extend `/api/revalidate` webhook)
 - [ ] Optional: seed Sanity dataset with current TEAM and ROADMAP from constants.ts
 
-### Litepaper — convert /whitepaper into on-site read experience (Planned 2026-04-14)
-- Decision: /whitepaper page BECOMES the litepaper (read-on-site). NO PDF download button — the litepaper IS the experience, no offsite download.
+### Litepaper — /whitepaper as on-site read experience (Completed 2026-04-14)
+- Decision: /whitepaper page BECOMES the litepaper (read-on-site). NO PDF download button — the litepaper IS the experience.
 - Source PDF lives at `docs/whitepaper-source.pdf` (81 pages, NOT served publicly) — reference material for content distillation only.
-- Scope: "Standard" — sticky TOC sidebar, scroll-spy active state, reading progress bar. ~1 day of dev + content distillation.
-- [ ] Read source whitepaper from docs/whitepaper-source.pdf, distill into litepaper sections (problem, solution, tech, tokenomics, team, roadmap, ask)
-- [ ] Build sticky TOC sidebar component with scroll-spy
-- [ ] Build reading progress bar (top of page)
-- [ ] Rewrite /whitepaper route as long-form litepaper layout, reusing PageHero/Tokenomics/Roadmap/Team where it fits
-- [ ] Open question: Sanity-backed (client-editable Portable Text) or static MDX/TSX? Decide before building.
+- Decision: **Static TSX**, not Sanity. A litepaper isn't blog content — it's a marketing asset that gets rewritten every few months. The big win for Sanity (non-dev edits) doesn't outweigh the friction of stuffing custom React (tokenomics chart, roadmap, team grid, wireframe shapes) through Portable Text.
+- [x] Read source whitepaper from docs/whitepaper-source.pdf, distill into 13 litepaper sections
+- [x] Build sticky TOC sidebar component with IntersectionObserver scroll-spy (`TocSidebar.tsx`)
+- [x] Skip dedicated reading progress bar — global `ScrollProgress` already does this
+- [x] Build mobile TOC drawer (floating button + slide-out sheet, `MobileTocDrawer.tsx`)
+- [x] Build `LitepaperLayout` (grid: sticky TOC + content cell), `LitepaperSection` (consistent section wrapper with number/label/headline)
+- [x] Single source of truth for section metadata: `src/lib/litepaper.ts`
+- [x] Refactor `/tokenomics` — extract all 7 inline sections into `src/components/sections/tokenomics/` so both `/tokenomics` and the litepaper §9 can reuse them
+- [x] Rewrite `/whitepaper/page.tsx` as litepaper layout, drop the page-counter animation
+- [x] Write all 13 sections: intro, architecture, consensus (with TaPoS callout), QVM, economics (5K free daily bandwidth), token standards (QRC-10/20/1400/721), RWA tokenization, governance, tokenomics (reuses 4 shared components), ecosystem & dev tools, roadmap, team, ask
+- [x] Build passes (`pnpm build` exit 0, 19 routes, /whitepaper static)
+- Future: invite the brand team to edit the litepaper directly via PRs once the structure is locked in.
 
 ### Brand Style Guide PDF — redesign (Flagged 2026-04-14)
 - Current `public/QuarryChain_Brand_Style_Guide.pdf` is bad and doesn't match the website aesthetic

@@ -1,5 +1,70 @@
 # Changelog
 
+## 2026-04-14 — Session 6: Litepaper
+
+### What was built
+The `/whitepaper` route is no longer a "download a PDF" landing page — it's now a long-form, on-site **litepaper** distilled from the 81-page source PDF in `docs/whitepaper-source.pdf`. 13 sections, sticky TOC sidebar with scroll-spy, mobile drawer, full content. Live at `/whitepaper`.
+
+#### Infrastructure (`src/components/litepaper/`, `src/lib/litepaper.ts`)
+- **`lib/litepaper.ts`** — single source of truth for section metadata (id, number, label, title, accent color). Used by both the layout (rendering) and the TOC (scroll-spy + links). Drives ordering, accent colors, and the URL hash for every section.
+- **`LitepaperLayout.tsx`** — grid wrapper: 220px sticky TOC sidebar on lg+, content cell on the right. `min-w-0` on the content cell so it shrinks correctly inside the grid. Mounts `MobileTocDrawer` for mobile.
+- **`TocSidebar.tsx`** — sticky TOC, hidden on <lg. Uses `IntersectionObserver` with `rootMargin: "-80px 0px -60% 0px"` to mark a section "active" once its top reaches ~40% of the viewport. Active link highlights with the section's accent color and a left-border indicator. Smooth scroll on click is handled globally by Lenis (`SmoothScroll.tsx`) — no per-component anchor handling needed.
+- **`MobileTocDrawer.tsx`** — fixed "Contents" button bottom-right on mobile (<lg). Tapping opens a slide-out sheet from the right with the same TOC list, locks body scroll, closes on backdrop tap, item tap, or Escape.
+- **`LitepaperSection.tsx`** — consistent section wrapper. Renders `<section id={meta.id}>` with `scroll-mt-24` (so anchor scrolls land below the navbar), the number + label + accent-divider header, the gradient headline, and a `space-y-6` body slot.
+- **No dedicated reading progress bar** — the global `ScrollProgress` in the root layout already renders a 2px gradient bar at the top of every page, so adding a litepaper-specific one would be duplicate UI.
+
+#### Tokenomics refactor (`src/components/sections/tokenomics/`)
+- All 7 sections that were inlined in `/tokenomics/page.tsx` are now extracted into individual content-only components: `TokenAllocationChart`, `AllocationBreakdown`, `TokenUtility`, `VestingTimeline`, `SupplySchedule`, `StakingRewards`, `RevenueModel`.
+- Each component is "content only" — no `<section>` wrapper, no header. Both `/tokenomics` and the litepaper §9 import them and provide their own wrapper styling.
+- `/tokenomics/page.tsx` is now a clean import + section list. Dropped `"use client"` from the page itself — it's now a server component rendering client component children.
+- Litepaper §9 uses 4 of the 7 (allocation chart, breakdown, vesting, supply schedule). Skips staking tiers and revenue model — those are deeper investor content covered elsewhere on the site.
+
+#### Litepaper sections (`src/app/whitepaper/sections/01-13.tsx`)
+13 TSX files, one per section, each importing `LitepaperSection` and the relevant `meta` from `lib/litepaper.ts`. Content is distilled directly from the whitepaper PDF — skipping the educational fluff (no "what is a blockchain" / "what is a hash"), keeping the project-specific tech.
+
+1. **Intro** — one-paragraph thesis + 4 stat cards (TPS, finality, validators, EVM).
+2. **Architecture** — 3-layer stack (Application / Core / Storage). LevelDB + KhaosDB. Google Protobuf. RESTful HTTP fallback.
+3. **Consensus** — DPoS basics, 27 Quarry Miners, 6hr rounds, 9999 QRC burn cost. **TaPoS callout** (transactions include a recent block hash — defends against DoS, 51%, selfish mining, double-spend). 3 node types (Witness / Full / Solidity).
+4. **QVM** — forked from EVM, Solidity ^0.4.24, ~100% bytecode compatible. 4 properties grid: Lightweight, Robust, EVM-Compatible, Low Cost.
+5. **Economics** — the 5,000 free daily bandwidth points (the killer feature). Bandwidth vs Energy (smart contracts use Energy, separate from bandwidth). Fixed fee table for the few operations that cost QRC.
+6. **Token Standards** — QRC-10 vs QRC-20 (today, with the 1000× transfer cost difference called out). QRC-1400 + QRC-721 (roadmap).
+7. **Real-World Asset Tokenization** — the most differentiated section. 5 asset categories grid (collectibles, metals, consumables, financial instruments, intangible assets), 4-step technical approach, 8 benefits.
+8. **Governance** — 2-layer split: Quarry Mining (election + rewards, with the Vote Reward + Block Reward math at 230 QRC/round / 336,700 QRC/year) and the Committee (27 QM, 19/27 to pass, 3-day voting window, dynamic parameter changes without a hard fork).
+9. **Tokenomics** — embeds 4 shared tokenomics components inline (allocation chart, breakdown, vesting, supply schedule). Demonstrates the refactor's payoff.
+10. **Ecosystem & Tools** — core apps grid (QuarryWallet, QuarrySwap, QuarryScan, QVM) + dev toolchain grid (QuarryStudio, QuarryBox, QuarryGrid, QuarryWeb) + Shasta/mainnet callout.
+11. **Roadmap** — 4-phase grid (inlined from `ROADMAP` constant, since the homepage `<Roadmap />` component has its own `<section id="roadmap">` wrapper that would conflict with `<LitepaperSection>`'s id).
+12. **Team** — 6-person grid (inlined from `TEAM` constant for the same conflict reason).
+13. **The Ask** — 2-paragraph close + 3 CTAs (Read the Docs, Join Discord, GitHub).
+
+#### `/whitepaper/page.tsx`
+- Stripped down to a clean composition: `PageHero` (kept the tetrahedron wireframe shape, dropped the page-counter animation since "81 pages" no longer makes sense), then `LitepaperLayout` containing all 13 section components in order.
+- `metadata` updated for SEO (title + description focused on litepaper content, not "download PDF").
+
+### Decisions
+- **Static TSX over Sanity.** The litepaper isn't a blog — it's a marketing asset that gets rewritten every few months, and inline JSX makes it trivial to embed `<TokenAllocationChart />`, custom diagrams, and code blocks anywhere. The Sanity win (non-dev edits) didn't outweigh the friction of stuffing custom React through Portable Text.
+- **Skip dedicated reading progress bar.** The global `ScrollProgress` in `app/layout.tsx` already renders a 2px gradient bar across every page. A litepaper-specific one would be duplicate UI.
+- **Refactor `/tokenomics` first, then build litepaper §9.** Extracting the 7 tokenomics sections into shared components paid off twice: `/tokenomics` got cleaner (the page is now a server component composing client component children), and §9 got a concise import list instead of 200 lines of duplicated chart code.
+- **Inline Roadmap and Team grids in §11/§12 instead of importing the homepage components.** The homepage `<Roadmap />` and `<Team />` render their own `<section id="roadmap">` and `<section id="team">` wrappers, which would have collided with `<LitepaperSection>`'s anchor IDs. Inlining the grid markup (with the `ROADMAP` and `TEAM` constants still as the source of truth) was simpler than refactoring the homepage components.
+- **§13 Ask is litepaper-specific copy, not the homepage `<CTA />`.** The homepage CTA has a Three.js WireframeGem background that doesn't fit inside the litepaper grid layout and would feel disconnected from the rest of the long-form read.
+- **Conflicts with the source PDF** (whitepaper is older than current site state) resolved in favor of the site: QRY symbol (PDF says QRC), $0.25 seed price (PDF says $0.05/$0.10), 5-slice tokenomics (PDF has 9), 100K TPS (PDF says 20K-100K range). Dropped the "Get Quality with Quarry" tagline and the "no inflation before Jan 1, 2022" governance note.
+
+### Verification
+- `pnpm build` exits 0. 19 routes built, `/whitepaper` is a static page in the route list. TypeScript pass at 85s. The pre-existing Recharts `width(-1)` warnings on the `SupplySchedule` chart are harmless — `ResponsiveContainer` has no measured size at SSG time, but the chart only renders client-side once `useInView` triggers.
+- `pnpm tsc --noEmit` clean after the mobile drawer was added.
+- Visual / scroll-spy verification still pending — needs a dev server browse.
+
+### Issues / gotchas to address
+- **§9 reuses 4 tokenomics components** that fit inside the litepaper content cell. The `TokenAllocationChart` uses a `lg:grid-cols-2` layout that may feel cramped at the litepaper width (~676px at lg, ~868px at xl). Worth a visual check.
+- **Roadmap `sm:grid-cols-2` works fine** at the content cell width, but the homepage uses `md:grid-cols-4` — the litepaper version is intentionally narrower.
+- **`/api/revalidate` webhook** still doesn't cover `/whitepaper`. Static page, no Sanity content, so this is fine for now — but if we ever move litepaper content into Sanity, the webhook needs to revalidate `/whitepaper` too.
+
+### Current status of overall build
+- Phase 1 (Homepage POC) — ✅ complete
+- Phase 1.5 (V2 overhaul) — ✅ complete
+- Phase 2 (Subpages) — ✅ complete
+- Phase 3 — Tokenomics page ✅, Sanity CMS for blog ✅, Brand page enhancements ✅, **Litepaper ✅ (this session)**. Remaining: Team + Roadmap → Sanity (started Session 5, picking up later), light mode toggle, real social handles, brand PDF redesign, Sanity Studio team invites.
+- Live on `quarrychain-web.vercel.app` — push triggers an auto-deploy.
+
 ## 2026-04-14 — Session 5: Git/Vercel Reconciliation + Phase 3 Planning
 
 ### What was built
