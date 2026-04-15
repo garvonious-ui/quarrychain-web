@@ -209,6 +209,17 @@
 - [ ] Add `revalidate = 60` to `src/app/page.tsx` (or extend `/api/revalidate` webhook)
 - [ ] Optional: seed Sanity dataset with current TEAM and ROADMAP from constants.ts
 
+### Litepaper — convert /whitepaper into on-site read experience (Planned 2026-04-14)
+- Decision: /whitepaper page BECOMES the litepaper (read-on-site), PDF download stays as a button on it. No new /litepaper sibling route.
+- User has the whitepaper source material — bring to next session.
+- Scope: "Standard" — sticky TOC sidebar, scroll-spy active state, reading progress bar, "Download PDF" button. ~1 day of dev work + content distillation.
+- [ ] Read source whitepaper, distill into litepaper sections (problem, solution, tech, tokenomics, team, roadmap, ask)
+- [ ] Build sticky TOC sidebar component with scroll-spy
+- [ ] Build reading progress bar (top of page)
+- [ ] Rewrite /whitepaper route as long-form litepaper layout, reusing PageHero/Tokenomics/Roadmap/Team where it fits
+- [ ] Wire "Download PDF" button (placeholder until PDF file lands)
+- [ ] Open question: Sanity-backed (client-editable Portable Text) or static MDX/TSX? Decide before building.
+
 ### Remaining
 - [ ] Light mode toggle
 - [ ] Real Discord/Telegram/YouTube handles (currently placeholder patterns)
