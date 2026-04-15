@@ -5,6 +5,7 @@ import { Download, Check, Copy } from "lucide-react";
 import PageHero from "@/components/layout/PageHero";
 import BlurFade from "@/components/ui/blur-fade";
 import SpotlightCard from "@/components/ui/spotlight-card";
+import DownloadableShape from "@/components/three/DownloadableShape";
 
 // ===== Color Data =====
 
@@ -366,6 +367,82 @@ export default function BrandPage() {
                 >
                   Browse Lucide Icons →
                 </a>
+              </div>
+            </div>
+          </BlurFade>
+        </div>
+      </section>
+
+      {/* ==================== GEOMETRIC SHAPES ==================== */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 border-t border-white/5">
+        <div className="mx-auto max-w-5xl">
+          <BlurFade>
+            <p className="text-xs uppercase tracking-widest text-qc-teal font-mono mb-4">Geometric Shapes</p>
+            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-4">
+              Wireframe <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-teal to-qc-blue">geometries.</span>
+            </h2>
+            <p className="text-text-secondary mb-12 max-w-2xl">
+              Each section of the QuarryChain site uses a unique 3D wireframe shape as its visual signature. Click any shape to download a high-resolution PNG with transparent background.
+            </p>
+          </BlurFade>
+
+          <BlurFade delay={0.1}>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <DownloadableShape
+                shape="torusKnot"
+                name="Torus Knot"
+                primaryColor="#3b82f6"
+                secondaryColor="#ef4444"
+                tertiaryColor="#22c55e"
+              />
+              <DownloadableShape
+                shape="octahedron"
+                name="Octahedron"
+                primaryColor="#14b8a6"
+                secondaryColor="#22c55e"
+                tertiaryColor="#ef4444"
+              />
+              <DownloadableShape
+                shape="dodecahedron"
+                name="Dodecahedron"
+                primaryColor="#14b8a6"
+                secondaryColor="#3b82f6"
+                tertiaryColor="#ef4444"
+              />
+              <DownloadableShape
+                shape="icosahedron"
+                name="Icosahedron"
+                primaryColor="#ef4444"
+                secondaryColor="#3b82f6"
+                tertiaryColor="#22c55e"
+              />
+              <DownloadableShape
+                shape="tetrahedron"
+                name="Tetrahedron"
+                primaryColor="#14b8a6"
+                secondaryColor="#3b82f6"
+                tertiaryColor="#ef4444"
+              />
+              <DownloadableShape
+                shape="sphere"
+                name="Sphere"
+                primaryColor="#a855f7"
+                secondaryColor="#14b8a6"
+                tertiaryColor="#3b82f6"
+              />
+            </div>
+          </BlurFade>
+
+          <BlurFade delay={0.2}>
+            <div className="mt-8 rounded-xl bg-bg-secondary border border-white/5 p-6">
+              <p className="text-xs uppercase tracking-widest text-text-muted font-mono mb-3">Section Assignments</p>
+              <div className="grid sm:grid-cols-2 gap-x-8 gap-y-1 text-sm text-text-secondary">
+                <p><span className="font-mono text-qc-teal">torusKnot</span> &middot; /technology</p>
+                <p><span className="font-mono text-qc-teal">octahedron</span> &middot; /developers</p>
+                <p><span className="font-mono text-qc-teal">dodecahedron</span> &middot; /ecosystem &middot; /brand</p>
+                <p><span className="font-mono text-qc-teal">icosahedron</span> &middot; /blog</p>
+                <p><span className="font-mono text-qc-teal">tetrahedron</span> &middot; /whitepaper</p>
+                <p><span className="font-mono text-qc-teal">sphere</span> &middot; /tokenomics</p>
               </div>
             </div>
           </BlurFade>
