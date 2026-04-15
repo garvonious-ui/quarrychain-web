@@ -210,20 +210,26 @@
 - [ ] Optional: seed Sanity dataset with current TEAM and ROADMAP from constants.ts
 
 ### Litepaper — convert /whitepaper into on-site read experience (Planned 2026-04-14)
-- Decision: /whitepaper page BECOMES the litepaper (read-on-site), PDF download stays as a button on it. No new /litepaper sibling route.
-- User has the whitepaper source material — bring to next session.
-- Scope: "Standard" — sticky TOC sidebar, scroll-spy active state, reading progress bar, "Download PDF" button. ~1 day of dev work + content distillation.
-- [ ] Read source whitepaper, distill into litepaper sections (problem, solution, tech, tokenomics, team, roadmap, ask)
+- Decision: /whitepaper page BECOMES the litepaper (read-on-site). NO PDF download button — the litepaper IS the experience, no offsite download.
+- Source PDF lives at `docs/whitepaper-source.pdf` (81 pages, NOT served publicly) — reference material for content distillation only.
+- Scope: "Standard" — sticky TOC sidebar, scroll-spy active state, reading progress bar. ~1 day of dev + content distillation.
+- [ ] Read source whitepaper from docs/whitepaper-source.pdf, distill into litepaper sections (problem, solution, tech, tokenomics, team, roadmap, ask)
 - [ ] Build sticky TOC sidebar component with scroll-spy
 - [ ] Build reading progress bar (top of page)
 - [ ] Rewrite /whitepaper route as long-form litepaper layout, reusing PageHero/Tokenomics/Roadmap/Team where it fits
-- [ ] Wire "Download PDF" button (placeholder until PDF file lands)
 - [ ] Open question: Sanity-backed (client-editable Portable Text) or static MDX/TSX? Decide before building.
+
+### Brand Style Guide PDF — redesign (Flagged 2026-04-14)
+- Current `public/QuarryChain_Brand_Style_Guide.pdf` is bad and doesn't match the website aesthetic
+- Last attempt was commit `120e40f` ("style: redesign brand PDF to match website dark theme") — apparently still off
+- [ ] Redesign brand PDF from scratch using actual brand colors/fonts/wireframe shapes from /brand page
+- [ ] Match the dark-mode site aesthetic: bg #08080f, Space Grotesk display, JetBrains Mono labels, teal/blue/red/green accents
+- [ ] Use the same wireframe geometric shapes as the /brand page Geometric Shapes section
 
 ### Remaining
 - [ ] Light mode toggle
 - [ ] Real Discord/Telegram/YouTube handles (currently placeholder patterns)
-- [x] Whitepaper PDF at /public/quarrychain-whitepaper-v2.pdf (added 2026-04-14, 81 pages, 1.4MB)
+- [x] Whitepaper PDF as content source at docs/whitepaper-source.pdf (added 2026-04-14, 81 pages, NOT served publicly — litepaper has no download button)
 - [ ] Invite team members to Sanity Studio (Editor role for marketing)
 
 ## Pending Data / Blockers
