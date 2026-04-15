@@ -7,6 +7,7 @@ const FOOTER_COLUMNS = [
       { label: "DPoS Consensus", href: "/technology" },
       { label: "QVM", href: "/technology" },
       { label: "QRC-20 Standard", href: "/technology" },
+      { label: "Tokenomics", href: "/tokenomics" },
       { label: "Whitepaper", href: "/whitepaper" },
     ],
   },

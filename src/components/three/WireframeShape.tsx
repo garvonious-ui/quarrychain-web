@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-export type ShapeType = "torusKnot" | "octahedron" | "dodecahedron" | "tetrahedron" | "icosahedron";
+export type ShapeType = "torusKnot" | "octahedron" | "dodecahedron" | "tetrahedron" | "icosahedron" | "sphere";
 
 interface WireframeShapeProps {
   shape: ShapeType;
@@ -24,6 +24,8 @@ function createGeometry(shape: ShapeType, scale: number): THREE.BufferGeometry {
       return new THREE.DodecahedronGeometry(scale, 1);
     case "tetrahedron":
       return new THREE.TetrahedronGeometry(scale * 1.2, 2);
+    case "sphere":
+      return new THREE.SphereGeometry(scale, 24, 16);
     case "icosahedron":
     default:
       return new THREE.IcosahedronGeometry(scale, 2);
@@ -41,6 +43,8 @@ function createMidGeometry(shape: ShapeType, scale: number): THREE.BufferGeometr
       return new THREE.DodecahedronGeometry(scale * 1.15, 0);
     case "tetrahedron":
       return new THREE.TetrahedronGeometry(scale * 1.4, 1);
+    case "sphere":
+      return new THREE.SphereGeometry(scale * 1.15, 18, 12);
     case "icosahedron":
     default:
       return new THREE.IcosahedronGeometry(scale * 1.15, 1);
@@ -58,6 +62,8 @@ function createOuterGeometry(shape: ShapeType, scale: number): THREE.BufferGeome
       return new THREE.DodecahedronGeometry(scale * 1.35, 0);
     case "tetrahedron":
       return new THREE.TetrahedronGeometry(scale * 1.65, 0);
+    case "sphere":
+      return new THREE.SphereGeometry(scale * 1.35, 12, 8);
     case "icosahedron":
     default:
       return new THREE.IcosahedronGeometry(scale * 1.35, 0);
