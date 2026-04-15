@@ -31,6 +31,13 @@ Homepage POC for QuarryChain (quarrychain.network). Sleek dark-mode landing page
 - AFTER completing a feature: update both files
 - When I say "wrap up": update build-plan checkboxes, write changelog entry, summarize
 
+## Deploy Workflow
+- **Git is the source of truth for deploys.** Vercel auto-deploys from pushes to `main`.
+- **NEVER run `vercel --prod` / `vercel deploy` from this directory.** The Vercel CLI bypasses git and creates "live but not in git" drift. We hit this in Session 5 — Session 4's entire output was on production but never committed.
+- Workflow: commit → `git push origin main` → Vercel auto-builds → live on quarrychain-web.vercel.app
+- Production project: `garvonious-uis-projects/quarrychain-web` (projectId `prj_WYd6NtZuN69d4c2wNHPO9WLedMST`)
+- Custom domain `quarrychain.network` is NOT this Next.js app yet — still serving the legacy site. We work on `quarrychain-web.vercel.app`.
+
 ## Reference Docs
 - Architecture: @docs/architecture.md
 - Build plan: @docs/build-plan.md

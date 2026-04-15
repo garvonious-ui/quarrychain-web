@@ -197,6 +197,18 @@
 - [x] DownloadableShape component — 1024x1024 PNG export with transparent background
 - [x] Section assignment legend (which shape goes where)
 
+### Git + Deploy Hygiene (Completed 2026-04-14)
+- [x] Push Session 4 work to GitHub (was live on Vercel via CLI but never committed)
+- [x] Confirm Vercel ↔ GitHub auto-deploy works (push triggers production build)
+- [x] Set global git identity to GitHub username + noreply email
+
+### Wire Team + Roadmap to Sanity (Started 2026-04-14, in progress)
+- [ ] Add `sanityGetTeamMembers` / `sanityGetRoadmapPhases` GROQ queries + types
+- [ ] Create `src/lib/team.ts` and `src/lib/roadmap.ts` dual-mode data layers (mirror `blog.ts`)
+- [ ] Convert `Team.tsx` and `Roadmap.tsx` from client to async server components
+- [ ] Add `revalidate = 60` to `src/app/page.tsx` (or extend `/api/revalidate` webhook)
+- [ ] Optional: seed Sanity dataset with current TEAM and ROADMAP from constants.ts
+
 ### Remaining
 - [ ] Light mode toggle
 - [ ] Real Discord/Telegram/YouTube handles (currently placeholder patterns)

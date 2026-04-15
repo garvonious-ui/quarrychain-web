@@ -1,5 +1,39 @@
 # Changelog
 
+## 2026-04-14 — Session 5: Git/Vercel Reconciliation + Phase 3 Planning
+
+### What was built
+No new feature code shipped. This was an infra/operations session:
+
+- **Reconciled git ↔ Vercel state.** All of Session 4 (tokenomics page, Sanity CMS, brand geometric shapes) was live on `quarrychain-web.vercel.app` but had never been committed to GitHub — discovered the Vercel deployments had been pushed via `vercel --prod` CLI, bypassing git entirely. Working tree was 13 files modified + 6 untracked directories.
+- **Committed Session 4 in 4 logical batches** and pushed to `origin/main`:
+  - `4169c99` feat: integrate Sanity CMS for blog content (sanity config/lib/studio/api, blog data layer rewrite, PortableTextRenderer, PostCard cover images, Lenis /studio fix, Sanity deps)
+  - `293c359` feat: add /tokenomics deep-dive page (route, sphere ShapeType, constants additions, Footer link)
+  - `9b0f793` feat: add geometric shapes section to /brand page (DownloadableShape + brand/page.tsx updates)
+  - `437fda5` docs: log Session 4
+- **Confirmed Vercel auto-deploy from git is live.** The push triggered a fresh production build (`dpl_Ao1BnP9RrzU9wFiLTrWQaZKeRpN5`, status ● Ready). Verified via the `quarrychain-web-git-main-...` alias that Vercel only generates for git-sourced deploys, and confirmed the build output included `studio/[[...tool]]` and `api/revalidate` routes (proving Session 4 code shipped).
+- **Set global git identity** to `garvonious-ui <258640365+garvonious-ui@users.noreply.github.com>` so future commits attribute to the GitHub profile (avatar, contribution graph) without exposing a real email. Existing 4 commits left as-is.
+- **Started Phase 3 Sanity work.** Explored teamMember/roadmapPhase schemas, blog dual-mode pattern, and current Team.tsx/Roadmap.tsx components. Designed a full implementation plan but stopped before writing code — picking up next session.
+
+### Decisions
+- **Stop using `vercel --prod` CLI for deploys.** Git is now the single source of truth: commit → push → Vercel auto-builds. Mixing CLI deploys with git creates the exact "live but not in git" drift we just untangled.
+- **GitHub noreply email format.** Used the standard `{userId}+{username}@users.noreply.github.com` pattern instead of a personal email — keeps the public repo's git history private while still attributing commits to the GitHub profile.
+- **Did not force-push to rewrite the 4 commits' author.** Force-pushing main is destructive shared-state and would invalidate the SHAs Vercel's deployment record points at. The cosmetic mismatch (4 commits show `Lou Cesario <loucesario@MacBook-Air-8.local>`, everything from now uses the GitHub identity) is acceptable.
+- **Team + Roadmap → Sanity will mirror the blog dual-mode pattern.** New `src/lib/team.ts` and `src/lib/roadmap.ts` files, NOT modifications to `constants.ts`. Constants stay as the fallback exactly like blog MDX files do, so local dev without Sanity env vars still works.
+- **Will convert Team.tsx and Roadmap.tsx from client to async server components.** BlurFade child stays a client component — server parent + client child works fine in App Router.
+
+### Issues / gotchas to address
+- **3 errored deployments in Vercel history from ~24h ago.** Latest production is healthy, but worth a glance at the logs next time we're in Vercel to make sure nothing structural is broken.
+- **`/api/revalidate` webhook only revalidates blog tags right now (presumably).** When team/roadmap go to Sanity, need to either extend the webhook to cover the homepage `/` path, OR add `export const revalidate = 60` to `src/app/page.tsx`. Either works; need to pick one.
+- **Sanity dataset has no team/roadmap content yet.** Studio will be empty for those types until either we seed it with a migration script (mirror what was done for blog posts) or the user manually populates via Studio.
+
+### Current status of overall build
+- Phase 1 (Homepage POC) — ✅ complete
+- Phase 1.5 (V2 overhaul) — ✅ complete
+- Phase 2 (Subpages: /technology, /developers, /ecosystem, /blog, /whitepaper, /privacy) — ✅ complete
+- Phase 3 — Tokenomics page ✅, Sanity CMS for blog ✅, Brand page enhancements ✅. Started: Team + Roadmap → Sanity. Remaining: light mode toggle, real social handles, whitepaper PDF, Sanity Studio team invites.
+- **Live on `quarrychain-web.vercel.app`** with auto-deploy from `main` branch pushes confirmed working.
+
 ## 2026-04-13 — Session 4: Tokenomics Page + Sanity CMS
 
 ### /tokenomics Page
