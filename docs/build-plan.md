@@ -223,11 +223,10 @@
 ### Remaining
 - [ ] Light mode toggle
 - [ ] Real Discord/Telegram/YouTube handles (currently placeholder patterns)
-- [ ] Whitepaper PDF at /public/quarrychain-whitepaper-v2.pdf
+- [x] Whitepaper PDF at /public/quarrychain-whitepaper-v2.pdf (added 2026-04-14, 81 pages, 1.4MB)
 - [ ] Invite team members to Sanity Studio (Editor role for marketing)
 
 ## Pending Data / Blockers
 - Logo SVG refinement from client
-- Whitepaper PDF file needed
 - Discord/Telegram/YouTube exact handles TBD
 - Blockscout API availability on testnet TBD
