@@ -1,22 +1,18 @@
 import { notFound } from "next/navigation";
 import { getPostBySlug, getAllSlugs } from "@/lib/blog";
 import { ArrowLeft } from "lucide-react";
+import PortableTextRenderer from "@/components/blog/PortableTextRenderer";
+import { urlFor } from "@/lib/sanity/image";
+
+export const revalidate = 60;
 
 export async function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }));
+  const slugs = await getAllSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
-export default async function BlogPostPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const post = getPostBySlug(slug);
-  if (!post) notFound();
-
-  // Simple markdown to HTML (headers, paragraphs, links, bold, lists)
-  const html = post.content
+function mdxToHtml(content: string): string {
+  return content
     .split("\n\n")
     .map((block) => {
       const trimmed = block.trim();
@@ -26,13 +22,29 @@ export default async function BlogPostPage({
       if (trimmed.startsWith("### ")) {
         return `<h3 class="text-xl font-bold font-display text-text-primary mt-8 mb-3">${trimmed.slice(4)}</h3>`;
       }
-      // Process inline markdown
       let processed = trimmed
         .replace(/\*\*(.+?)\*\*/g, '<strong class="text-text-primary">$1</strong>')
         .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" class="text-qc-teal hover:underline">$1</a>');
       return `<p class="text-text-secondary leading-relaxed mb-4">${processed}</p>`;
     })
     .join("\n");
+}
+
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+  if (!post) notFound();
+
+  const isPortableText = post.isSanity && Array.isArray(post.content);
+
+  const heroImageUrl =
+    post.coverImage && urlFor(post.coverImage as never)
+      ? urlFor(post.coverImage as never)?.width(1600).height(900).fit("crop").url()
+      : null;
 
   return (
     <div className="pt-24 pb-24 px-4 sm:px-6 lg:px-8">
@@ -49,7 +61,7 @@ export default async function BlogPostPage({
           {post.title}
         </h1>
 
-        <div className="flex items-center gap-3 text-sm text-text-muted font-mono mb-12">
+        <div className="flex items-center gap-3 text-sm text-text-muted font-mono mb-8">
           <span>
             {new Date(post.date).toLocaleDateString("en-US", {
               year: "numeric",
@@ -57,13 +69,28 @@ export default async function BlogPostPage({
               day: "numeric",
             })}
           </span>
-          <span>·</span>
+          <span>&middot;</span>
           <span>{post.author}</span>
-          <span>·</span>
+          <span>&middot;</span>
           <span>{post.readingTime}</span>
         </div>
 
-        <div dangerouslySetInnerHTML={{ __html: html }} />
+        {heroImageUrl && (
+          <div className="aspect-[16/9] overflow-hidden rounded-xl bg-bg-tertiary border border-white/5 mb-12">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={heroImageUrl}
+              alt={post.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
+
+        {isPortableText ? (
+          <PortableTextRenderer value={post.content as unknown[]} />
+        ) : (
+          <div dangerouslySetInnerHTML={{ __html: mdxToHtml(post.content as string) }} />
+        )}
       </article>
     </div>
   );

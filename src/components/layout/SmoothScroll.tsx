@@ -1,10 +1,17 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
 export default function SmoothScroll() {
+  const pathname = usePathname();
+
   useEffect(() => {
+    // Disable Lenis on Studio routes — it hijacks scroll events
+    // and prevents Sanity's internal scroll containers from working.
+    if (pathname?.startsWith("/studio")) return;
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -38,7 +45,7 @@ export default function SmoothScroll() {
       document.removeEventListener("click", handleClick);
       lenis.destroy();
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }

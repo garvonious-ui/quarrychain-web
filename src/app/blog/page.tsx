@@ -3,8 +3,10 @@ import PostCard from "@/components/blog/PostCard";
 import { getAllPosts } from "@/lib/blog";
 import BlurFade from "@/components/ui/blur-fade";
 
-export default function BlogPage() {
-  const posts = getAllPosts();
+export const revalidate = 60; // ISR: revalidate every 60 seconds
+
+export default async function BlogPage() {
+  const posts = await getAllPosts();
 
   return (
     <div className="pt-16">

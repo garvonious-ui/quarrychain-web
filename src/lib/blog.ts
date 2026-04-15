@@ -1,6 +1,13 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { isSanityConfigured } from "./sanity/client";
+import {
+  sanityGetAllPosts,
+  sanityGetPostBySlug,
+  sanityGetAllSlugs,
+  type SanityBlogPost,
+} from "./sanity/queries";
 
 const BLOG_DIR = path.join(process.cwd(), "src/content/blog");
 
@@ -10,11 +17,15 @@ export interface BlogPost {
   date: string;
   author: string;
   excerpt: string;
-  content: string;
+  coverImage?: unknown;
+  content: string | unknown[]; // string for MDX, Portable Text blocks for Sanity
   readingTime: string;
+  isSanity?: boolean;
 }
 
-export function getAllPosts(): BlogPost[] {
+// ===== MDX (file-based) fallback =====
+
+function mdxGetAllPosts(): BlogPost[] {
   const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith(".mdx"));
 
   const posts = files.map((filename) => {
@@ -40,7 +51,7 @@ export function getAllPosts(): BlogPost[] {
   return posts.sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
-export function getPostBySlug(slug: string): BlogPost | null {
+function mdxGetPostBySlug(slug: string): BlogPost | null {
   const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
   if (!fs.existsSync(filePath)) return null;
 
@@ -61,9 +72,48 @@ export function getPostBySlug(slug: string): BlogPost | null {
   };
 }
 
-export function getAllSlugs(): string[] {
+function mdxGetAllSlugs(): string[] {
   return fs
     .readdirSync(BLOG_DIR)
     .filter((f) => f.endsWith(".mdx"))
     .map((f) => f.replace(/\.mdx$/, ""));
+}
+
+// ===== Dual-mode public API =====
+
+function sanityToPost(p: SanityBlogPost): BlogPost {
+  return {
+    slug: p.slug,
+    title: p.title,
+    date: p.date,
+    author: p.author,
+    excerpt: p.excerpt,
+    coverImage: p.coverImage,
+    content: p.content,
+    readingTime: p.readingTime || "1 min read",
+    isSanity: true,
+  };
+}
+
+export async function getAllPosts(): Promise<BlogPost[]> {
+  if (isSanityConfigured()) {
+    const posts = await sanityGetAllPosts();
+    return posts.map(sanityToPost);
+  }
+  return mdxGetAllPosts();
+}
+
+export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
+  if (isSanityConfigured()) {
+    const post = await sanityGetPostBySlug(slug);
+    return post ? sanityToPost(post) : null;
+  }
+  return mdxGetPostBySlug(slug);
+}
+
+export async function getAllSlugs(): Promise<string[]> {
+  if (isSanityConfigured()) {
+    return sanityGetAllSlugs();
+  }
+  return mdxGetAllSlugs();
 }
