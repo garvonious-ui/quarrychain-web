@@ -164,12 +164,44 @@
 - [x] Brand colors (teal, blue, red, green) used in wireframe shapes
 - [x] SectionGlow divider component
 
-## Phase 3 — Future
-- [ ] /tokenomics — standalone page with full breakdown
+## Phase 3 — Enhancements
+
+### /tokenomics (Completed 2026-04-13)
+- [x] PageHero with sphere wireframe shape (purple/teal/blue)
+- [x] Enhanced donut chart (larger, synced legend)
+- [x] Allocation breakdown (5 SpotlightCards with descriptions, vesting pills)
+- [x] Token utility section (5 use cases: gas, staking, rewards, deployment, tokenization)
+- [x] Vesting timeline with progress bars
+- [x] Supply schedule AreaChart (stacked cumulative over 48 months)
+- [x] Staking rewards grid (4 tiers with APR + NumberTicker)
+- [x] Revenue model (3 stream cards + deflationary callout)
+- [x] Nav link added, Footer link added
+- [x] New "sphere" ShapeType added to WireframeShape
+
+### Sanity CMS Integration (Completed 2026-04-13)
+- [x] Sanity schemas: blogPost (with cover image), teamMember, roadmapPhase
+- [x] Sanity client with dual-mode data layer (Sanity if env configured, MDX fallback)
+- [x] Blog pages updated to async with ISR (60s revalidation)
+- [x] Portable Text renderer for rich content
+- [x] Embedded Sanity Studio at /studio (fullscreen overlay, basePath set)
+- [x] Revalidation webhook at /api/revalidate
+- [x] Cover image support on blog index cards and post detail hero
+- [x] Sanity project created (ID: owhgeovj), CORS configured for localhost + production
+- [x] Vercel env vars configured (project ID, dataset, webhook secret)
+- [x] All 4 existing MDX posts migrated into Sanity dataset
+- [x] Lenis smooth-scroll disabled on /studio routes (was hijacking Studio scroll)
+- [x] Lazy-loaded sanity.config.ts in Studio page (avoids build-time projectId validation)
+
+### Brand Page Enhancements (Completed 2026-04-13)
+- [x] Geometric Shapes section with all 6 wireframe geometries
+- [x] DownloadableShape component — 1024x1024 PNG export with transparent background
+- [x] Section assignment legend (which shape goes where)
+
+### Remaining
 - [ ] Light mode toggle
-- [ ] CMS integration (TBD)
 - [ ] Real Discord/Telegram/YouTube handles (currently placeholder patterns)
 - [ ] Whitepaper PDF at /public/quarrychain-whitepaper-v2.pdf
+- [ ] Invite team members to Sanity Studio (Editor role for marketing)
 
 ## Pending Data / Blockers
 - Logo SVG refinement from client

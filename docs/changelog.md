@@ -1,5 +1,61 @@
 # Changelog
 
+## 2026-04-13 — Session 4: Tokenomics Page + Sanity CMS
+
+### /tokenomics Page
+- Created full deep-dive tokenomics page with 7 content sections
+- Enhanced donut chart (larger, interactive legend sync)
+- Allocation breakdown with SpotlightCards, vesting pills, and lock icons
+- Token utility timeline (5 use cases: gas, staking, rewards, deployment, tokenization)
+- Vesting schedule with per-allocation progress bars and milestone pills
+- Supply schedule stacked AreaChart showing cumulative unlock over 48 months
+- Staking rewards grid with 4 tiers (Bronze/Silver/Gold/Diamond), APR + NumberTicker
+- Revenue model cards (3 streams) + deflationary pressure callout
+- Added "sphere" as 6th ShapeType to WireframeShape (purple/teal/blue)
+- Added Tokenomics to NAV_LINKS and Footer
+- Expanded constants.ts with TOKENOMICS_DETAILS, TOKEN_UTILITY, VESTING_SCHEDULE, STAKING_TIERS, REVENUE_STREAMS
+
+### Sanity CMS Integration
+- Installed sanity, next-sanity, @sanity/client, @portabletext/react, @sanity/image-url, @sanity/vision
+- Created Sanity schemas: blogPost (Portable Text body), teamMember, roadmapPhase
+- Created sanity.config.ts at project root
+- Embedded Sanity Studio at /studio via NextStudio
+- Rewrote blog.ts to async dual-mode: Sanity when NEXT_PUBLIC_SANITY_PROJECT_ID is set, MDX file fallback otherwise
+- Blog pages now use ISR with 60s revalidation
+- Created PortableTextRenderer component with styled blocks, marks, and lists
+- Created /api/revalidate webhook for on-demand revalidation from Sanity
+- Existing MDX content preserved — zero breaking changes when Sanity is not configured
+
+### Sanity Live Setup
+- Created Sanity project (ID: owhgeovj) under Quarry Labs organization
+- Authenticated via GitHub, added CORS origins for localhost:3000 and quarrychain.network
+- Added env vars to .env.local AND Vercel production (project ID, dataset, webhook secret)
+- Installed @sanity/code-input plugin (fixed schema error for code blocks in body)
+- Added basePath: "/studio" to sanity.config.ts (fixed "Tool not found: studio" routing error)
+- Made Sanity client lazy (getSanityClient) — was failing build-time projectId validation
+- Lazy-loaded sanity.config.ts in Studio page via dynamic import
+- Made Studio page a fullscreen fixed overlay (z-9999) so it's not constrained by site layout
+- Disabled Lenis smooth scroll on /studio routes — Lenis was hijacking all scroll events globally and preventing the Studio's internal scroll containers from working
+- Migrated all 4 existing MDX blog posts into Sanity dataset via @sanity/client write API
+- Added cover image field to blogPost schema (with hotspot + alt text)
+- Created /lib/sanity/image.ts with urlFor() helper using @sanity/image-url
+- Updated PostCard to display cover image (16:9 aspect, hover zoom)
+- Updated blog post detail page to display hero image between metadata and body
+
+### Brand Page
+- Added "Geometric Shapes" section with all 6 wireframe geometries (torusKnot, octahedron, dodecahedron, icosahedron, tetrahedron, sphere)
+- Created DownloadableShape component — renders Three.js wireframe in card with PNG download button
+- PNG export uses preserveDrawingBuffer + offscreen renderer at 1024x1024 with transparent background
+- Section assignment legend showing which shape is used on which page
+
+### Decisions
+- Dual-mode blog: no Sanity account required for local dev — MDX files work exactly as before
+- Team and roadmap schemas defined but not yet wired to components (ready for Phase 3+)
+- Revalidation set to 60s — fast enough for blog content, gentle on Sanity CDN
+- Studio rendered as fullscreen overlay rather than embedded in main layout — cleanest way to bypass site chrome (navbar, footer, smooth scroll, cursor glow)
+- Lenis disabled on /studio routes specifically (not removed entirely) — site keeps its smooth scroll, Studio gets native scroll behavior
+- PNG export captures current rotation from live preview so the downloaded image matches what the user sees
+
 ## 2026-04-10 — Session 2: V2 Homepage Overhaul
 - Removed ProblemSolution and HowDPoSWorks from homepage (kept files for future /technology page)
 - Created StatsBar section — 5-column stat bar (TPS, Finality, Fees, Validators, EVM) with NumberTicker animations, responsive 3+2 mobile layout
