@@ -202,12 +202,15 @@
 - [x] Confirm Vercel ↔ GitHub auto-deploy works (push triggers production build)
 - [x] Set global git identity to GitHub username + noreply email
 
-### Wire Team + Roadmap to Sanity (Started 2026-04-14, in progress)
-- [ ] Add `sanityGetTeamMembers` / `sanityGetRoadmapPhases` GROQ queries + types
-- [ ] Create `src/lib/team.ts` and `src/lib/roadmap.ts` dual-mode data layers (mirror `blog.ts`)
-- [ ] Convert `Team.tsx` and `Roadmap.tsx` from client to async server components
-- [ ] Add `revalidate = 60` to `src/app/page.tsx` (or extend `/api/revalidate` webhook)
-- [ ] Optional: seed Sanity dataset with current TEAM and ROADMAP from constants.ts
+### Wire Team + Roadmap to Sanity (Completed 2026-04-16)
+- [x] Add `sanityGetTeamMembers` / `sanityGetRoadmapPhases` GROQ queries + types
+- [x] Create `src/lib/team.ts` and `src/lib/roadmap.ts` dual-mode data layers (mirror `blog.ts`)
+- [x] Convert `Team.tsx` and `Roadmap.tsx` from client to async server components
+- [x] Also converted litepaper `§11 Roadmap` and `§12 Team` to async (they read the same data)
+- [x] Added `revalidate = 60` to `src/app/page.tsx` AND `src/app/whitepaper/page.tsx`
+- [x] Extended `/api/revalidate` webhook to dispatch by `_type` (blogPost / teamMember / roadmapPhase)
+- [x] Seed script at `scripts/seed-sanity.mjs` (idempotent via deterministic `_id`s), `pnpm seed:sanity` runs it
+- [x] Seeded Sanity dataset with current TEAM (6 members) and ROADMAP (4 phases)
 
 ### Litepaper — /whitepaper as on-site read experience (Completed 2026-04-14)
 - Decision: /whitepaper page BECOMES the litepaper (read-on-site). NO PDF download button — the litepaper IS the experience.

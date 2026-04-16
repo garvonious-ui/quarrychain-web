@@ -1,5 +1,63 @@
 # Changelog
 
+## 2026-04-16 — Session 7: Team + Roadmap → Sanity
+
+### What was built
+The homepage `<Team />` and `<Roadmap />` sections (and their twins in the litepaper at §11/§12) now pull from Sanity instead of the hardcoded constants in `src/lib/constants.ts`. Dual-mode data layer — if Sanity is configured AND has docs, use Sanity; otherwise fall back to constants. Seeded the dataset with the current 6 team members and 4 roadmap phases. This closes out the Phase 3 Sanity integration that Session 5 started planning.
+
+#### New queries (`src/lib/sanity/queries.ts`)
+- `sanityGetTeamMembers()` — ordered by `order asc, name asc`
+- `sanityGetRoadmapPhases()` — ordered by `phase asc`
+- Types: `SanityTeamMember`, `SanityRoadmapPhase`
+
+#### New dual-mode data layers
+- **`src/lib/team.ts`** — `getTeamMembers()` async function. If `isSanityConfigured()` AND Sanity returns ≥1 doc, use it; else constants. The "has docs" check means an empty Sanity dataset during onboarding won't blank out the homepage.
+- **`src/lib/roadmap.ts`** — same pattern for `getRoadmapPhases()`.
+
+#### Components converted to async server components
+- **`Team.tsx`** — dropped `"use client"`, now `async function Team()`. Renders `<BlurFade>` (which is still client-side) as a server→client boundary, works fine in App Router.
+- **`Roadmap.tsx`** — same treatment.
+- **`src/app/whitepaper/sections/11-roadmap.tsx` + `12-team.tsx`** — also converted to async so the litepaper reflects Sanity edits alongside the homepage.
+
+#### ISR + revalidation
+- Added `export const revalidate = 60` to `src/app/page.tsx` and `src/app/whitepaper/page.tsx`. Build output confirms both now show `1m` revalidate alongside `/blog`.
+- Extended **`src/app/api/revalidate/route.ts`** to dispatch by Sanity's `_type`:
+  - `blogPost` → revalidates `/blog` + `/blog/[slug]`
+  - `teamMember` or `roadmapPhase` → revalidates `/` + `/whitepaper`
+  - Missing/unknown `_type` → revalidates everything (safe default)
+  - Returns which paths were revalidated in the response body
+
+#### Seed script (`scripts/seed-sanity.mjs`)
+- One-shot `.mjs` script using Node's native `--env-file=.env.local` flag (requires Node 20.6+). No new devDeps.
+- Uses `createOrReplace` with deterministic `_id`s (`team-alec-arrambide`, `roadmap-phase-1`) so re-runs overwrite rather than duplicate.
+- Data is a snapshot of TEAM/ROADMAP constants inlined in the script — one-time bootstrap, not an ongoing sync. After seeding, Sanity is the source of truth; edits happen in Studio.
+- New script entry in `package.json`: `pnpm seed:sanity`.
+- Requires `SANITY_API_TOKEN` (Editor role) in `.env.local` at seed time. Token generated, used, and removed from `.env.local` in the same session — production Vercel env never gets write credentials, reads use the public CDN with just `NEXT_PUBLIC_SANITY_PROJECT_ID`.
+
+### Decisions
+- **Dual-mode with graceful fallback on empty dataset.** If a future dev clones the repo and configures Sanity env vars but hasn't seeded the dataset, the homepage still renders from constants instead of going blank. The `members.length > 0` check costs nothing and removes a whole class of "Sanity configured but not populated" footgun.
+- **Also wired the litepaper sections 11/12 to Sanity, not just the homepage.** Same source of truth — otherwise a team edit in Studio would desync the two renderings.
+- **Extended webhook via request body parse, not path params.** Sanity's default webhook payload includes `_type`, and parsing it server-side lets one webhook URL cover all doc types. Falls back to revalidating everything if the body's missing or malformed — cheap insurance.
+- **Kept constants.ts as the fallback instead of deleting it.** Local dev without Sanity env vars still works exactly as before. Constants stay wired into places that don't need Sanity (e.g. the `<Footer />` link lists).
+- **Write token is session-scoped, not Vercel-scoped.** The production site literally doesn't need write credentials — all reads go through `useCdn: true`. Token was added to `.env.local`, used for the one-shot seed, and removed immediately after. The line is left in `.env.local` commented out as a reminder for future re-seeds.
+
+### Verification
+- `pnpm build` exits 0. 19 routes. Build output confirms `/` and `/whitepaper` now show `Revalidate 1m Expire 1y`.
+- `pnpm tsc --noEmit` clean.
+- Direct GROQ query against `owhgeovj.apicdn.sanity.io/v2024-01-01/data/query/production` returns all 6 team members and 4 roadmap phases in the correct order. Data is live on the public CDN.
+
+### Issues / gotchas to address
+- **Studio has no team/roadmap UI polish.** Default list view only shows the preview fields defined in the schema. If we want a better editing experience (e.g. drag-to-reorder for team members), we'd need to add orderable-document-list plugin and/or custom preview components. Fine for now — 6 team members and 4 phases isn't hard to manage in the default UI.
+- **Seed script's data is frozen at commit time.** If someone edits constants.ts in the future and re-runs the seed, it'll overwrite any Studio edits that diverged. Safer long-term: drop the data from the script and document "seed runs once, edit in Studio after." Not urgent.
+- **Write token needs to be revoked by hand.** Go to https://www.sanity.io/manage/project/owhgeovj/api/tokens and delete the `seed-script` token. The `.env.local` line is commented out so it's not reused accidentally.
+
+### Current status of overall build
+- Phase 1 (Homepage POC) — ✅ complete
+- Phase 1.5 (V2 overhaul) — ✅ complete
+- Phase 2 (Subpages) — ✅ complete
+- Phase 3 — Tokenomics page ✅, Sanity CMS for blog ✅, Brand page enhancements ✅, Litepaper ✅, **Team + Roadmap → Sanity ✅ (this session)**. Remaining: light mode toggle, real social handles, brand PDF redesign, Sanity Studio team invites.
+- Live on `quarrychain-web.vercel.app` — push triggers an auto-deploy.
+
 ## 2026-04-14 — Session 6: Litepaper
 
 ### What was built
@@ -51,7 +109,15 @@ The `/whitepaper` route is no longer a "download a PDF" landing page — it's no
 ### Verification
 - `pnpm build` exits 0. 19 routes built, `/whitepaper` is a static page in the route list. TypeScript pass at 85s. The pre-existing Recharts `width(-1)` warnings on the `SupplySchedule` chart are harmless — `ResponsiveContainer` has no measured size at SSG time, but the chart only renders client-side once `useInView` triggers.
 - `pnpm tsc --noEmit` clean after the mobile drawer was added.
-- Visual / scroll-spy verification still pending — needs a dev server browse.
+- Visual eyeball pass on `quarrychain-web.vercel.app/whitepaper` after the deploy — user confirmed "looks good". No deep scroll-spy / mobile-drawer interaction test yet, but the page renders, content is right, the hero loads, and section anchors are in place.
+
+### Shipped
+Three commits, pushed in order to `origin/main` (`d60bac7..d7b17d6`):
+- **`9c57077`** refactor: extract /tokenomics sections into shared components (8 files changed, +622/-473)
+- **`cdffa14`** feat: add /whitepaper as on-site litepaper (20 files changed, +1693/-95 — includes `.claude/launch.json` for future Claude Preview sessions)
+- **`d7b17d6`** docs: log Session 6 (litepaper)
+
+Vercel auto-deployed from the push (`quarrychain-tl52kb7na`, status ● Ready, 1m build time). Live at `quarrychain-web.vercel.app/whitepaper`.
 
 ### Issues / gotchas to address
 - **§9 reuses 4 tokenomics components** that fit inside the litepaper content cell. The `TokenAllocationChart` uses a `lg:grid-cols-2` layout that may feel cramped at the litepaper width (~676px at lg, ~868px at xl). Worth a visual check.
