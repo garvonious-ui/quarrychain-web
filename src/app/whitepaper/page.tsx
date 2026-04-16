@@ -21,6 +21,10 @@ export const metadata = {
     "An on-site, long-form read of QuarryChain's design: 3-layer architecture, Delegated Proof of Stake, EVM-compatible QVM, real-world asset tokenization, and the QRY token.",
 };
 
+// ISR: §11 Roadmap + §12 Team pull from Sanity (when configured).
+// 60s revalidation matches the blog pages. /api/revalidate webhook revalidates on-demand.
+export const revalidate = 60;
+
 export default function WhitepaperPage() {
   return (
     <div className="pt-16">

@@ -11,6 +11,10 @@ import Roadmap from "@/components/sections/Roadmap";
 import Team from "@/components/sections/Team";
 import CTA from "@/components/sections/CTA";
 
+// ISR: Team + Roadmap are now pulled from Sanity (see src/lib/team.ts, src/lib/roadmap.ts).
+// 60s revalidation matches the blog pages. /api/revalidate webhook revalidates on-demand.
+export const revalidate = 60;
+
 export default function Home() {
   return (
     <>

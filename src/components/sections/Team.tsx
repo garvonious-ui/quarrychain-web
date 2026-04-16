@@ -1,9 +1,9 @@
-"use client";
-
-import { TEAM } from "@/lib/constants";
+import { getTeamMembers } from "@/lib/team";
 import BlurFade from "@/components/ui/blur-fade";
 
-export default function Team() {
+export default async function Team() {
+  const members = await getTeamMembers();
+
   return (
     <section id="team" className="py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -19,7 +19,7 @@ export default function Team() {
         </BlurFade>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-          {TEAM.map((member, i) => (
+          {members.map((member, i) => (
             <BlurFade key={member.name} delay={0.05 + i * 0.05}>
               <div className="rounded-2xl bg-bg-secondary border border-white/5 p-6 text-center hover:border-white/10 transition-colors">
                 {/* Abstract avatar */}

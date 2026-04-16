@@ -1,6 +1,4 @@
-"use client";
-
-import { ROADMAP } from "@/lib/constants";
+import { getRoadmapPhases } from "@/lib/roadmap";
 import type { RoadmapStatus } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import BlurFade from "@/components/ui/blur-fade";
@@ -12,7 +10,9 @@ const statusStyles: Record<RoadmapStatus, { dot: string; border: string; label: 
   future: { dot: "bg-text-muted", border: "border-white/5", label: "Future" },
 };
 
-export default function Roadmap() {
+export default async function Roadmap() {
+  const phases = await getRoadmapPhases();
+
   return (
     <section id="roadmap" className="py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -28,7 +28,7 @@ export default function Roadmap() {
         </BlurFade>
 
         <div className="grid md:grid-cols-4 gap-6">
-          {ROADMAP.map((phase, i) => {
+          {phases.map((phase, i) => {
             const style = statusStyles[phase.status];
             return (
               <BlurFade key={phase.phase} delay={0.1 + i * 0.1}>

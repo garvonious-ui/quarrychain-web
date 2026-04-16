@@ -26,6 +26,19 @@ const POST_BY_SLUG_QUERY = `*[_type == "blogPost" && slug.current == $slug][0] {
 
 const ALL_SLUGS_QUERY = `*[_type == "blogPost"].slug.current`;
 
+const TEAM_MEMBERS_QUERY = `*[_type == "teamMember"] | order(order asc, name asc) {
+  name,
+  role,
+  "order": order
+}`;
+
+const ROADMAP_PHASES_QUERY = `*[_type == "roadmapPhase"] | order(phase asc) {
+  phase,
+  title,
+  status,
+  items
+}`;
+
 export interface SanityBlogPost {
   slug: string;
   title: string;
@@ -35,6 +48,19 @@ export interface SanityBlogPost {
   coverImage?: unknown;
   content: unknown[]; // Portable Text blocks
   readingTime: string;
+}
+
+export interface SanityTeamMember {
+  name: string;
+  role: string;
+  order?: number;
+}
+
+export interface SanityRoadmapPhase {
+  phase: number;
+  title: string;
+  status: "complete" | "in-progress" | "upcoming" | "future";
+  items: string[];
 }
 
 export async function sanityGetAllPosts(): Promise<SanityBlogPost[]> {
@@ -53,4 +79,16 @@ export async function sanityGetAllSlugs(): Promise<string[]> {
   const client = getSanityClient();
   if (!client) return [];
   return client.fetch(ALL_SLUGS_QUERY);
+}
+
+export async function sanityGetTeamMembers(): Promise<SanityTeamMember[]> {
+  const client = getSanityClient();
+  if (!client) return [];
+  return client.fetch(TEAM_MEMBERS_QUERY);
+}
+
+export async function sanityGetRoadmapPhases(): Promise<SanityRoadmapPhase[]> {
+  const client = getSanityClient();
+  if (!client) return [];
+  return client.fetch(ROADMAP_PHASES_QUERY);
 }

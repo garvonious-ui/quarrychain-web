@@ -1,6 +1,7 @@
 import LitepaperSection from "@/components/litepaper/LitepaperSection";
 import { LITEPAPER_SECTIONS } from "@/lib/litepaper";
-import { ROADMAP, type RoadmapStatus } from "@/lib/constants";
+import type { RoadmapStatus } from "@/lib/constants";
+import { getRoadmapPhases } from "@/lib/roadmap";
 import { cn } from "@/lib/utils";
 
 const meta = LITEPAPER_SECTIONS.find((s) => s.id === "roadmap")!;
@@ -31,7 +32,8 @@ const STATUS_STYLES: Record<
   },
 };
 
-export default function Section11Roadmap() {
+export default async function Section11Roadmap() {
+  const phases = await getRoadmapPhases();
   return (
     <LitepaperSection meta={meta}>
       <p>
@@ -40,7 +42,7 @@ export default function Section11Roadmap() {
       </p>
 
       <div className="not-prose grid sm:grid-cols-2 gap-4 pt-2">
-        {ROADMAP.map((phase) => {
+        {phases.map((phase) => {
           const style = STATUS_STYLES[phase.status];
           return (
             <div

@@ -1,10 +1,11 @@
 import LitepaperSection from "@/components/litepaper/LitepaperSection";
 import { LITEPAPER_SECTIONS } from "@/lib/litepaper";
-import { TEAM } from "@/lib/constants";
+import { getTeamMembers } from "@/lib/team";
 
 const meta = LITEPAPER_SECTIONS.find((s) => s.id === "team")!;
 
-export default function Section12Team() {
+export default async function Section12Team() {
+  const members = await getTeamMembers();
   return (
     <LitepaperSection meta={meta}>
       <p>
@@ -14,7 +15,7 @@ export default function Section12Team() {
       </p>
 
       <div className="not-prose grid sm:grid-cols-2 gap-3 pt-2">
-        {TEAM.map((member) => (
+        {members.map((member) => (
           <div
             key={member.name}
             className="rounded-xl bg-bg-secondary border border-white/5 p-5 flex items-center gap-4 hover:border-white/10 transition-colors"
