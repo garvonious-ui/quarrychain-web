@@ -202,6 +202,23 @@
 - [x] Confirm Vercel ↔ GitHub auto-deploy works (push triggers production build)
 - [x] Set global git identity to GitHub username + noreply email
 
+### Hero rebuild: scroll-reactive Goldberg hex-sphere (Completed 2026-04-16)
+- [x] Replace Hero's `HexGrid` (2D shader hex pattern) with a new `ScrollSphere` component rendering a true 3D hex-tiled sphere (Goldberg polyhedron — the dual of a subdivided icosahedron: 12 pentagons + N hexagons, no gaps at rest)
+- [x] Per-cell scroll-reactive displacement — each cell translates outward along its radial direction noise-modulated so cells spread apart unevenly at peak ("blooming" fragmentation)
+- [x] Vertical color gradient (blue top → teal bottom) with red accent lerp on displaced cells
+- [x] Subtle idle breathing (per-cell sin phase offset) + mouse-tilt + auto-rotate on the parent group
+- [x] Restructure `Hero.tsx` as a tall (250vh) outer section with an inner `position: sticky` content div → expand-contract-hold triangle wave of progress across the pin, then unstick
+- [x] `HOLD_FRACTION` final portion of the pin holds the contracted state before unstick
+- [x] Two backdrop layers behind the hex-sphere (octahedron + dodecahedron wireframes) for ambient depth — same pattern as pre-rebuild
+- [x] `getScrollProgress` prop on `ScrollSphere` lets the pinned hero own the scroll math; falls back to `window.scrollY` if standalone
+- [x] Respects `prefers-reduced-motion`; proper dispose on unmount
+- [x] Kept `HexGrid.tsx` on disk for quick revert if needed
+
+### HexDivider accent between DeveloperCTA and Ecosystem (Completed 2026-04-16)
+- [x] New `FloatingHex` component: extruded hex prism + sparse octahedron shell wrapping it, counter-rotating for depth parallax. Accepts color / opacity / backdrop props.
+- [x] New `HexDivider` section component: positions a green `FloatingHex` at the right edge of the `max-w-7xl` container, uses negative vertical margin (`-my-24 md:-my-32`) to overlap into adjacent sections' padding → zero net page height added
+- [x] Wired into `page.tsx` between `<DeveloperCTA />` and `<Ecosystem />`
+
 ### Wire Team + Roadmap to Sanity (Completed 2026-04-16)
 - [x] Add `sanityGetTeamMembers` / `sanityGetRoadmapPhases` GROQ queries + types
 - [x] Create `src/lib/team.ts` and `src/lib/roadmap.ts` dual-mode data layers (mirror `blog.ts`)

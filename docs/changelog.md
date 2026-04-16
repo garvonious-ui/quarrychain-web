@@ -1,5 +1,54 @@
 # Changelog
 
+## 2026-04-16 — Session 8: Hero rebuild (hex-sphere) + HexDivider accent
+
+### What was built
+Two visual overhauls to the homepage. Both are live in local dev but the hex-sphere has known tuning follow-ups.
+
+#### Hero — HexGrid replaced with scroll-reactive Goldberg hex-sphere (`ScrollSphere.tsx`)
+- The old `HexGrid.tsx` was a full-screen **fragment-shader hex pattern** on an orthographic quad — 2D, ambient, generic. Replaced with a **true 3D hex-tiled sphere** rendered as wireframe line segments.
+- **Geometry:** build a subdivided icosahedron (subdiv 3 → 642 unique vertices), merge identical positions (three.js's PolyhedronGeometry ships unindexed with duplicated corner verts), then compute the dual: for each vertex, collect adjacent face centroids and sort them tangentially around the vertex normal into a polygon. Result: 12 pentagons + N hexagons (Goldberg polyhedron / fullerene / geodesic-dome pattern). No gaps at rest.
+- **Per-cell scroll reaction:** each polygon has a stable random noise seed (0..1). On scroll, each cell translates outward along its own radial direction by `scrollProgress * (0.3 + noise * 0.7) * MAX_DISPLACEMENT`. Cells spread apart unevenly at peak — "blooming" fragmentation rather than uniform expansion. Colors lerp from per-cell gradient (blue top → teal bottom) toward red (`COLOR_DISPLACED`) proportional to displacement.
+- **Per-frame buffer rewrites:** each polygon owns a contiguous region of one shared `LineSegments` position + color buffer. Animate loop rewrites displaced positions + updated colors per cell, then flags `needsUpdate`. ~4k floats/frame for positions, same for colors; cheap.
+- **Pin-and-hold scroll behavior in `Hero.tsx`:** restructured the hero as a **250vh outer section with an inner `position: sticky; top: 0` content div**. Scroll math:
+  - Outer rect.top = 0 → -150vh: inner is sticky-pinned. Triangle wave progress 0 → 1 → 0 (80% of pin) → held at 0 (final 20%, `HOLD_FRACTION`).
+  - Outer rect.top = -150vh → -250vh: inner unsticks naturally, section exits normally. Shape is already at 0 (compact) — no further animation during exit.
+- **`getScrollProgress` controller prop** on `ScrollSphere` so the pinned hero owns the scroll math (triangle wave across pin duration); falls back to raw `window.scrollY / vh` mapping if the prop is omitted (keeps the component usable standalone).
+- **Backdrop layers:** octahedron (radius 1.8, blue, 10% opacity) + dodecahedron (radius 2.5, teal, 7% opacity), simple wireframes, auto-rotate only. Same pattern from earlier iteration — restored after an experimental Path-B phase with three colored brand hexagons (red top / blue bottom-left / green bottom-right framing the sphere) was built, tried, and removed.
+- **Mouse tilt + auto-rotate** on the parent group (unchanged behavior from the shader era). Reduced-motion respected (no scroll response, no rotation, static render).
+
+#### HexDivider — section-to-section accent between DeveloperCTA and Ecosystem
+- **`FloatingHex.tsx`** (new) — extruded hexagonal prism rendered as `EdgesGeometry` + `LineSegments` (wireframe silhouette, no tessellation noise). Counter-rotating **octahedron shell** at 1.75× the hex's radius wraps it — subdivision 0 (8 faces, 12 edges) so it reads as a sparse geometric envelope, not a dense cage. All colors, opacities, and scale exposed as props.
+- **`HexDivider.tsx`** (new) — section component that positions a green `FloatingHex` at the right edge of the standard `max-w-7xl` content container. Uses **negative vertical margin** (`-my-24 md:-my-32`) exactly equal to half the hex container's height (`w-48 md:w-64`), so the hex overlaps into DeveloperCTA's bottom padding and Ecosystem's top padding without adding net page height.
+- Wired into `page.tsx` between `<DeveloperCTA />` and `<Ecosystem />`.
+
+### Decisions
+- **Goldberg polyhedron over triangulated icosphere.** The original icosphere wireframe shows triangle edges — fine but generic. The goldberg shows the dual (hex + pent tiling) — feels bespoke and matches the brand's hex-heavy visual vocabulary. Built manually (dedup verts from unindexed three.js geometry, sort adjacent centroids by tangent-plane angle) rather than importing a library.
+- **Per-cell rigid translation, not per-vertex noise displacement.** Earlier prototype had each cell vertex move independently (cells distort/shear at peak). Current version translates each cell as a rigid unit outward. Cells stay visually coherent as hexes/pentagons throughout, which is more brand-aligned. Gaps form between cells at peak rather than cells warping.
+- **Sticky pin is CSS-native, not GSAP.** We have GSAP available but `position: sticky` works out-of-the-box with Lenis smooth scroll, doesn't fight with Next.js hydration, and requires no plugin registration. Good enough.
+- **Triangle-wave + hold phase.** User wanted the expand-contract-settle narrative fully contained in the pin, then unstick with the shape already compact. `HOLD_FRACTION = 0.2` at the top of `Hero.tsx` gives the contracted state a beat to register before the section releases.
+- **Zero-net-height divider.** `HexDivider` uses negative vertical margin exactly equal to half its container's height, so the hex visually lives "in the gap" between sections without pushing them apart. A key user-driven constraint: "you don't need to add more space."
+- **Tried Path B (three colored brand hexes) and removed it.** Experimented with red/blue/green brand hexagons framing the hex-sphere in the hero — looked like the literal logo rendered in 3D. User felt the hero was missing something different (the octahedron/dodecahedron backdrops from an earlier iteration), so the brand-frame hexes came out. Noted for reuse "further down the homepage" — the green solo hex in the divider is the first reuse.
+- **Kept `HexGrid.tsx` on disk unused.** Easy revert path if the hex-sphere direction is ever wrong for some future redesign.
+
+### Verification
+- `pnpm build` exits 0. 19 routes. `/` still shows `1m` revalidate (ISR preserved).
+- TypeScript clean (`pnpm tsc --noEmit`).
+- Visually tuned through several rounds of user feedback (starting size, displacement amplitude, hold fraction, cell density, backdrop shape selection, divider position/size). Current state is a functional v1 — user flagged "gonna want to tweak more later."
+
+### Issues / gotchas to address
+- **`ICO_SUBDIV = 3`** gives 642 cells — dense and readable. Bumping to 4 gives 2562 cells (heavier render; a wireframe becomes nearly solid from distance). Bumping to 2 → 162 cells (classic soccer-ball look, more legible hexes). Worth eyeballing on different viewport sizes.
+- **The pin's "weight" is controlled by `SECTION_HEIGHT_VH = 250`.** Higher = more scroll-distance pinned = more dramatic. Lower = snappier. The HOLD_FRACTION is also tunable. Both are at the top of `Hero.tsx`.
+- **`FloatingHex` backdrop** currently defaults to `backdropColor = 0x14b8a6` (teal), `backdropOpacity = 0.2`. If we scatter more `HexDivider`s throughout the homepage (red between Tokenomics/Roadmap, blue between Ecosystem/GovernancePreview, etc.), we'd want to vary these defaults per divider.
+- **Mobile responsiveness of the pinned hero** is unverified on actual phones. `position: sticky` + Lenis works in principle; worth a real-device check.
+
+### Current status of overall build
+- Phase 1 (Homepage POC) — ✅ complete
+- Phase 1.5 (V2 overhaul) — ✅ complete
+- Phase 2 (Subpages) — ✅ complete
+- Phase 3 — Tokenomics ✅, Sanity CMS for blog ✅, Brand page enhancements ✅, Litepaper ✅, Team + Roadmap → Sanity ✅, **Hero rebuild + HexDivider ✅ (this session, v1 — more tuning pending)**. Remaining: light mode toggle, real social handles, brand PDF redesign, Sanity Studio team invites.
+- Live on `quarrychain-web.vercel.app` — push triggers an auto-deploy.
+
 ## 2026-04-16 — Session 7: Team + Roadmap → Sanity
 
 ### What was built
