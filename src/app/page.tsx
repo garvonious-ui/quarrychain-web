@@ -3,7 +3,6 @@ import StatsBar from "@/components/sections/StatsBar";
 import AsSeenIn from "@/components/sections/AsSeenIn";
 import Features from "@/components/sections/Features";
 import DeveloperCTA from "@/components/sections/DeveloperCTA";
-import HexDivider from "@/components/sections/HexDivider";
 import Ecosystem from "@/components/sections/Ecosystem";
 import GovernancePreview from "@/components/sections/GovernancePreview";
 import LiveStats from "@/components/sections/LiveStats";
@@ -24,7 +23,6 @@ export default function Home() {
       <AsSeenIn />
       <Features />
       <DeveloperCTA />
-      <HexDivider />
       <Ecosystem />
       <GovernancePreview />
       <LiveStats />

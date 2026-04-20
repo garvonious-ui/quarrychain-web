@@ -1,22 +1,31 @@
 // ===== Tokenomics =====
 
+// Allocation matches the whitepaper table (9 slices). Site previously collapsed
+// to 5 slices for a cleaner homepage chart — reverted here to match the WP.
 export const TOKENOMICS = {
   totalSupply: 200_000_000,
   symbol: "QRY",
   decimals: 18,
   seedPrice: 0.25,
   allocation: [
-    { name: "Public Sale & Liquidity", percentage: 30, color: "#3b82f6" },
+    { name: "Public Sale / Liquidity", percentage: 30, color: "#3b82f6" },
     { name: "Staking & Farming", percentage: 20, color: "#14b8a6" },
     { name: "Team", percentage: 20, color: "#ef4444" },
-    { name: "Ecosystem & Growth", percentage: 15, color: "#22c55e" },
-    { name: "Private & Angel Rounds", percentage: 15, color: "#a855f7" },
+    { name: "Dev", percentage: 10, color: "#22c55e" },
+    { name: "Ecosystem", percentage: 5, color: "#f59e0b" },
+    { name: "Marketing", percentage: 5, color: "#ec4899" },
+    { name: "Angel Investors", percentage: 5, color: "#a855f7" },
+    { name: "Private Sale", percentage: 2.5, color: "#06b6d4" },
+    { name: "Private Presale", percentage: 2.5, color: "#818cf8" },
   ],
 } as const;
 
+// Vesting terms for the 4 WP-only slices (Dev, Ecosystem-split, Marketing,
+// and the 3 private/angel tranches) are inferred from existing patterns —
+// confirm with the deck before public launch.
 export const TOKENOMICS_DETAILS = [
   {
-    name: "Public Sale & Liquidity",
+    name: "Public Sale / Liquidity",
     percentage: 30,
     color: "#3b82f6",
     tokens: "60,000,000 QRY",
@@ -38,27 +47,63 @@ export const TOKENOMICS_DETAILS = [
     percentage: 20,
     color: "#ef4444",
     tokens: "40,000,000 QRY",
-    description: "Reserved for founders, engineers, and early team members. Fully locked for 12 months, then linear vesting over 24 months.",
+    description: "Reserved for founders and early team members. Fully locked for 12 months, then linear vesting over 24 months.",
     vesting: "12-month cliff, 24-month linear vest",
     vestingMonths: 36,
   },
   {
-    name: "Ecosystem & Growth",
-    percentage: 15,
+    name: "Dev",
+    percentage: 10,
     color: "#22c55e",
-    tokens: "30,000,000 QRY",
-    description: "Grants, partnerships, hackathons, and developer incentives. Managed by the QuarryChain Foundation with community governance oversight.",
+    tokens: "20,000,000 QRY",
+    description: "Protocol R&D, core engineering, and developer tooling. Funds ongoing network development beyond the initial team budget.",
+    vesting: "Linear vest over 36 months",
+    vestingMonths: 36,
+  },
+  {
+    name: "Ecosystem",
+    percentage: 5,
+    color: "#f59e0b",
+    tokens: "10,000,000 QRY",
+    description: "Grants, hackathons, and dapp-builder incentives. Governance-approved unlocks managed by the QuarryChain Foundation.",
     vesting: "Unlocked as needed, governance-approved",
     vestingMonths: 48,
   },
   {
-    name: "Private & Angel Rounds",
-    percentage: 15,
+    name: "Marketing",
+    percentage: 5,
+    color: "#ec4899",
+    tokens: "10,000,000 QRY",
+    description: "Brand campaigns, community growth, and user acquisition. Funds promotion across the network's lifecycle.",
+    vesting: "Linear vest over 24 months",
+    vestingMonths: 24,
+  },
+  {
+    name: "Angel Investors",
+    percentage: 5,
     color: "#a855f7",
-    tokens: "30,000,000 QRY",
-    description: "Early investors who funded protocol development. Discounted seed and private round pricing with strict lock-up.",
+    tokens: "10,000,000 QRY",
+    description: "Earliest-stage supporters who backed protocol development. Longest lock-up of any investor tranche.",
+    vesting: "9-month cliff, 24-month linear vest",
+    vestingMonths: 33,
+  },
+  {
+    name: "Private Sale",
+    percentage: 2.5,
+    color: "#06b6d4",
+    tokens: "5,000,000 QRY",
+    description: "Private round investors. Discounted pricing ahead of the public ICO with structured lock-up.",
     vesting: "6-month cliff, 18-month linear vest",
     vestingMonths: 24,
+  },
+  {
+    name: "Private Presale",
+    percentage: 2.5,
+    color: "#818cf8",
+    tokens: "5,000,000 QRY",
+    description: "Seed-stage private presale. Earliest capital with the strictest vesting terms.",
+    vesting: "6-month cliff, 24-month linear vest",
+    vestingMonths: 30,
   },
 ] as const;
 
@@ -166,48 +211,52 @@ export interface RoadmapPhase {
   items: string[];
 }
 
+// Roadmap mirrors the live site at quarrychain.network (scraped 2026-04-19).
+// If Sanity has roadmapPhase docs, they override this fallback.
 export const ROADMAP: RoadmapPhase[] = [
   {
     phase: 1,
-    title: "Foundation",
+    title: "Foundation & Network Launch",
     status: "complete",
-    items: ["Website launch", "Seed round"],
+    items: [
+      "QuarryChain Seed Round",
+      "QuarryChain Testnet Development & Launch",
+      "Core Team Expansion",
+    ],
   },
   {
     phase: 2,
-    title: "Development",
+    title: "Ecosystem Infrastructure & Private Sale",
     status: "in-progress",
     items: [
-      "DPoS network development",
-      "QVM sandbox",
-      "QRC-20 development",
-      "QuarryWallet",
-      "QuarrySwap",
-      "Team expansion",
+      "Development of QVM (Quarry Virtual Machine)",
+      "QRC-20 Development & Testing",
+      "Development of QuarrySwap & QuarryWallet",
+      "Development of No-Code API",
     ],
   },
   {
     phase: 3,
-    title: "Launch",
+    title: "Network Maturation & Public Entry",
     status: "upcoming",
     items: [
-      "Mainnet launch",
-      "Public ICO",
-      "Wallet + QVM + QRC-20 launch",
-      "CoinMarketCap / CoinGecko listings",
-      "QuarrySwap launch",
-      "First delegate voting",
+      "QuarryChain Mainnet Development",
+      "QuarryChain DPoS Network Launch",
+      "Quarry (QRY) Public Sale (ICO)",
+      "First Delegate Voting Round",
+      "QRC-20 & QuarryWallet Desktop Launch",
+      "Development of QuarryWallet Mobile App",
     ],
   },
   {
     phase: 4,
-    title: "Growth",
+    title: "Global Ecosystem & Marketplace",
     status: "future",
     items: [
-      "Giveaways & AMAs",
-      "Real-world marketplace expansion",
-      "Mobile wallet",
-      "Ecosystem DApp growth",
+      "QuarrySwap's Real-World Marketplace",
+      "QuarryWallet Mobile App Launch",
+      "Ecosystem Expansion (DApps)",
+      "No-Code API Global Rollout",
     ],
   },
 ];
