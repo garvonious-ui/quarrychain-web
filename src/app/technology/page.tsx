@@ -123,10 +123,6 @@ function ComparisonGrid() {
   );
 }
 
-// ===== Badges =====
-
-const BADGES = ["EVM Compatible", "Solidity", "Web3.js", "Ethers.js", "MetaMask", "Hardhat", "Remix"];
-
 export default function TechnologyPage() {
   return (
     <div className="pt-16">
@@ -179,28 +175,6 @@ export default function TechnologyPage() {
             <p className="text-text-secondary text-lg mb-16 max-w-2xl">Side-by-side with PoW and PoS — QuarryChain&apos;s Delegated Proof of Stake delivers on every metric.</p>
           </BlurFade>
           <ComparisonGrid />
-        </div>
-      </section>
-
-      {/* QVM Architecture */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl">
-          <BlurFade>
-            <p className="text-xs uppercase tracking-widest text-qc-teal font-mono mb-4">Virtual Machine</p>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary mb-4">QuarryChain <span className="text-transparent bg-clip-text bg-gradient-to-r from-qc-blue to-qc-teal">Virtual Machine</span></h2>
-            <p className="text-text-secondary text-lg mb-8 max-w-2xl">
-              Lightweight, Turing-complete VM built for the QuarryChain ecosystem. Fully EVM-compatible — deploy existing Solidity contracts with zero modifications. Connects seamlessly with Web3.js, Ethers.js, Hardhat, and Remix.
-            </p>
-          </BlurFade>
-          <BlurFade delay={0.1}>
-            <div className="flex flex-wrap gap-2">
-              {BADGES.map((badge) => (
-                <span key={badge} className="px-3.5 py-1.5 rounded-full text-xs font-medium text-qc-teal bg-[rgba(20,184,166,0.08)] border border-[rgba(20,184,166,0.15)] font-mono">
-                  {badge}
-                </span>
-              ))}
-            </div>
-          </BlurFade>
         </div>
       </section>
 
