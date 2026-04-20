@@ -285,6 +285,28 @@
 - [x] Whitepaper PDF as content source at docs/whitepaper-source.pdf (added 2026-04-14, 81 pages, NOT served publicly — litepaper has no download button)
 - [ ] Invite team members to Sanity Studio (Editor role for marketing)
 
+### Session 10 intake — user-flagged priorities (2026-04-20)
+
+**PRIORITY — QRY ICO page (new)**
+- [ ] Build a dedicated page where people will purchase the QRY token (distinct from the ICO Marketplace concept — this is QuarryChain's OWN token sale page)
+- Awaiting sample pages / references from user to design against
+- Needs: token sale metrics (progress bar, cap, tokens sold, min/max contribution), wallet connect, KYC/verification gate, purchase flow, allocation/vesting display, countdown timer, FAQ
+- Route decision: `/ico` top-level or `/tokenomics/ico`?
+
+**Tokenomics — swap back to investor deck values**
+- Session 9 swapped tokenomics to the 9-slice whitepaper breakdown; user clarified this should reflect the investor deck, NOT the whitepaper
+- [ ] Revert / re-swap `TOKENOMICS.allocation` + `TOKENOMICS_DETAILS` in `src/lib/constants.ts` to match the investor deck
+- [ ] Update vesting data to match deck
+- Blocked: need the investor deck (PDF or equivalent) from user
+
+**No-Code API litepaper section**
+- [ ] Alec will provide the info; once received, add a section to `/whitepaper` (litepaper) covering the No-Code Token Generator — probably slots into §10 Ecosystem & Tools or a new dedicated section
+- Blocked on Alec
+
+**Logo integration sitewide**
+- [ ] User has logo assets but they're fitted for light mode; waiting on designer to adapt for dark mode
+- [ ] Once dark-mode assets arrive, integrate on QuarrySwap page + other relevant pages (see Tier 2 below)
+
 ### Tier 2 — asset drop-ins (blocked on designer/photo work)
 - [ ] QRY token logo integration on QuarrySwap + other relevant pages (assets exist but fitted for light mode — need dark-mode adaptation)
 - [ ] Team headshots to replace abstract cards
@@ -293,7 +315,8 @@
 - [ ] Homepage ecosystem section rework: custom interconnected diagram + "View Ecosystem" CTA linking to /ecosystem
 - [ ] Watch Demo video URL (TBD) + CTA on NoCodeSection
 
-### Future — ICO Marketplace
+### Future — ICO Marketplace (distinct from QRY ICO page above)
+- Note: the "ICO Marketplace" is a SEPARATE concept — a platform for discovering/investing in multiple ICO projects (seen at `94e3-...easysite.ai`). The priority QRY ICO page above is for QuarryChain's OWN token sale. Do not conflate.
 - [ ] `/ecosystem/ico-marketplace` marketing page (same pattern as /ecosystem/quarryswap)
 - [ ] Separate repo for the functional ICO Marketplace product (wallet, investment flows, KYC)
 
