@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { LineSegments2 } from "three/examples/jsm/lines/LineSegments2.js";
+import { LineSegmentsGeometry } from "three/examples/jsm/lines/LineSegmentsGeometry.js";
+import { LineMaterial } from "three/examples/jsm/lines/LineMaterial.js";
 import { Download } from "lucide-react";
 import type { ShapeType } from "./WireframeShape";
 
@@ -13,6 +16,9 @@ interface DownloadableShapeProps {
   tertiaryColor: string;
   exportSize?: number; // square px
 }
+
+const PREVIEW_LINEWIDTH = 1.25;
+const EXPORT_LINEWIDTH = 2.5;
 
 function createGeometry(shape: ShapeType, scale: number, layer: 0 | 1 | 2): THREE.BufferGeometry {
   const mult = layer === 0 ? 1 : layer === 1 ? 1.15 : 1.35;
@@ -33,6 +39,15 @@ function createGeometry(shape: ShapeType, scale: number, layer: 0 | 1 | 2): THRE
   }
 }
 
+function buildLineGeometry(shape: ShapeType, scale: number, layer: 0 | 1 | 2): LineSegmentsGeometry {
+  const source = createGeometry(shape, scale, layer);
+  const edges = new THREE.EdgesGeometry(source);
+  const lineGeo = new LineSegmentsGeometry().fromEdgesGeometry(edges);
+  source.dispose();
+  edges.dispose();
+  return lineGeo;
+}
+
 export default function DownloadableShape({
   shape,
   name,
@@ -45,7 +60,7 @@ export default function DownloadableShape({
   const sceneRef = useRef<{
     scene: THREE.Scene;
     camera: THREE.PerspectiveCamera;
-    meshes: THREE.Mesh[];
+    lines: LineSegments2[];
   } | null>(null);
   const frameRef = useRef<number>(0);
   const [downloading, setDownloading] = useState(false);
@@ -57,6 +72,7 @@ export default function DownloadableShape({
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const width = container.clientWidth;
     const height = container.clientHeight;
+    const pixelRatio = Math.min(window.devicePixelRatio, 2);
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 100);
@@ -64,31 +80,35 @@ export default function DownloadableShape({
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(pixelRatio);
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
     const scale = 1.8;
     const layers: { color: string; opacity: number; layer: 0 | 1 | 2 }[] = [
-      { color: primaryColor, opacity: 0.55, layer: 0 },
-      { color: secondaryColor, opacity: 0.35, layer: 1 },
-      { color: tertiaryColor, opacity: 0.22, layer: 2 },
+      { color: primaryColor, opacity: 0.75, layer: 0 },
+      { color: secondaryColor, opacity: 0.5, layer: 1 },
+      { color: tertiaryColor, opacity: 0.32, layer: 2 },
     ];
 
-    const meshes: THREE.Mesh[] = layers.map(({ color, opacity, layer }) => {
-      const geo = createGeometry(shape, scale, layer);
-      const mat = new THREE.MeshBasicMaterial({
-        color: new THREE.Color(color),
-        wireframe: true,
+    const lines: LineSegments2[] = layers.map(({ color, opacity, layer }) => {
+      const geo = buildLineGeometry(shape, scale, layer);
+      const mat = new LineMaterial({
+        color: new THREE.Color(color).getHex(),
+        linewidth: PREVIEW_LINEWIDTH,
         transparent: true,
         opacity,
+        depthTest: true,
+        worldUnits: false,
       });
-      const mesh = new THREE.Mesh(geo, mat);
-      scene.add(mesh);
-      return mesh;
+      mat.resolution.set(width * pixelRatio, height * pixelRatio);
+      const line = new LineSegments2(geo, mat);
+      line.computeLineDistances();
+      scene.add(line);
+      return line;
     });
 
-    sceneRef.current = { scene, camera, meshes };
+    sceneRef.current = { scene, camera, lines };
 
     const handleResize = () => {
       const w = container.clientWidth;
@@ -96,18 +116,21 @@ export default function DownloadableShape({
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      lines.forEach((l) => {
+        (l.material as LineMaterial).resolution.set(w * pixelRatio, h * pixelRatio);
+      });
     };
     window.addEventListener("resize", handleResize, { passive: true });
 
     const animate = () => {
       frameRef.current = requestAnimationFrame(animate);
       if (!reducedMotion) {
-        meshes[0].rotation.x += 0.0012;
-        meshes[0].rotation.y += 0.0018;
-        meshes[1].rotation.x -= 0.001;
-        meshes[1].rotation.y += 0.0014;
-        meshes[2].rotation.x += 0.0006;
-        meshes[2].rotation.y -= 0.0008;
+        lines[0].rotation.x += 0.0012;
+        lines[0].rotation.y += 0.0018;
+        lines[1].rotation.x -= 0.001;
+        lines[1].rotation.y += 0.0014;
+        lines[2].rotation.x += 0.0006;
+        lines[2].rotation.y -= 0.0008;
       }
       renderer.render(scene, camera);
     };
@@ -116,9 +139,9 @@ export default function DownloadableShape({
     return () => {
       cancelAnimationFrame(frameRef.current);
       window.removeEventListener("resize", handleResize);
-      meshes.forEach((m) => {
-        m.geometry.dispose();
-        (m.material as THREE.Material).dispose();
+      lines.forEach((l) => {
+        l.geometry.dispose();
+        (l.material as LineMaterial).dispose();
       });
       renderer.dispose();
       if (container.contains(renderer.domElement)) {
@@ -130,14 +153,14 @@ export default function DownloadableShape({
   const handleDownload = () => {
     setDownloading(true);
     try {
-      // Render at high resolution to an offscreen canvas
+      const exportPixelRatio = 2;
       const exportRenderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true,
         preserveDrawingBuffer: true,
       });
       exportRenderer.setSize(exportSize, exportSize);
-      exportRenderer.setPixelRatio(2);
+      exportRenderer.setPixelRatio(exportPixelRatio);
       exportRenderer.setClearColor(0x000000, 0);
 
       const exportCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
@@ -146,28 +169,33 @@ export default function DownloadableShape({
       const exportScene = new THREE.Scene();
       const scale = 1.8;
       const layers: { color: string; opacity: number; layer: 0 | 1 | 2 }[] = [
-        { color: primaryColor, opacity: 0.65, layer: 0 },
-        { color: secondaryColor, opacity: 0.4, layer: 1 },
-        { color: tertiaryColor, opacity: 0.25, layer: 2 },
+        { color: primaryColor, opacity: 0.85, layer: 0 },
+        { color: secondaryColor, opacity: 0.55, layer: 1 },
+        { color: tertiaryColor, opacity: 0.35, layer: 2 },
       ];
 
-      // Use the current rotation from the live scene for visual consistency
-      const liveMeshes = sceneRef.current?.meshes;
+      const liveLines = sceneRef.current?.lines;
+      const resW = exportSize * exportPixelRatio;
+      const resH = exportSize * exportPixelRatio;
 
-      const exportMeshes = layers.map(({ color, opacity, layer }, i) => {
-        const geo = createGeometry(shape, scale, layer);
-        const mat = new THREE.MeshBasicMaterial({
-          color: new THREE.Color(color),
-          wireframe: true,
+      const exportLines = layers.map(({ color, opacity, layer }, i) => {
+        const geo = buildLineGeometry(shape, scale, layer);
+        const mat = new LineMaterial({
+          color: new THREE.Color(color).getHex(),
+          linewidth: EXPORT_LINEWIDTH,
           transparent: true,
           opacity,
+          depthTest: true,
+          worldUnits: false,
         });
-        const mesh = new THREE.Mesh(geo, mat);
-        if (liveMeshes && liveMeshes[i]) {
-          mesh.rotation.copy(liveMeshes[i].rotation);
+        mat.resolution.set(resW, resH);
+        const line = new LineSegments2(geo, mat);
+        line.computeLineDistances();
+        if (liveLines && liveLines[i]) {
+          line.rotation.copy(liveLines[i].rotation);
         }
-        exportScene.add(mesh);
-        return mesh;
+        exportScene.add(line);
+        return line;
       });
 
       exportRenderer.render(exportScene, exportCamera);
@@ -180,10 +208,9 @@ export default function DownloadableShape({
       link.click();
       document.body.removeChild(link);
 
-      // Clean up
-      exportMeshes.forEach((m) => {
-        m.geometry.dispose();
-        (m.material as THREE.Material).dispose();
+      exportLines.forEach((l) => {
+        l.geometry.dispose();
+        (l.material as LineMaterial).dispose();
       });
       exportRenderer.dispose();
     } catch (e) {

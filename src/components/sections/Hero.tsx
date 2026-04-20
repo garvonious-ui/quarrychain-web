@@ -102,7 +102,7 @@ export default function Hero() {
           {/* Headline */}
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-display tracking-tight text-text-primary mb-6">
             <TextReveal delay={0.2}>The Blockchain Built</TextReveal>{" "}
-            <span className="text-qc-blue">
+            <span className="bg-gradient-to-r from-qc-teal to-qc-blue bg-clip-text text-transparent">
               <TextReveal delay={0.4}>for What&apos;s Next</TextReveal>
             </span>
           </h1>
