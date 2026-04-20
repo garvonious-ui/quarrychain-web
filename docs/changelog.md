@@ -1,5 +1,80 @@
 # Changelog
 
+## 2026-04-19 — Session 9: Tier 1 content/data fixes + Tier 3 page restructure
+
+### What was built
+A user-flagged batch of sitewide tweaks from a copy audit plus a structural refactor moving developer content into /developers. Three thrusts — copy scrubs, data swaps, page restructure — shipped in six commits.
+
+#### Tier 1 — truth/accuracy copy scrubs
+- "6-hour voting" specificity stripped sitewide (Features card, GovernancePreview subhead + stat card, /technology DPoS step, /tokenomics staking body, /blog what-is-dpos post, whitepaper §03-consensus + §08-governance, content-copy.md, brand-voice-guidelines.md). Replaced with "time-based voting" — the intended phrasing until mainnet ships and the exact interval is locked in.
+- `GovernancePreview` stat #1 swapped from `{ value: 6, suffix: "hr" }` NumberTicker to a static `{ display: "Time-Based", label: "Voting model" }`. Conditional render in the stat card: if `display` is set, render as plain text; otherwise drive the NumberTicker. Type union added for the two shapes.
+- "Quarry Coin" dropped from token naming. `Tokenomics.tsx` homepage headline, `/tokenomics` page hero, `litepaper.ts` §09 title, `content-copy.md` all now read "Quarry (QRY)".
+- docs/content-copy.md + `.claude/brand-voice-guidelines.md` synced.
+
+#### Tier 1 — data swaps
+- `TOKENOMICS.allocation` rewritten from 5 slices to the 9-slice whitepaper breakdown (Public Sale / Liquidity 30%, Staking & Farming 20%, Team 20%, Dev 10%, Ecosystem 5%, Marketing 5%, Angel Investors 5%, Private Sale 2.5%, Private Presale 2.5%). Colors extended beyond the core brand palette (blue/teal/red/green) with amber/pink/purple/cyan/indigo for the smaller slices.
+- `TOKENOMICS_DETAILS` expanded to 9 entries. Vesting for the 4 WP-only slices (Dev, Marketing, Angel-split, Private Sale, Private Presale) is inferred from existing patterns and flagged in a comment above the array — "confirm with the deck before public launch."
+- `ROADMAP` constant replaced with the live-site scraped phases (curled + grep'd `main.9f1cba67.js` off quarrychain.network since it's a React SPA that returns an empty shell via plain fetch). Deterministic `_id`-based re-seed through `scripts/seed-sanity.mjs`. Sanity write token was session-scoped (generated, used, removed from `.env.local` — user to revoke in dashboard).
+- `HexDivider` unwired from homepage. Component + `FloatingHex` kept on disk for potential reuse (same "keep for revert" pattern as `HexGrid.tsx`).
+
+#### Tier 3 — page restructure
+- **QVM migrated `/technology` → `/developers`.** Replaced the generic "EVM Compatibility" section on /developers with the full QVM explainer (Turing-complete, fully EVM-compatible, connects to Web3.js/Ethers.js/Hardhat/Remix). Badge lists merged — old /technology had 7 badges, old /developers had 8; union is 9 (EVM Compatible, Solidity, Web3.js, Ethers.js, MetaMask, Hardhat, Remix, Truffle, OpenZeppelin). /technology now cleanly covers DPoS + Consensus Comparison + Token Standards only.
+- **New `/ecosystem/asset-tokenization` page.** Copy distilled from the litepaper §07-rwa (kept the 5 asset categories grid, simplified the 4-step process, narrowed benefits from 8 → 6). Icosahedron hero in green/purple/blue (the "RWA green" accent established in the litepaper). Page CTAs link to /developers + /whitepaper#rwa.
+- **Alignment fix after user flag:** sections were using mixed max-widths (intro `max-w-3xl`, categories `max-w-5xl`, process `max-w-4xl`, benefits `max-w-5xl`) which made the content column's left edge jump as you scroll. Standardized all content sections to `max-w-5xl`; constrained just the intro prose to `max-w-3xl` inside the wider wrapper so reading line-length stays comfortable without breaking section alignment.
+- **New `NoCodeSection.tsx`** on /developers. Full dark-mode reskin of the QuarrySwap Token Generator demo (found via linktr.ee/QuarryChain — Chrome extension needed a reconnect mid-session). Mock includes window chrome (3 dots + URL bar), app header with QS logo + navigation + "QuarryChain Mainnet" pill + Connect Wallet button, 2-column wizard body (Create Token form on left with Name/Symbol/Supply/Type dropdown/Badge Permissions pills, Deployment Preview panel on right with contract address + gas + status + 5-dot wizard progress bar), 5-step flow row, Try the Beta → / Read the Litepaper CTAs. Placed between Terminal Animation and Resources on /developers.
+- **Wiring updates:**
+  - `ECOSYSTEM` constants: QVM `href: "/technology"` → `"/developers"` (now that QVM lives there), Asset Tokenization `href: "/ecosystem"` → `"/ecosystem/asset-tokenization"`.
+  - /ecosystem hub: QVM card repointed, Asset Tokenization card dropped `comingSoon: true` and repointed to the new URL. Added a `Product` type annotation to preserve the optional `comingSoon` field in the union (removing it from all entries narrowed the inferred type and broke rendering conditionals).
+
+#### Starter prompt for separate No-Code DApp repo
+- Committed `docs/no-code-dapp-starter-prompt.md` — a self-contained bootstrap prompt for spinning up the functional Token Generator product in its own repo. Includes: tech stack (Next.js + TS + Tailwind + wagmi/viem), project structure, design tokens (matching quarrychain-web exactly), critical rules, slash command file contents (`/start`, `/wrap`, `/checkpoint`, `/status`), rules files, and a 6-phase build plan seed.
+- Rendering trick used: nested markdown code blocks (the slash command file contents) written with 4-space indentation instead of triple-backticks so the whole doc can be copied as a single markdown block without outer-fence collision.
+
+### Decisions
+- **Token Generator = two repos.** Marketing preview (reskinned mock on /developers in this repo) + functional product (wallet connect, contract deploy, badge permissions) in a separate repo. Matches the existing pattern of /ecosystem/quarryswap being a marketing page while the actual QuarrySwap app lives elsewhere. Rationale: marketing evolves slowly, product needs a different stack (wagmi/viem, contract ABIs, potentially a backend), different deploy cadence, independent failure domain.
+- **ICO Marketplace parked per user.** When picked up, same split: `/ecosystem/ico-marketplace` marketing page here + functional repo separately.
+- **WP tokenomics restored as source of truth.** Session 2 had consolidated 9 → 5 slices "for cleaner visualization." User wanted the original 9-slice breakdown back. Inferred vesting for the 4 additional slices — flagged in comment.
+- **Asset Tokenization lives at `/ecosystem/asset-tokenization`.** Matches `/ecosystem/quarryswap` + `/ecosystem/quarrywallet` pattern — product-tier offering within the ecosystem hub, not a top-level route.
+- **QVM moved to /developers (not kept on /technology).** User framing: no-code and code-path are both developer workflows. /technology can stay focused on the protocol/consensus story. Net architectural shift: from "technology-speak" organization to "who you are as a chain user" (developer / consumer / investor).
+- **NoCodeSection uses green→teal gradient accents**, mirroring the green accent from the asset-tokenization page. Gives the "no-code developer path" a consistent color signature across /developers and /ecosystem.
+- **Alignment fix: standardize section max-width per page, constrain prose inline.** Pattern worth generalizing — mixing `max-w-*` on adjacent section containers creates visually jumpy column edges. Always use a consistent section wrapper; shrink prose line-length by adding `max-w-3xl` to the inner `<p>`, not by narrowing the whole section.
+- **Starter prompt committed, not gitignored.** Version-controlled so it's available from any machine and editable over time as the quarrychain-web patterns evolve.
+
+### Verification
+- `pnpm tsc --noEmit` clean throughout.
+- Preview server (Claude Preview) verified: `/developers` QVM + No-Code sections rendering, `/technology` QVM-removed, `/ecosystem` Asset Tokenization no longer "Coming soon", `/ecosystem/asset-tokenization` new page + alignment fix (all content sections at `innerLeft: 124px, innerWidth: 1024px` on desktop).
+- Direct GROQ query against Sanity CDN confirmed new roadmap docs live after seed (4 phases with new titles and item lists).
+- Visual screenshots captured the 9-slice donut chart, the No-Code mock window with form fields + deployment preview, and the asset-tokenization icosahedron hero.
+
+### Shipped
+Six commits to `origin/main` (`860b6e7..25c341c`):
+- `191a52f` content: drop 6-hour voting specificity + "Coin" from QRY naming
+- `1754b1b` feat: swap tokenomics to 9-slice WP allocation + live-site roadmap, drop HexDivider
+- `6aad6c0` style: thicken wireframe shape lines on /brand + hero gradient tweak (included the user's other-session work + a carry-over Hero.tsx teal→blue gradient tweak)
+- `0d058db` feat: move QVM to /developers + add No-Code Token Generator section
+- `1161f13` feat: add /ecosystem/asset-tokenization page + ecosystem wiring
+- `25c341c` docs: starter prompt for No-Code DApp repo
+
+Vercel auto-deployed on each push.
+
+### Issues / gotchas to address
+- **Revoke the `seed-script` Sanity token.** https://sanity.io/manage/project/owhgeovj/api/tokens — user action only. Token was session-scoped and is no longer in `.env.local`.
+- **Tokenomics vesting for the 4 new WP-only slices is inferred.** Confirm with the pitch deck before public launch. Comment above `TOKENOMICS_DETAILS` marks which ones.
+- **"Try the Beta →" CTA on NoCodeSection points at the internal-looking `easysite.ai` URL.** Swap to a stable/public beta URL when one's ready.
+- **Watch Demo video URL still TBD.** Placeholder remains — no "Watch Demo" CTA wired.
+- **Chrome extension connection was flaky mid-session.** User reinstalled from the Web Store and it came back. Same steps if it happens again.
+- **Tier 2 still blocked on assets:** QRY token logo (light-mode assets exist but need dark-mode rework from designer), team headshots.
+- **Tier 4 untouched:** homepage ecosystem diagram rework + "View Ecosystem" CTA still on the board.
+- **Mobile responsiveness of NoCodeSection mock** — not stress-tested on actual phones. The 2-column wizard layout stacks vertically on mobile (grid-cols-1 fallback) but the tight horizontal spacing inside the form may feel cramped. Worth a real-device check.
+- **ICO Marketplace parked.** Will use the same "marketing page here + functional product in own repo" pattern when picked up.
+
+### Current status of overall build
+- Phase 1 (Homepage POC) — ✅ complete
+- Phase 1.5 (V2 overhaul) — ✅ complete
+- Phase 2 (Subpages) — ✅ complete
+- Phase 3 — Tokenomics ✅, Sanity CMS ✅, Brand page ✅, Litepaper ✅, Team+Roadmap → Sanity ✅, Hero hex-sphere ✅, HexDivider (shipped Session 8, removed this session), **Tier 1 copy/data scrubs ✅, QVM restructure ✅, /ecosystem/asset-tokenization ✅, No-Code section ✅, No-Code DApp starter prompt ✅ (this session)**. Remaining: brand PDF redesign, light-mode toggle, real social handles, Sanity Studio team invites, Tier 2 assets (logo + headshots), Tier 4 ecosystem diagram rework, ICO Marketplace future work, spin up the separate No-Code DApp repo.
+- Live on `quarrychain-web.vercel.app` — git push triggers auto-deploy.
+
 ## 2026-04-16 — Session 8: Hero rebuild (hex-sphere) + HexDivider accent
 
 ### What was built

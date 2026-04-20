@@ -25,6 +25,7 @@ Homepage POC for QuarryChain (quarrychain.network). Sleek dark-mode landing page
 - Copy tone: confident, punchy, no corporate fluff. Think Solana not IBM.
 - Keep sections modular — each in its own file under src/components/sections/
 - Accessible: respect prefers-reduced-motion, proper heading hierarchy, alt text
+- **Page section alignment:** use a consistent `max-w-*` for every section container on a single page (pick `max-w-5xl` as the default). To shrink reading line-length for prose, add `max-w-3xl` on the inner `<p>` — do NOT shrink the whole section wrapper. Mixing max-widths across adjacent sections makes the content column jump left-right on scroll.
 
 ## Session Rules
 - BEFORE starting work: read @docs/build-plan.md and @docs/changelog.md

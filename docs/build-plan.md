@@ -245,6 +245,33 @@
 - [x] Build passes (`pnpm build` exit 0, 19 routes, /whitepaper static)
 - Future: invite the brand team to edit the litepaper directly via PRs once the structure is locked in.
 
+### Session 9 Tweaks — content/data fixes + page restructure (Completed 2026-04-19)
+**Tier 1 — copy/data scrubs:**
+- [x] Strip "6-hour voting" specificity sitewide → "time-based voting" (Features, GovernancePreview, /technology DPoS step, /tokenomics staking body, /blog what-is-dpos, whitepaper §03+§08, content-copy.md, brand-voice-guidelines.md)
+- [x] GovernancePreview stat #1 swapped from `{ value: 6, suffix: "hr" }` NumberTicker to static `{ display: "Time-Based", label: "Voting model" }`
+- [x] Drop "Coin" from QRY naming (Tokenomics.tsx, /tokenomics page hero, litepaper.ts §09 title, content-copy.md)
+- [x] Swap `TOKENOMICS.allocation` from 5 → 9 slices (30/20/20/10/5/5/5/2.5/2.5 from whitepaper PDF)
+- [x] Expand `TOKENOMICS_DETAILS` to 9 entries (vesting for 4 new slices inferred — flagged in comment)
+- [x] Swap `ROADMAP` to live-site scraped phases + re-seed Sanity dataset (Foundation & Network Launch / Ecosystem Infrastructure & Private Sale / Network Maturation & Public Entry / Global Ecosystem & Marketplace)
+- [x] Remove HexDivider from homepage (component files kept on disk)
+
+**Tier 3 — page restructure:**
+- [x] Move QVM Architecture section from /technology → /developers (replaces old generic "EVM Compatibility" section)
+- [x] Merge QVM badge lists: EVM Compatible, Solidity, Web3.js, Ethers.js, MetaMask, Hardhat, Remix, Truffle, OpenZeppelin
+- [x] Remove QVM section + BADGES const from /technology
+- [x] Create `/ecosystem/asset-tokenization` page (simplified copy distilled from whitepaper §07-rwa)
+- [x] Icosahedron hero (green/purple/blue) + 5 asset categories + 4-step process + 6 benefits
+- [x] Standardize section max-width to `max-w-5xl` across page (alignment fix after user flag)
+- [x] Wire /ecosystem hub + homepage Ecosystem constants: QVM href → /developers, Asset Tokenization href → /ecosystem/asset-tokenization (no more "Coming soon")
+- [x] Add `Product` type annotation on /ecosystem hub PRODUCTS array
+- [x] Add `NoCodeSection.tsx` component — full dark-mode reskin of QuarrySwap Token Generator with window chrome, app header, wizard form (Name/Symbol/Supply/Type/Badge Permissions) + Deployment Preview panel + 5-step progress bar
+- [x] Wire NoCodeSection into /developers between Terminal Animation and Resources
+- [x] Commit `docs/no-code-dapp-starter-prompt.md` — bootstrap prompt for the separate No-Code DApp repo
+
+**Sanity ops:**
+- [x] Generate + use + remove session-scoped write token for re-seed
+- [ ] User to revoke `seed-script` token at https://sanity.io/manage/project/owhgeovj/api/tokens
+
 ### Brand Style Guide PDF — redesign (Flagged 2026-04-14)
 - Current `public/QuarryChain_Brand_Style_Guide.pdf` is bad and doesn't match the website aesthetic
 - Last attempt was commit `120e40f` ("style: redesign brand PDF to match website dark theme") — apparently still off
@@ -258,7 +285,26 @@
 - [x] Whitepaper PDF as content source at docs/whitepaper-source.pdf (added 2026-04-14, 81 pages, NOT served publicly — litepaper has no download button)
 - [ ] Invite team members to Sanity Studio (Editor role for marketing)
 
+### Tier 2 — asset drop-ins (blocked on designer/photo work)
+- [ ] QRY token logo integration on QuarrySwap + other relevant pages (assets exist but fitted for light mode — need dark-mode adaptation)
+- [ ] Team headshots to replace abstract cards
+
+### Tier 4 — design lift
+- [ ] Homepage ecosystem section rework: custom interconnected diagram + "View Ecosystem" CTA linking to /ecosystem
+- [ ] Watch Demo video URL (TBD) + CTA on NoCodeSection
+
+### Future — ICO Marketplace
+- [ ] `/ecosystem/ico-marketplace` marketing page (same pattern as /ecosystem/quarryswap)
+- [ ] Separate repo for the functional ICO Marketplace product (wallet, investment flows, KYC)
+
+### Future — No-Code DApp functional product
+- [ ] Spin up separate repo via `docs/no-code-dapp-starter-prompt.md`
+- [ ] Wallet connect + wagmi/viem stack, token wizard flows, badge-based role system, dashboard, DeFi instruments
+
 ## Pending Data / Blockers
-- Logo SVG refinement from client
+- Logo SVG refinement from client (dark-mode adaptation)
+- Team headshots
+- Watch Demo video URL
 - Discord/Telegram/YouTube exact handles TBD
 - Blockscout API availability on testnet TBD
+- Public/stable beta URL for Token Generator (currently points at internal easysite URL)
