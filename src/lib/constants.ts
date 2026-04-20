@@ -287,7 +287,7 @@ export const ECOSYSTEM = [
     name: "QVM",
     tagline: "EVM-compatible virtual machine. Solidity-native.",
     icon: "Cpu",
-    href: "/technology",
+    href: "/developers",
   },
   {
     name: "QRC-20 Tokens",
@@ -299,7 +299,7 @@ export const ECOSYSTEM = [
     name: "Asset Tokenization",
     tagline: "Bridge physical assets to the blockchain. Trade 24/7.",
     icon: "Building",
-    href: "/ecosystem",
+    href: "/ecosystem/asset-tokenization",
   },
 ] as const;
 
