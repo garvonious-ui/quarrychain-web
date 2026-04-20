@@ -14,7 +14,7 @@ export default function TokenomicsPage() {
     <div className="pt-16">
       <PageHero
         label="Tokenomics"
-        headline="Quarry Coin (QRY)"
+        headline="Quarry (QRY)"
         subheadline="200 million tokens. Transparent allocation. Built-in deflation."
         shape="sphere"
         shapeColors={{
@@ -134,7 +134,7 @@ export default function TokenomicsPage() {
               </span>
             </h2>
             <p className="text-text-secondary text-lg mb-16 max-w-2xl">
-              Higher stakes earn higher APR. Rewards are distributed every 6 hours alongside Quarry Miner elections.
+              Higher stakes earn higher APR. Rewards are distributed alongside Quarry Miner elections.
             </p>
           </BlurFade>
           <StakingRewards />

@@ -24,7 +24,7 @@ const DPOS_STEPS = [
   {
     step: 2,
     title: "Vote for Miners",
-    description: "Community votes to elect 27 Quarry Miners. Elections run every 6 hours. No insider control, no foundation override.",
+    description: "Community votes to elect 27 Quarry Miners through time-based voting. No insider control, no foundation override.",
     icon: Users,
     color: "text-qc-red",
     bgColor: "bg-qc-red/10",

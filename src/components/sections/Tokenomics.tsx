@@ -38,7 +38,7 @@ export default function Tokenomics() {
               Tokenomics
             </p>
             <h2 className="text-3xl md:text-5xl font-bold font-display text-text-primary">
-              Quarry Coin (QRY) — Powering the Network
+              Quarry (QRY) — Powering the Network
             </h2>
           </div>
         </BlurFade>

@@ -10,7 +10,7 @@ const REWARDS = [
     color: "#3b82f6",
     payout: "230 QRC / round",
     annual: "336,700 QRC / year",
-    body: "Split across the 27 active Quarry Miners for each 6-hour round, less any blocks they missed. Compensates the cost of running validator infrastructure.",
+    body: "Split across the 27 active Quarry Miners each voting round, less any blocks they missed. Compensates the cost of running validator infrastructure.",
   },
   {
     name: "Vote Reward",
@@ -39,8 +39,8 @@ export default function Section08Governance() {
         Anyone can become a Quarry Miner candidate. Applying burns 9,999 QRC
         from the candidate&apos;s account, which prevents trivial sybil
         spam. Every QRY holder can vote, weighted by frozen tokens — 1 frozen
-        QRY equals 1 Quarry Power, and votes are recounted every 6 hours. The
-        top 27 by vote weight become active producers for the next round.
+        QRY equals 1 Quarry Power, and votes are recounted on a time-based cadence.
+        The top 27 by vote weight become active producers for the next round.
       </p>
 
       <p>
@@ -112,7 +112,7 @@ export default function Section08Governance() {
       <p>
         The two-layer split matters. Stakers control who validates, but
         validators — accountable to those same stakers because they can be
-        voted out at the next 6-hour round — control the dials that tune the
+        voted out at the next voting round — control the dials that tune the
         protocol. Neither layer can capture the other without losing its
         position.
       </p>

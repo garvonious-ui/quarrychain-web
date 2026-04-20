@@ -21,7 +21,7 @@ export const LITEPAPER_SECTIONS: LitepaperSectionMeta[] = [
   { id: "tokens",         number: "06", label: "Token Standards", title: "Native token standards",             accent: "purple" },
   { id: "rwa",            number: "07", label: "RWA",           title: "Real-world asset tokenization",        accent: "green"  },
   { id: "governance",     number: "08", label: "Governance",    title: "Quarry Mining and the Committee",      accent: "blue"   },
-  { id: "tokenomics",     number: "09", label: "Tokenomics",    title: "Quarry Coin (QRY)",                    accent: "teal"   },
+  { id: "tokenomics",     number: "09", label: "Tokenomics",    title: "Quarry (QRY)",                         accent: "teal"   },
   { id: "ecosystem",      number: "10", label: "Ecosystem",     title: "Tools, networks, and applications",    accent: "red"    },
   { id: "roadmap",        number: "11", label: "Roadmap",       title: "The path forward",                     accent: "green"  },
   { id: "team",           number: "12", label: "Team",          title: "Built by builders",                    accent: "teal"   },

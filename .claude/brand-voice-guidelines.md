@@ -114,7 +114,7 @@ The brand voice is the voice of engineers who built something that works — and
 
 ### Feature Descriptions
 Two sentences max. Mechanism first, stat/differentiator second.
-- "Community-elected validators. 6-hour voting rounds. Energy-efficient block production."
+- "Community-elected validators. Time-based voting rounds. Energy-efficient block production."
 - "Non-custodial AMM with liquidity pools, yield farming, and AI-powered contract auditing."
 
 ### CTAs

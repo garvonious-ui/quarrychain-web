@@ -48,8 +48,8 @@ export default function Section03Consensus() {
             </p>
           </div>
           <p className="text-text-secondary text-sm">
-            Every <strong className="text-text-primary">6 hours</strong>, QRY
-            holders who freeze their tokens vote for Quarry Miner candidates.
+            Through <strong className="text-text-primary">time-based voting</strong>,
+            QRY holders who freeze their tokens vote for Quarry Miner candidates.
             The top 27 by vote weight earn the right to produce blocks for the
             next round. 1 frozen QRY = 1 Quarry Power.
           </p>

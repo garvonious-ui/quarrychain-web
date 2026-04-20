@@ -34,7 +34,7 @@ Marquee: CoinDesk, CoinTelegraph, Bloomberg Crypto, The Block, Decrypt, CoinMark
 No "Built Different" header. Cards only.
 
 **Card 1 (large): DPoS Consensus**
-- "Community-elected validators. 6-hour voting rounds. Energy-efficient block production."
+- "Community-elected validators. Time-based voting rounds. Energy-efficient block production."
 
 **Card 2: QuarrySwap DEX**
 - "Non-custodial AMM with liquidity pools, yield farming, and AI-powered contract auditing."
@@ -63,20 +63,20 @@ No "Built Different" header. Cards only.
 ### GovernancePreview (NEW — V2)
 - **Label:** "Governance"
 - **Headline:** "Decentralized by design."
-- **Subhead:** "27 Quarry Miners are elected every 6 hours by QRY stakers. No foundation override. No insider control."
-- **Stats:** 6hr Voting rounds | 1 QRY Minimum stake | 100% Community-elected
+- **Subhead:** "27 Quarry Miners are elected by QRY stakers through time-based voting. No foundation override. No insider control."
+- **Stats:** Time-Based Voting model | 1 QRY Minimum stake | 100% Community-elected
 
 ### Live Stats
 - Total Blocks, Total Transactions, Active Addresses, Avg Block Time
 - Green pulse: "Live from testnet"
 
 ### Tokenomics (V2 — updated)
-- **Headline:** "Quarry Coin (QRY) — Powering the Network"
+- **Headline:** "Quarry (QRY) — Powering the Network"
 - Total Supply: 200,000,000 QRY
-- Symbol: **QRY** (not QRC)
+- Symbol: **QRY** (not QRC, never "Quarry Coin")
 - Decimals: 18
 - Seed Price: $0.25
-- **5-slice allocation:** Public Sale & Liquidity 30%, Staking & Farming 20%, Team 20%, Ecosystem & Growth 15%, Private & Angel Rounds 15%
+- **9-slice allocation (from whitepaper):** Public Sale / Liquidity 30%, Staking & Farming 20%, Team 20%, Dev 10%, Ecosystem 5%, Marketing 5%, Angel Investors 5%, Private Sale 2.5%, Private Presale 2.5%
 - Revenue: 0.25% tx fees, smart contract deployment fees, 1% asset tokenization commission
 
 ### Roadmap

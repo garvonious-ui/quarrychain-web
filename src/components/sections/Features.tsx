@@ -8,7 +8,7 @@ const features = [
   {
     subtitle: "DPoS Consensus",
     description:
-      "Community-elected validators. 6-hour voting rounds. Energy-efficient block production.",
+      "Community-elected validators. Time-based voting rounds. Energy-efficient block production.",
     icon: Vote,
     large: true,
     color: "text-qc-blue",

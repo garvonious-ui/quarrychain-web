@@ -3,8 +3,12 @@
 import BlurFade from "@/components/ui/blur-fade";
 import NumberTicker from "@/components/ui/number-ticker";
 
-const GOVERNANCE_STATS = [
-  { value: 6, suffix: "hr", label: "Voting rounds" },
+type GovernanceStat =
+  | { value: number; suffix: string; label: string; display?: never }
+  | { display: string; label: string; value?: never; suffix?: never };
+
+const GOVERNANCE_STATS: GovernanceStat[] = [
+  { display: "Time-Based", label: "Voting model" },
   { value: 1, suffix: " QRY", label: "Minimum stake to vote" },
   { value: 100, suffix: "%", label: "Community-elected" },
 ];
@@ -150,8 +154,8 @@ export default function GovernancePreview() {
 
         <BlurFade delay={0.1}>
           <p className="text-text-secondary text-lg max-w-2xl mx-auto mb-16">
-            27 Quarry Miners are elected every 6 hours by QRY stakers. No
-            foundation override. No insider control.
+            27 Quarry Miners are elected by QRY stakers through time-based
+            voting. No foundation override. No insider control.
           </p>
         </BlurFade>
 
@@ -169,11 +173,15 @@ export default function GovernancePreview() {
               <BlurFade key={stat.label} delay={0.2 + i * 0.05}>
                 <div className={`p-6 bg-bg-secondary rounded-xl border ${colors[i]}`}>
                   <p className={`text-2xl font-bold font-display ${textColors[i]}`}>
-                    <NumberTicker
-                      value={stat.value}
-                      suffix={stat.suffix}
-                      duration={1.5}
-                    />
+                    {stat.display !== undefined ? (
+                      stat.display
+                    ) : (
+                      <NumberTicker
+                        value={stat.value}
+                        suffix={stat.suffix}
+                        duration={1.5}
+                      />
+                    )}
                   </p>
                   <p className="text-sm text-text-muted mt-1">{stat.label}</p>
                 </div>
