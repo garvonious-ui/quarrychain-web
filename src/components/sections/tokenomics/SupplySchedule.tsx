@@ -14,30 +14,28 @@ import {
 import BlurFade from "@/components/ui/blur-fade";
 import { VESTING_SCHEDULE } from "@/lib/constants";
 
-// Cumulative tokens unlocked (in millions)
+// Cumulative tokens unlocked (in millions). Slice sizes from deck slide 14:
+// Public 100M, Staking 40M, Team 40M, Angel Investors 20M.
 const supplyData = VESTING_SCHEDULE.map((point) => {
-  const publicSale = (60 * point.publicSale) / 100;
+  const publicSale = (100 * point.publicSale) / 100;
   const staking = (40 * point.staking) / 100;
   const team = (40 * point.team) / 100;
-  const ecosystem = (30 * point.ecosystem) / 100;
-  const privateRound = (30 * point.privateRound) / 100;
+  const angel = (20 * point.angelInvestors) / 100;
   return {
     month: `M${point.month}`,
     "Public Sale": publicSale,
     Staking: staking,
     Team: team,
-    Ecosystem: ecosystem,
-    Private: privateRound,
-    total: publicSale + staking + team + ecosystem + privateRound,
+    "Angel Investors": angel,
+    total: publicSale + staking + team + angel,
   };
 });
 
 const SERIES = [
   { key: "Public Sale", color: "#3b82f6", gradId: "litepaper-colorPublic" },
   { key: "Staking", color: "#14b8a6", gradId: "litepaper-colorStaking" },
-  { key: "Team", color: "#ef4444", gradId: "litepaper-colorTeam" },
-  { key: "Ecosystem", color: "#22c55e", gradId: "litepaper-colorEcosystem" },
-  { key: "Private", color: "#a855f7", gradId: "litepaper-colorPrivate" },
+  { key: "Team", color: "#22c55e", gradId: "litepaper-colorTeam" },
+  { key: "Angel Investors", color: "#ef4444", gradId: "litepaper-colorAngel" },
 ];
 
 /**

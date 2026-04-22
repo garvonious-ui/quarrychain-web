@@ -1,36 +1,35 @@
 // ===== Tokenomics =====
 
-// Allocation matches the whitepaper table (9 slices). Site previously collapsed
-// to 5 slices for a cleaner homepage chart — reverted here to match the WP.
+// Allocation matches the investor pitch deck (4 slices). Session 9 briefly
+// reverted to the 9-slice whitepaper table; Session 10 swapped to the deck
+// since the deck is the source of truth investors see.
+// See docs/ico-research-summary.md + docs/quarrychain-pitch-deck-2026.pdf.
 export const TOKENOMICS = {
   totalSupply: 200_000_000,
   symbol: "QRY",
   decimals: 18,
   seedPrice: 0.25,
+  publicPrice: 0.5,
   allocation: [
-    { name: "Public Sale / Liquidity", percentage: 30, color: "#3b82f6" },
+    { name: "Public Sale", percentage: 50, color: "#3b82f6" },
     { name: "Staking & Farming", percentage: 20, color: "#14b8a6" },
-    { name: "Team", percentage: 20, color: "#ef4444" },
-    { name: "Dev", percentage: 10, color: "#22c55e" },
-    { name: "Ecosystem", percentage: 5, color: "#f59e0b" },
-    { name: "Marketing", percentage: 5, color: "#ec4899" },
-    { name: "Angel Investors", percentage: 5, color: "#a855f7" },
-    { name: "Private Sale", percentage: 2.5, color: "#06b6d4" },
-    { name: "Private Presale", percentage: 2.5, color: "#818cf8" },
+    { name: "Team", percentage: 20, color: "#22c55e" },
+    { name: "Angel Investors", percentage: 10, color: "#ef4444" },
   ],
 } as const;
 
-// Vesting terms for the 4 WP-only slices (Dev, Ecosystem-split, Marketing,
-// and the 3 private/angel tranches) are inferred from existing patterns —
-// confirm with the deck before public launch.
+// Seed / Angel Investors vesting per deck slide 15 (4yr, 25% annual unlock).
+// Public ICO vesting per ico-research-summary.md "Utility Hybrid" model.
+// Team vesting follows research PDF (12mo cliff + 4yr 25%/yr).
+// Staking/Farming is an emission schedule, not investor vesting.
 export const TOKENOMICS_DETAILS = [
   {
-    name: "Public Sale / Liquidity",
-    percentage: 30,
+    name: "Public Sale",
+    percentage: 50,
     color: "#3b82f6",
-    tokens: "60,000,000 QRY",
-    description: "Allocated for the public ICO and DEX liquidity pools. Ensures deep liquidity from day one across QuarrySwap and centralized exchanges.",
-    vesting: "40% at TGE, 60% over 6 months",
+    tokens: "100,000,000 QRY",
+    description: "Allocated for the public ICO at $0.50 per QRY. Funds DEX liquidity and exchange listings at TGE. 25% liquid at TGE, remainder released linearly over 6 months to preserve the price floor without creating a single sellable cliff.",
+    vesting: "25% at TGE, 75% over 6 months linear",
     vestingMonths: 6,
   },
   {
@@ -38,72 +37,27 @@ export const TOKENOMICS_DETAILS = [
     percentage: 20,
     color: "#14b8a6",
     tokens: "40,000,000 QRY",
-    description: "Block rewards for Quarry Miners and staking rewards for QRY holders. Emitted over 4 years on a decreasing schedule.",
+    description: "Block rewards for Quarry Miners and staking rewards for QRY holders. Emitted over 4 years on a decreasing schedule — not an investor vesting tranche.",
     vesting: "Linear emission over 48 months",
     vestingMonths: 48,
   },
   {
     name: "Team",
     percentage: 20,
-    color: "#ef4444",
-    tokens: "40,000,000 QRY",
-    description: "Reserved for founders and early team members. Fully locked for 12 months, then linear vesting over 24 months.",
-    vesting: "12-month cliff, 24-month linear vest",
-    vestingMonths: 36,
-  },
-  {
-    name: "Dev",
-    percentage: 10,
     color: "#22c55e",
-    tokens: "20,000,000 QRY",
-    description: "Protocol R&D, core engineering, and developer tooling. Funds ongoing network development beyond the initial team budget.",
-    vesting: "Linear vest over 36 months",
-    vestingMonths: 36,
-  },
-  {
-    name: "Ecosystem",
-    percentage: 5,
-    color: "#f59e0b",
-    tokens: "10,000,000 QRY",
-    description: "Grants, hackathons, and dapp-builder incentives. Governance-approved unlocks managed by the QuarryChain Foundation.",
-    vesting: "Unlocked as needed, governance-approved",
+    tokens: "40,000,000 QRY",
+    description: "Reserved for founders and core team. Fully locked for 12 months, then 25% released annually over 4 years — aligns team incentives with long-term network health.",
+    vesting: "12-month cliff, then 25% annually over 4 years",
     vestingMonths: 48,
   },
   {
-    name: "Marketing",
-    percentage: 5,
-    color: "#ec4899",
-    tokens: "10,000,000 QRY",
-    description: "Brand campaigns, community growth, and user acquisition. Funds promotion across the network's lifecycle.",
-    vesting: "Linear vest over 24 months",
-    vestingMonths: 24,
-  },
-  {
     name: "Angel Investors",
-    percentage: 5,
-    color: "#a855f7",
-    tokens: "10,000,000 QRY",
-    description: "Earliest-stage supporters who backed protocol development. Longest lock-up of any investor tranche.",
-    vesting: "9-month cliff, 24-month linear vest",
-    vestingMonths: 33,
-  },
-  {
-    name: "Private Sale",
-    percentage: 2.5,
-    color: "#06b6d4",
-    tokens: "5,000,000 QRY",
-    description: "Private round investors. Discounted pricing ahead of the public ICO with structured lock-up.",
-    vesting: "6-month cliff, 18-month linear vest",
-    vestingMonths: 24,
-  },
-  {
-    name: "Private Presale",
-    percentage: 2.5,
-    color: "#818cf8",
-    tokens: "5,000,000 QRY",
-    description: "Seed-stage private presale. Earliest capital with the strictest vesting terms.",
-    vesting: "6-month cliff, 24-month linear vest",
-    vestingMonths: 30,
+    percentage: 10,
+    color: "#ef4444",
+    tokens: "20,000,000 QRY",
+    description: "The Seed round — earliest-stage backers who bought at $0.25 (50% discount to public). Matches the investment terms on deck slide 15.",
+    vesting: "4-year vest, 25% unlock annually",
+    vestingMonths: 48,
   },
 ] as const;
 
@@ -145,17 +99,20 @@ export const TOKEN_UTILITY = [
   },
 ] as const;
 
+// Percentage of each slice unlocked at each month. Keyed on the 4 deck slices.
+// Public: 25% TGE + 6mo linear. Staking: 48mo emission. Team & Angel: 12mo
+// cliff then 25% annually over 4 years (deck slide 15).
 export const VESTING_SCHEDULE = [
-  { month: 0, publicSale: 40, staking: 0, team: 0, ecosystem: 0, privateRound: 0 },
-  { month: 3, publicSale: 70, staking: 6.25, team: 0, ecosystem: 5, privateRound: 0 },
-  { month: 6, publicSale: 100, staking: 12.5, team: 0, ecosystem: 10, privateRound: 8 },
-  { month: 12, publicSale: 100, staking: 25, team: 4, ecosystem: 20, privateRound: 33 },
-  { month: 18, publicSale: 100, staking: 37.5, team: 29, ecosystem: 30, privateRound: 58 },
-  { month: 24, publicSale: 100, staking: 50, team: 54, ecosystem: 40, privateRound: 100 },
-  { month: 30, publicSale: 100, staking: 62.5, team: 79, ecosystem: 55, privateRound: 100 },
-  { month: 36, publicSale: 100, staking: 75, team: 100, ecosystem: 65, privateRound: 100 },
-  { month: 42, publicSale: 100, staking: 87.5, team: 100, ecosystem: 80, privateRound: 100 },
-  { month: 48, publicSale: 100, staking: 100, team: 100, ecosystem: 100, privateRound: 100 },
+  { month: 0, publicSale: 25, staking: 0, team: 0, angelInvestors: 0 },
+  { month: 3, publicSale: 62.5, staking: 6.25, team: 0, angelInvestors: 0 },
+  { month: 6, publicSale: 100, staking: 12.5, team: 0, angelInvestors: 0 },
+  { month: 12, publicSale: 100, staking: 25, team: 25, angelInvestors: 25 },
+  { month: 18, publicSale: 100, staking: 37.5, team: 25, angelInvestors: 25 },
+  { month: 24, publicSale: 100, staking: 50, team: 50, angelInvestors: 50 },
+  { month: 30, publicSale: 100, staking: 62.5, team: 50, angelInvestors: 50 },
+  { month: 36, publicSale: 100, staking: 75, team: 75, angelInvestors: 75 },
+  { month: 42, publicSale: 100, staking: 87.5, team: 75, angelInvestors: 75 },
+  { month: 48, publicSale: 100, staking: 100, team: 100, angelInvestors: 100 },
 ] as const;
 
 export const STAKING_TIERS = [
@@ -318,6 +275,7 @@ export const NAV_LINKS = [
   { label: "Technology", href: "/technology" },
   { label: "Ecosystem", href: "/ecosystem" },
   { label: "Tokenomics", href: "/tokenomics" },
+  { label: "ICO", href: "/ico" },
   { label: "Developers", href: "/developers" },
   { label: "Blog", href: "/blog" },
 ] as const;

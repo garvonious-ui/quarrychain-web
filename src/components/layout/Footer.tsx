@@ -5,9 +5,10 @@ const FOOTER_COLUMNS = [
     title: "Technology",
     links: [
       { label: "DPoS Consensus", href: "/technology" },
-      { label: "QVM", href: "/technology" },
+      { label: "QVM", href: "/developers" },
       { label: "QRC-20 Standard", href: "/technology" },
       { label: "Tokenomics", href: "/tokenomics" },
+      { label: "ICO", href: "/ico" },
       { label: "Whitepaper", href: "/whitepaper" },
     ],
   },
@@ -17,7 +18,7 @@ const FOOTER_COLUMNS = [
       { label: "QuarrySwap", href: "/ecosystem/quarryswap" },
       { label: "QuarryWallet", href: "/ecosystem/quarrywallet" },
       { label: "QuarryScan", href: "https://test.quarrychain.network", external: true },
-      { label: "Asset Tokenization", href: "/ecosystem" },
+      { label: "Asset Tokenization", href: "/ecosystem/asset-tokenization" },
     ],
   },
   {
