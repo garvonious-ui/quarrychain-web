@@ -285,19 +285,47 @@
 - [x] Whitepaper PDF as content source at docs/whitepaper-source.pdf (added 2026-04-14, 81 pages, NOT served publicly — litepaper has no download button)
 - [ ] Invite team members to Sanity Studio (Editor role for marketing)
 
-### Session 10 intake — user-flagged priorities (2026-04-20)
+### Session 11 — QRY ICO teaser + tokenomics swap + "Shasta" strip (Completed 2026-04-21)
 
-**PRIORITY — QRY ICO page (new)**
-- [ ] Build a dedicated page where people will purchase the QRY token (distinct from the ICO Marketplace concept — this is QuarryChain's OWN token sale page)
-- Awaiting sample pages / references from user to design against
-- Needs: token sale metrics (progress bar, cap, tokens sold, min/max contribution), wallet connect, KYC/verification gate, purchase flow, allocation/vesting display, countdown timer, FAQ
-- Route decision: `/ico` top-level or `/tokenomics/ico`?
+**Context:** user dropped the `ico-research-2026-04-21.pdf` + `quarrychain-pitch-deck-2026.pdf` into the chat. Together they resolved the Session 10 intake for QRY ICO page + tokenomics swap. One direct instruction from Alec: remove "Shasta" sitewide.
 
-**Tokenomics — swap back to investor deck values**
-- Session 9 swapped tokenomics to the 9-slice whitepaper breakdown; user clarified this should reflect the investor deck, NOT the whitepaper
-- [ ] Revert / re-swap `TOKENOMICS.allocation` + `TOKENOMICS_DETAILS` in `src/lib/constants.ts` to match the investor deck
-- [ ] Update vesting data to match deck
-- Blocked: need the investor deck (PDF or equivalent) from user
+**Shipped:**
+- [x] Stripped "Shasta" from [10-ecosystem.tsx](src/app/whitepaper/sections/10-ecosystem.tsx) (line 44 DEV_TOOLS body + lines 132-141 two-networks callout) and [13-ask.tsx](src/app/whitepaper/sections/13-ask.tsx) (lines 29, 35) — 4 edits, zero Shasta hits remaining on `/whitepaper` HTML. Historical `changelog.md` references left alone.
+- [x] Copied both source PDFs into `docs/`: `ico-research-2026-04-21.pdf` (28 pages, strategy) + `quarrychain-pitch-deck-2026.pdf` (18 pages, Alec's investor deck).
+- [x] Wrote [docs/ico-research-summary.md](docs/ico-research-summary.md) — distilled strategy doc covering legal posture, KYC (Sumsub), chains (Base + Arbitrum omnichain via LayerZero V2 OFT), payment tokens, allocation mechanic (Priority → Lottery → Overflow), vesting, testnet utility per Alec's Phase 2/3. Flags one open contradiction: **deck says Seed is Reg CF, research PDF says Reg D 506(c)** — counsel-dependent decision.
+- [x] Swapped `TOKENOMICS.allocation` from the Session 9 9-slice whitepaper breakdown to the **deck's 4-slice breakdown**: Public Sale 50% / 100M · Staking & Farming 20% / 40M · Team 20% / 40M · Angel Investors 10% / 20M. Added `publicPrice: 0.5` constant.
+- [x] Rewrote `TOKENOMICS_DETAILS` as 4 entries with per-slice vesting (Public 25% TGE + 6mo linear · Staking 48mo emission · Team 12mo cliff + 4yr 25%/yr · Angel 4yr 25%/yr).
+- [x] Rewrote `VESTING_SCHEDULE` unlock-% columns to match the 4 slices (dropped `ecosystem` + `privateRound` columns, added `angelInvestors`).
+- [x] Updated [SupplySchedule.tsx](src/components/sections/tokenomics/SupplySchedule.tsx) scale factors to the new slice sizes + 4-series chart (dropped Private purple series, Team now green, Angel Investors new red).
+- [x] Built `/ico` top-level teaser page ([src/app/ico/page.tsx](src/app/ico/page.tsx)):
+  - PageHero with dodecahedron wireframe (amber/blue/teal) — first use of that shape
+  - Two-round comparison cards (Seed $0.25 vs Public $0.50) with allocation / raise cap / vesting / eligibility / chain & payment
+  - 4-step flow (Registration 14d → Priority 24h → Lottery 48h → Overflow FCFS)
+  - Wallets + chains strip (MetaMask/WalletConnect/Coinbase/Rainbow/Rabby · Base+Arbitrum omnichain via LayerZero V2)
+  - Compliance grid (KYC gated · Reg-compliant · Geographically restricted · Cleanliness audit trail) + counsel disclaimer
+  - "Buy today. Use tomorrow." testnet-utility section + Instant-Stake bonus callout (10% QRY bonus + Founding Validator badge for locking liquid 25% for +6mo)
+  - 6-item FAQ hedged on the Reg CF vs Reg D question
+  - PageCTA to Discord + litepaper
+- [x] Added `{ label: "ICO", href: "/ico" }` to `NAV_LINKS` (between Tokenomics and Developers).
+- [x] Added ICO link to Footer Technology column + fixed stale Asset Tokenization footer link (`/ecosystem` → `/ecosystem/asset-tokenization`) + fixed QVM footer link (`/technology` → `/developers`, carryover from Session 9 restructure).
+- [x] Wrote [docs/qry-ico-starter-prompt.md](docs/qry-ico-starter-prompt.md) — bootstrap prompt for the separate `quarrychain-ico` functional launchpad repo. Matches `no-code-dapp-starter-prompt.md` format. Covers stack (Next.js + wagmi + RainbowKit + Sumsub + LayerZero V2 + Supabase + Chainlink VRF + Chainalysis/TRM), project structure, design tokens, security/compliance rules (geoblock in middleware, KYC before purchase, no custody, treasury shield), 7-phase build plan, and slash commands.
+
+**Verified via Claude Preview (no errors):**
+- `/ico` renders — hero + two-round cards + flow + compliance + testnet utility + FAQ all structured correctly
+- `/tokenomics` still renders with new 4-slice legend (confirmed exact strings: "Public Sale 50%", "Staking & Farming 20%", "Team 20%", "Angel Investors 10%")
+- Homepage nav shows "ICO" between Tokenomics and Developers
+- `/whitepaper` HTML has zero "Shasta" matches
+
+### Session 11 — still open after this batch
+- [ ] **Resolve Reg CF vs Reg D 506(c) Seed posture** (deck vs research PDF contradiction) — blocks US-retail inclusion decision and final geoblock list for the separate launchpad repo. Ask Alec.
+- [ ] **Flag WP vs investor-deck inconsistencies beyond tokenomics** — user-flagged, do not execute unprompted. Tokenomics has already been reconciled; remaining areas to audit: market-size claims (deck cites $16T by 2030 · $80B DApp 2025 · $232B tokenization 2030 — none of these are in the current litepaper); problem-statement framing (deck emphasizes environmental cost + PoS centralization, litepaper §03 Consensus doesn't lean on that angle); deck slide 10 QuarrySwap "AI-based automated smart contract auditing" as a feature (referenced in content-copy but not in litepaper §10 tools list); deck revenue model exactly matches litepaper (0.25% tx / deploy fees / 1% tokenization) ✅; deck "Get quality, with quarry" tagline was explicitly dropped from site in Session 1/2.
+- [ ] **Commit the pitch deck + research PDF + starter prompt + /ico page + tokenomics swap + Shasta strip** as 3-4 logical commits. `cp` copies into `docs/` are currently untracked; constants.ts + SupplySchedule.tsx + Footer.tsx + 2 litepaper section files are modified.
+
+### Session 10 intake — user-flagged priorities (2026-04-20) — mostly resolved in Session 11
+
+**PRIORITY — QRY ICO page** — ✅ Session 11 delivered `/ico` as a teaser (marketing page in this repo). Functional launchpad product spec written to `docs/qry-ico-starter-prompt.md` for a separate `quarrychain-ico` repo. Route decision: `/ico` top-level.
+
+**Tokenomics — swap back to investor deck values** — ✅ Session 11 swapped to the 4-slice deck breakdown. Supersedes Session 9's 9-slice WP revert.
 
 **No-Code API litepaper section**
 - [ ] Alec will provide the info; once received, add a section to `/whitepaper` (litepaper) covering the No-Code Token Generator — probably slots into §10 Ecosystem & Tools or a new dedicated section
