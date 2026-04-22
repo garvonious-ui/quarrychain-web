@@ -1,5 +1,160 @@
 # Changelog
 
+## 2026-04-22 — Session 11 addendum: Ethereum mainnet chain correction + launchpad starter prompt rewrite
+
+### What changed
+
+Alec clarified after the initial Session 11 wrap that QRY will launch as a **standard ERC-20 on Ethereum mainnet** for both the Seed round and the Public ICO — not Base + Arbitrum via LayerZero V2 OFT as the `ico-research-2026-04-21.pdf` recommended. Superseded the chain recommendation in three artifacts + rewrote the separate-launchpad bootstrap prompt comprehensively.
+
+#### `/ico` page (`src/app/ico/page.tsx`)
+- Seed card `chain: "Base · USDC"` → `"Ethereum · USDC"`
+- Public card `chain: "Arbitrum · USDC, USDT, ETH"` → `"Ethereum · USDC, USDT, ETH"`
+- Wallets + Chains strip body: dropped LayerZero / omnichain language. New copy: *"Standard ERC-20 on Ethereum mainnet. Seed round accepts USDC only; Public ICO accepts USDC, USDT, or ETH. Testnet QRY is airdropped to your wallet automatically after purchase — no bridging required."*
+- FAQ "What tokens can I pay with?" rewritten to reflect single-chain + flag the $500-$1,000 gas floor expectation.
+- Verified `/ico` HTML has zero `Base` / `Arbitrum` / `LayerZero` / `Omnichain` matches after deploy.
+
+#### `docs/ico-research-summary.md`
+- Replaced the "Deposit chains — Base + Arbitrum (omnichain)" section with "Deposit chain — Ethereum mainnet (single-chain ERC-20)" including:
+  - Explicit ⚠️ flag that this **supersedes** the research PDF recommendation
+  - Institutional-legitimacy reasoning (Solana / Avalanche / Polygon all raised on Ethereum mainnet; UAE/MENA + EU MiCA whales expect it at $50M+ scale)
+  - Gas-economics tradeoff (retail ticket floor ~$500-$1,000; mitigated by visible gas estimate + minimum contribution)
+- Updated Cross-Chain Listener section: watches Ethereum mainnet Purchase events now (was Arbitrum / Base).
+- Updated deferred-to-launchpad-repo list to say "Purchase contracts on Ethereum mainnet (standard ERC-20, no cross-chain OFT)".
+
+#### `docs/qry-ico-starter-prompt.md` — full rewrite
+Comprehensive bootstrap prompt for the separate `quarrychain-ico` repo. Changes from the previous version:
+- **Chain:** Ethereum mainnet (production) + Sepolia (test). Dropped Base, Arbitrum, LayerZero V2 OFT, intent-based bridges (Across / deBridge).
+- **Contracts:** `QRYToken.sol` (standard ERC-20), `QRYPurchaseVault.sol`, `QRYVesting.sol`, `TestnetDistributor.sol`. Foundry project under `contracts/` with Forge tests + deploy scripts + Etherscan verification workflow.
+- **Tech stack:** Added Foundry for Solidity dev. Added NetworkGuard component to enforce Ethereum mainnet. Added gas-estimate-in-modal rule.
+- **Project structure:** Now includes full `.claude/rules/` (ui-components, web3, security, three-js, animation) + full `docs/` set (architecture, build-plan, design-system, content-copy, api-routes, legal-posture, contracts, kyc-flow, changelog).
+- **Design system:** Ported exactly from quarrychain-web — CSS custom properties, Space Grotesk / Inter / JetBrains Mono, card / button / pill patterns, **the max-w-5xl alignment rule learned from Session 9**.
+- **Authoritative product spec:** 4-slice tokenomics, round prices + caps + vesting, launch-day flow, Miami Safeguard, geoblock default list, payment-token rules — all inlined so there's no ambiguity.
+- **Open items:** Reg CF vs Reg D still flagged. Added: minimum contribution floor ($500–$1,000 per gas analysis) as a new Alec question.
+- **Slash commands + rules files** specified with full file contents (4-space indent trick for nested markdown code blocks so the whole doc copies cleanly).
+
+### Decisions
+- **Ethereum mainnet over L2s for the launchpad.** Alec's call. Institutional legitimacy signal outweighs retail gas friction at $50M scale. Gas friction mitigated with $500-$1,000 minimum contribution floor + visible gas estimate in the purchase modal before signing.
+- **Single-chain simplicity wins the audit + ship-velocity tradeoff.** No LayerZero OFT = smaller surface area + simpler audit scope + no chain-switch UX + no bridge vector. The research PDF's Base + Arbitrum recommendation was optimizing for retail gas; Alec's Ethereum-mainnet call optimizes for trust signal + simplicity.
+- **Starter prompt is now the single source of truth for the launchpad repo bootstrap.** Future edits to ICO strategy propagate here first.
+
+### Shipped
+One commit to `origin/main`: `43caa49` — "content: correct chain to Ethereum mainnet per Alec (supersedes research PDF)". Three files changed (+452/-172). Vercel auto-deployed.
+
+### Issues / gotchas to address
+- **Research PDF in `docs/` still says Base + Arbitrum.** Can't edit the PDF. The summary doc explicitly flags the supersession at the top of the deposit-chain section; anyone reading should hit that flag before the PDF's recommendation.
+- **Minimum contribution floor ($500-$1,000) is a new Alec question.** Flagged in the starter prompt as open. Not in any public copy yet — the `/ico` FAQ just says "likely $500-$1,000". Lock this with Alec before launchpad repo Phase 3.
+- **No test of the Sepolia deploy path yet.** Starter prompt describes the Foundry workflow but nothing's been deployed. First session of the launchpad repo should spin up a Hello-World contract on Sepolia to prove the deploy + verify pipeline works before writing real contracts.
+
+### Current status of overall build
+- quarrychain-web — marketing site, fully shipped for the ICO teaser. `/ico` accurate, tokenomics matches deck, Shasta scrubbed.
+- quarrychain-ico — separate repo not yet initialized. Starter prompt (`docs/qry-ico-starter-prompt.md`) is paste-ready for a fresh Claude Code session.
+- Live on `quarrychain-web.vercel.app` — push to `main` triggers auto-deploy.
+
+## 2026-04-21 — Session 11: QRY ICO teaser + tokenomics swap + Shasta strip + hero touchpoints
+
+### What was built
+
+User dropped two source documents into the chat mid-session — the 28-page `ico-research-2026-04-21.pdf` (compliance/strategy) and Alec's 18-page `quarrychain-pitch-deck-2026.pdf` (investor deck). Together they resolved the Session 10 intake for the QRY ICO page + tokenomics swap, and included a direct instruction from Alec to strip "Shasta" references while the testnet is renamed. Four commits shipped.
+
+#### Shasta strip (per Alec's direct instruction in the research PDF p. 25-26)
+- Stripped "Shasta" from `src/app/whitepaper/sections/10-ecosystem.tsx` (line 44 DEV_TOOLS body + lines 132-141 two-networks callout) and `src/app/whitepaper/sections/13-ask.tsx` (lines 29, 35). Four edits total. Replaced with generic "testnet" throughout.
+- Historical mentions in `docs/changelog.md` deliberately left alone as a historical record.
+- Verified `/whitepaper` HTML has zero "Shasta" matches.
+- Context from Alec: the testnet was informally named after TRON's Shasta testnet because QuarryChain's architecture is TRON-derived (DPoS + QVM fork of TVM/EVM + QRC-10/20 mirror of TRC-10/20). Being renamed while Phase 3 (staking/delegation + minimum QM stake) lands.
+
+#### Tokenomics swap to investor-deck 4-slice
+Replaced Session 9's 9-slice WP breakdown with the deck's 4-slice split (slide 14):
+- Public Sale 50% / 100M QRY / $0.50
+- Staking & Farming 20% / 40M QRY
+- Team 20% / 40M QRY
+- Angel Investors 10% / 20M QRY / $0.25 (Seed)
+
+Changes:
+- Rewrote `TOKENOMICS.allocation` + added `publicPrice: 0.5` constant to `src/lib/constants.ts`.
+- Rewrote `TOKENOMICS_DETAILS` as 4 entries with per-slice vesting synthesized from deck + research PDF (Public 25% TGE + 6mo linear · Staking 48mo emission · Team 12mo cliff + 4yr 25%/yr · Angel 4yr 25%/yr per deck slide 15).
+- Rewrote `VESTING_SCHEDULE` unlock-% columns to match the 4 slices (dropped `ecosystem` + `privateRound`, added `angelInvestors`).
+- Updated `src/components/sections/tokenomics/SupplySchedule.tsx` scale factors to new slice sizes + 4-series chart (dropped Private purple series, Team now green, Angel Investors new red).
+
+#### `/ico` top-level teaser page
+New `src/app/ico/page.tsx` — marketing-only teaser (functional launchpad lives in separate `quarrychain-ico` repo; see starter prompt below):
+- `PageHero` with `dodecahedron` wireframe (amber/blue/teal) — first use of that shape; all other pages use torusKnot / octahedron / icosahedron / tetrahedron / sphere.
+- Two-round comparison cards (Seed $0.25 vs Public $0.50) with allocation / raise cap / vesting / eligibility / chain & payment per deck.
+- 4-step flow per research PDF: Registration 14d → Priority 24h (testnet reputation) → Lottery 48h (VRF) → Overflow FCFS.
+- Wallets + chains strip (MetaMask/WalletConnect/Coinbase/Rainbow/Rabby · Base+Arbitrum omnichain via LayerZero V2).
+- Compliance grid (KYC gated · Reg-compliant · Geographically restricted · Cleanliness audit trail) + explicit disclaimer: *"The final eligible-countries list is subject to verification by QuarryLabs legal counsel."*
+- "Buy today. Use tomorrow." testnet-utility section — hedged per Alec's Phase 3 reality (DPoS validator signup + governance voting not live yet).
+- Instant-Stake bonus callout — the "Miami Safeguard" from the research PDF. Lock liquid 25% for +6mo at TGE → 10% QRY bonus + Founding Validator badge.
+- 6-item FAQ hedged on the Reg CF vs Reg D question (doesn't commit to US posture).
+- `PageCTA` → Discord + litepaper. Waitlist-style framing.
+- Added `{ label: "ICO", href: "/ico" }` to `NAV_LINKS`. Added ICO link to Footer Technology column.
+- Fixed stale Footer links discovered during the wire-up: Asset Tokenization `/ecosystem` → `/ecosystem/asset-tokenization`, QVM `/technology` → `/developers` (both carryovers from Session 9 restructure).
+
+#### Separate `quarrychain-ico` repo starter prompt
+- Wrote `docs/qry-ico-starter-prompt.md` matching the format of `no-code-dapp-starter-prompt.md`. Bootstraps a separate functional launchpad repo with:
+  - Stack: Next.js 15 + wagmi + RainbowKit + Sumsub React SDK + LayerZero V2 OFT + Supabase + Chainlink VRF + Chainalysis/TRM
+  - Project structure with `api/geoblock`, `api/kyc/webhook`, `api/sanctions`, `api/lottery/draw` routes
+  - Contract scaffolding: `QRYPurchaseVault.sol`, `QRYVesting.sol`, `TestnetDistributor.sol`, `QRYToken.sol` (LayerZero OFT)
+  - Non-negotiable security rules (geoblock in middleware, KYC before purchase, never custody, Treasury Shield auto-convert, audit log everything)
+  - 7-phase build plan (Scaffolding → Wallet+KYC → Contracts+Registration → Round mechanics → Vesting+Instant-Stake → Testnet utility → Admin+audit)
+  - Slash commands (`/start`, `/wrap`, `/checkpoint`, `/status`)
+
+#### Research docs landed in `docs/`
+- `docs/ico-research-2026-04-21.pdf` — 28 pages of compliance/strategy
+- `docs/quarrychain-pitch-deck-2026.pdf` — Alec's 18-page investor deck
+- `docs/ico-research-summary.md` — distilled plaintext summary of both, flagging the Reg CF vs Reg D contradiction. Authoritative reference for all ICO work going forward.
+
+#### Homepage hero ICO touchpoints (follow-up after user flagged no homepage CTA)
+- Pulsing teal pill above the headline: "● QRY ICO · Registration opens soon →" linking to `/ico`
+- Primary CTA swapped from "Read Whitepaper" → "View the ICO" → `/ico`
+- Secondary CTA renamed "Read Whitepaper" → "Read the Litepaper" → `/whitepaper` (matches the actual doc type)
+- "Explore Testnet" CTA dropped from hero (still discoverable via `/developers` nav + `/ecosystem` hub)
+- Three touchpoints total on first load: nav link, pill, primary CTA. Plus Footer Technology column link.
+
+### Decisions
+- **Deck is source of truth for tokenomics, whitepaper wins on deep technical content.** User-confirmed preference saved as memory. When the two disagree on tokenomics / Seed mechanics / allocation / vesting, the deck wins. For DPoS / TaPoS / QVM / bandwidth-energy economics the whitepaper remains authoritative — the deck doesn't cover those.
+- **Reg CF vs Reg D 506(c) for the Seed round is NOT resolved in code.** Deck slide 15 says Reg CF; research PDF says Reg D 506(c). They're materially different (Reg CF = US retail INCLUDED via funding portal, $5M cap; Reg D 506(c) = US accredited ONLY). The `/ico` page copy hedges with "regulatory posture finalizing with counsel" and does NOT hard-code US posture. Must be resolved with Alec + counsel before the launchpad repo can do US-specific geoblock logic.
+- **Tokenomics is now a 4-slice split per the deck, supersedes Session 9's 9-slice WP revert.** Session 9's comment "confirm with the deck before public launch" is now satisfied.
+- **`/ico` is a teaser in `quarrychain-web`; functional launchpad is a separate repo.** Follows the established pattern (QuarrySwap marketing page in quarrychain-web + functional app in separate repo; No-Code Token Generator marketing section + separate repo per `no-code-dapp-starter-prompt.md`). Reasoning: the launchpad needs wagmi/viem/RainbowKit + Sumsub SDK + LayerZero OFT + Supabase backend + Chainalysis/TRM sanctions + Chainlink VRF — totally different stack, different security surface, different deploy cadence from marketing.
+- **Route decision: `/ico` top-level, not `/tokenomics/ico`.** Cleaner URL, matches investor search behavior, and positions the ICO page as a standalone investor concern (like `/tokenomics`) rather than a sub-page of tokenomics.
+- **Hero gets three ICO touchpoints, not one.** Pill + primary CTA + nav link. Industry pattern for L1 sites with active ICOs (Monad / MegaETH / Fogo). Single touchpoint gets missed on first scan.
+- **Hedge language on `/ico` is explicit and visible.** "This list is subject to final verification by QuarryLabs legal counsel" appears in italics after the compliance grid. Protects from regulators updating their Digital Securities list (the 18-asset list mentioned in the March 17 2026 Joint Interpretive Release) mid-launch.
+- **Dropped the "Explore Testnet" hero CTA.** Keeping two focused CTAs (ICO + Litepaper) beats three competing ones. Testnet explorer is still in `/developers` + `/ecosystem` hub + Footer.
+- **"Miami Safeguard" / Instant-Stake is surfaced as a first-class section on `/ico`.** Per research PDF, it defends the $0.50 price floor by reducing sellable supply at TGE from 25% → ~10-12%. Lock liquid 25% for +6mo → 10% QRY bonus + Founding Validator badge. Badge format (NFT vs SBT vs off-chain registry) is TBD — left flexible in the copy.
+
+### Verification
+- Claude Preview verified `/ico` renders (hero + rounds + flow + compliance + testnet utility + FAQ).
+- `/tokenomics` verified showing new 4-slice legend (exact strings: "Public Sale 50%", "Staking & Farming 20%", "Team 20%", "Angel Investors 10%").
+- Homepage nav verified showing "ICO" between Tokenomics and Developers.
+- `/whitepaper` HTML verified to have zero "Shasta" matches.
+- Hero desktop screenshot verified: pulsing teal pill, "View the ICO" primary CTA, "Read the Litepaper" secondary CTA, all centered over the Goldberg hex-sphere.
+- Vercel production build verified Ready (`quarrychain-j376g8l2d-garvonious-uis-projects.vercel.app`); canonical URL `quarrychain-web.vercel.app/ico` returns 200 with title "QRY ICO — QuarryChain", `age: 0` on first fetch, `x-vercel-cache: HIT` on repeat.
+- No console errors across `/`, `/ico`, `/tokenomics`, `/whitepaper` in dev preview.
+
+### Shipped
+Four commits to `origin/main` (`b4d7190..75050e1`), each auto-deployed by Vercel:
+- `8be3257` content: strip "Shasta" references per Alec (2 files, +7/-8)
+- `84b49c6` feat: swap tokenomics to investor-deck values + add /ico teaser page (4 files, +548/-94, new `src/app/ico/page.tsx`)
+- `c0b3c5d` docs: add QRY ICO research + deck + summary + launchpad starter prompt (5 files, +436/-13, two new PDFs + two new markdown files + build-plan.md Session 11 entries)
+- `75050e1` feat: surface QRY ICO on homepage hero (1 file, +16/-6)
+
+### Issues / gotchas to address
+- **Reg CF vs Reg D 506(c) Seed posture is still open.** The `/ico` page dodges this with hedging copy, but the launchpad repo can't ship US-specific geoblock logic until Alec + counsel land this. Affects whether US retail sees the Seed round at all.
+- **Vercel CLI `vercel ls` still shows some Canceled + one-off deploys from several days ago** — nothing new, but worth glancing at logs next time we're in Vercel.
+- **Memory files are in `~/.claude/projects/…/memory/`, not in this repo.** Saved 3 memories this session (Shasta rename, ICO doc pointers, deck-wins-over-WP feedback). They're NOT committed to git — they're local to the Claude harness. Future sessions on the same machine will auto-load them; sessions on other machines won't see them. If the user wants these portable, we'd need to copy them into the repo docs.
+- **`zsh` read-only variable collision in Monitor script.** The deployment-status poll used `$status` as a loop variable and `zsh` treats that as read-only. Harmless — the deploy actually succeeded. Next time a monitor script is needed for zsh, use a different variable name (`$deployState`, `$buildStatus`, etc.).
+- **WP vs deck inconsistencies beyond tokenomics flagged but NOT audited.** User explicitly said don't do it now — left as a pending todo in build-plan.md with the specific areas to check: market-size stats ($16T by 2030, $80B DApp, $232B tokenization), problem-statement framing (deck leans on environmental cost + PoS centralization more than litepaper), deck slide 10 "AI-based automated smart contract auditing" as a QuarrySwap feature (in content-copy.md but not in litepaper §10).
+- **The "Founding Validator" badge format is open** — NFT, SBT, or off-chain registry? Governance weight at mainnet? Left flexible in `/ico` copy but needs to be decided before the launchpad repo builds the mint flow.
+- **Testnet reputation scoring criteria** for the Priority Round 24h allocation — what counts? Galxe quests? Layer3? Hard-coded to testnet transactions? Blocked on Alec.
+- **Mainnet launch / TGE date target** — drives all the countdowns and sale window dates. Unknown. Blocked on Alec.
+
+### Current status of overall build
+- Phase 1 (Homepage POC) — ✅ complete
+- Phase 1.5 (V2 overhaul) — ✅ complete
+- Phase 2 (Subpages) — ✅ complete
+- Phase 3 — Tokenomics page ✅ · Sanity CMS ✅ · Brand page ✅ · Litepaper ✅ · Team+Roadmap → Sanity ✅ · Hero hex-sphere ✅ · HexDivider (shipped S8, removed S9) · Tier 1 copy/data scrubs ✅ · QVM restructure ✅ · `/ecosystem/asset-tokenization` ✅ · No-Code section ✅ · No-Code DApp starter prompt ✅ · **Shasta strip ✅ · Tokenomics 4-slice deck swap ✅ · `/ico` teaser page ✅ · `quarrychain-ico` starter prompt ✅ · Hero ICO touchpoints ✅ (this session)**.
+- Remaining: brand PDF redesign · light-mode toggle · real social handles · Sanity Studio team invites · Tier 2 assets (logo dark-mode + headshots) · Tier 4 ecosystem diagram rework · ICO Marketplace future work · spin up separate No-Code DApp repo · spin up separate `quarrychain-ico` launchpad repo · WP vs deck inconsistency audit.
+- Live on `quarrychain-web.vercel.app` — push to `main` triggers auto-deploy.
+
 ## 2026-04-19 — Session 9: Tier 1 content/data fixes + Tier 3 page restructure
 
 ### What was built

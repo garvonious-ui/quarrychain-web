@@ -316,10 +316,26 @@
 - Homepage nav shows "ICO" between Tokenomics and Developers
 - `/whitepaper` HTML has zero "Shasta" matches
 
+### Session 11 — Homepage hero ICO touchpoints (Completed 2026-04-21)
+Added after user feedback that `/ico` existed but had no direct CTA from the homepage. Three touchpoints now visible on first page load:
+- [x] Pulsing teal pill above the headline: "● QRY ICO · Registration opens soon →" → `/ico`
+- [x] Primary hero CTA swapped from "Read Whitepaper" → "View the ICO" (links to `/ico`)
+- [x] Secondary CTA renamed "Read Whitepaper" → "Read the Litepaper" → `/whitepaper` (matches actual doc type)
+- [x] Dropped "Explore Testnet" CTA from hero — still discoverable via `/developers` + `/ecosystem`
+- Nav link + Footer column link from the earlier batch remain in place
+
 ### Session 11 — still open after this batch
 - [ ] **Resolve Reg CF vs Reg D 506(c) Seed posture** (deck vs research PDF contradiction) — blocks US-retail inclusion decision and final geoblock list for the separate launchpad repo. Ask Alec.
 - [ ] **Flag WP vs investor-deck inconsistencies beyond tokenomics** — user-flagged, do not execute unprompted. Tokenomics has already been reconciled; remaining areas to audit: market-size claims (deck cites $16T by 2030 · $80B DApp 2025 · $232B tokenization 2030 — none of these are in the current litepaper); problem-statement framing (deck emphasizes environmental cost + PoS centralization, litepaper §03 Consensus doesn't lean on that angle); deck slide 10 QuarrySwap "AI-based automated smart contract auditing" as a feature (referenced in content-copy but not in litepaper §10 tools list); deck revenue model exactly matches litepaper (0.25% tx / deploy fees / 1% tokenization) ✅; deck "Get quality, with quarry" tagline was explicitly dropped from site in Session 1/2.
-- [ ] **Commit the pitch deck + research PDF + starter prompt + /ico page + tokenomics swap + Shasta strip** as 3-4 logical commits. `cp` copies into `docs/` are currently untracked; constants.ts + SupplySchedule.tsx + Footer.tsx + 2 litepaper section files are modified.
+- [x] **Commit the pitch deck + research PDF + starter prompt + /ico page + tokenomics swap + Shasta strip** — shipped as 4 commits (`8be3257` Shasta strip · `84b49c6` tokenomics+ico · `c0b3c5d` docs package · `75050e1` hero touchpoints) and pushed to `origin/main`. Vercel auto-deployed.
+
+### Session 11 addendum — Ethereum mainnet chain correction (Completed 2026-04-22)
+Alec clarified after the initial Session 11 wrap that QRY will launch as a **standard ERC-20 on Ethereum mainnet** for both rounds — not Base + Arbitrum via LayerZero V2 OFT as the research PDF recommended.
+- [x] `/ico` page: Seed card chain → Ethereum, Public card chain → Ethereum, wallets strip + FAQ rewritten for single-chain
+- [x] `docs/ico-research-summary.md`: "Deposit chain — Ethereum mainnet" section replaces the Base/Arbitrum section with an explicit supersession flag + institutional-legitimacy reasoning + gas-economics tradeoff
+- [x] `docs/qry-ico-starter-prompt.md`: **full rewrite** — Foundry project under `contracts/`, single-chain wagmi config, NetworkGuard component, gas estimate in purchase modal, authoritative product spec inlined (tokenomics / rounds / vesting / geoblock / Miami Safeguard), all slash commands + rules files specified with file contents
+- [x] New Alec open question: minimum contribution floor ($500–$1,000 per gas analysis) — needed before launchpad repo Phase 3
+- [x] Shipped as commit `43caa49`; Vercel auto-deployed
 
 ### Session 10 intake — user-flagged priorities (2026-04-20) — mostly resolved in Session 11
 
