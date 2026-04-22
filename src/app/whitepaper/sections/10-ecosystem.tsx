@@ -41,7 +41,7 @@ const DEV_TOOLS = [
   {
     icon: Code2,
     name: "QuarryStudio",
-    body: "Integrated development environment with a built-in private testnet. Compile, deploy, and debug Solidity contracts before they hit Shasta or mainnet.",
+    body: "Integrated development environment with a built-in private testnet. Compile, deploy, and debug Solidity contracts before they hit testnet or mainnet.",
   },
   {
     icon: Beaker,
@@ -133,11 +133,10 @@ export default function Section10Ecosystem() {
               Two networks, one toolchain
             </h4>
             <p className="text-sm text-text-secondary">
-              QuarryChain ships with a public testnet (<strong className="text-text-primary">Shasta</strong>)
-              and a production mainnet. Every dev tool can target either one
-              with a config flag — local privatenet for unit tests, Shasta for
-              integration, mainnet for production. Same code, three
-              environments, no rewrites.
+              QuarryChain ships with a public testnet and a production mainnet.
+              Every dev tool can target either one with a config flag — local
+              privatenet for unit tests, testnet for integration, mainnet for
+              production. Same code, three environments, no rewrites.
             </p>
           </div>
         </div>

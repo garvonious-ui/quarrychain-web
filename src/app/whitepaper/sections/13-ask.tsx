@@ -26,13 +26,13 @@ export default function Section13Ask() {
     <LitepaperSection meta={meta}>
       <p>
         QuarryChain isn&apos;t a thought experiment. The protocol is live on
-        Shasta testnet, the QVM runs Solidity contracts unmodified, and the
+        testnet, the QVM runs Solidity contracts unmodified, and the
         ecosystem has working wallets, an explorer, and a DEX. Mainnet,
         listings, and the first delegate elections are next.
       </p>
 
       <p>
-        If you build smart contracts, deploy one to Shasta and see what
+        If you build smart contracts, deploy one to our testnet and see what
         running with free bandwidth and 3-second blocks feels like. If you
         run a project that needs cheap, fast settlement, talk to us about
         what migration looks like. If you want to validate the network when
