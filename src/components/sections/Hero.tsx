@@ -99,6 +99,18 @@ export default function Hero() {
 
         {/* Content overlay */}
         <div className="relative z-10 mx-auto max-w-4xl px-4 text-center">
+          {/* ICO announcement pill */}
+          <BlurFade delay={0.1}>
+            <a
+              href="/ico"
+              className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 mb-8 border border-qc-teal/25 bg-qc-teal/[0.08] text-xs font-mono uppercase tracking-widest text-qc-teal hover:bg-qc-teal/[0.12] hover:border-qc-teal/40 transition-colors group"
+            >
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-qc-teal animate-pulse" />
+              QRY ICO · Registration opens soon
+              <span className="transition-transform group-hover:translate-x-0.5">→</span>
+            </a>
+          </BlurFade>
+
           {/* Headline */}
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-display tracking-tight text-text-primary mb-6">
             <TextReveal delay={0.2}>The Blockchain Built</TextReveal>{" "}
@@ -118,18 +130,16 @@ export default function Hero() {
           <BlurFade delay={0.5}>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href="/whitepaper"
+                href="/ico"
                 className="inline-flex items-center px-6 py-3 text-sm font-medium text-white rounded-lg border border-qc-teal/50 bg-gradient-to-r from-qc-teal/10 to-qc-blue/10 hover:from-qc-teal/20 hover:to-qc-blue/20 hover:shadow-[0_0_30px_rgba(20,184,166,0.2)] transition-all duration-300"
               >
-                Read Whitepaper
+                View the ICO
               </a>
               <a
-                href="https://test.quarrychain.network"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/whitepaper"
                 className="inline-flex items-center px-6 py-3 text-sm font-medium text-text-secondary rounded-lg border border-white/10 hover:border-white/20 hover:text-text-primary transition-all duration-300"
               >
-                Explore Testnet
+                Read the Litepaper
               </a>
             </div>
           </BlurFade>
