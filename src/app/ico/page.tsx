@@ -29,7 +29,7 @@ const ROUNDS = [
     raiseCap: "Up to $5M",
     vesting: "4-year vest · 25% unlock annually",
     eligibility: "Qualified investors only · regulatory posture finalizing with counsel",
-    chain: "Base · USDC",
+    chain: "Ethereum · USDC",
     color: "#ef4444",
     gradientFrom: "from-qc-red/10",
     gradientTo: "to-qc-red/5",
@@ -44,7 +44,7 @@ const ROUNDS = [
     raiseCap: "Up to $50M",
     vesting: "25% at TGE · 75% over 6 months linear",
     eligibility: "Global retail + institutions · Reg S posture · US excluded",
-    chain: "Arbitrum · USDC, USDT, ETH",
+    chain: "Ethereum · USDC, USDT, ETH",
     color: "#3b82f6",
     gradientFrom: "from-qc-blue/10",
     gradientTo: "to-qc-teal/5",
@@ -124,7 +124,7 @@ const FAQ = [
   },
   {
     q: "What tokens can I pay with?",
-    a: "Public ICO: USDC, USDT, or ETH on Arbitrum. Seed: USDC on Base. The launchpad auto-detects your wallet and recommends the right chain.",
+    a: "Both rounds settle on Ethereum mainnet as a standard ERC-20. Public ICO accepts USDC, USDT, or ETH. Seed is USDC only. Expect a minimum contribution floor (likely $500-$1,000) since Ethereum mainnet gas fees matter at small ticket sizes.",
   },
   {
     q: "How does KYC work?",
@@ -328,9 +328,10 @@ export default function ICOPage() {
                     </h3>
                   </div>
                   <p className="text-sm text-text-secondary leading-relaxed">
-                    Omnichain ERC-20 via LayerZero V2 — deployed on both Base
-                    (for Seed) and Arbitrum (for Public ICO). Pay with USDC on
-                    either chain, USDT or ETH on Arbitrum.
+                    Standard ERC-20 on Ethereum mainnet. Seed round accepts
+                    USDC only; Public ICO accepts USDC, USDT, or ETH. Testnet
+                    QRY is airdropped to your wallet automatically after
+                    purchase — no bridging required.
                   </p>
                 </div>
               </div>

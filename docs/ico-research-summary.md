@@ -68,18 +68,22 @@ Strategic default per research PDF. Reasons:
 
 Alternatives not chosen: Persona (strong on US accredited but secondary need), Fractal ID (reusable SBT, Reg-S / MiCA-focused), Synaps (EU-strong, weak US).
 
-## Deposit chains — Base + Arbitrum (omnichain)
+## Deposit chain — Ethereum mainnet (single-chain ERC-20)
 
-Split of labor:
+**⚠️ Supersedes the research PDF's chain recommendation.** The research PDF proposed Base (Seed) + Arbitrum (Public) via LayerZero V2 OFT. Alec has since clarified QRY will launch as a **standard ERC-20 on Ethereum mainnet** for both rounds.
 
-| Chain | Round | Why |
-|---|---|---|
-| **Base** | US Seed ($5M) | Lowest Coinbase → L2 friction for US accredited investors; retail-friendly |
-| **Arbitrum** | Global Public ICO ($50M) | Highest institutional TVL in 2026; Stylus C++ smart contracts; RWA whale liquidity |
+**Why Ethereum mainnet (not L2s):**
+- Institutional legitimacy — Solana / Avalanche / Polygon / most notable L1s did Ethereum mainnet raises. Whale / VC investors in the UAE MENA + EU MiCA green list expect it at $50M+ scale.
+- Simpler audit scope (single chain, no LayerZero OFT cross-chain messaging, no bridge vector).
+- No chain-switch UX ambiguity for users.
 
-Deployed as **Omnichain ERC-20** via **LayerZero V2 OFT**. Intent-based bridges (Across, deBridge) for users crossing chains post-purchase. Launchpad detects wallet context and routes:
+**Tradeoff (what we're giving up):**
+- **Gas economics hurt retail.** At Ethereum mainnet fees, a $100–$500 deposit can see 6–30% of the contribution eaten by gas. Mitigations:
+  - Minimum contribution floor (recommend $500–$1,000) keeps gas:contribution ratio sane.
+  - Visible gas estimate in the purchase modal before signing — users see the bill upfront.
+  - Framing positions the ICO as institutional-grade; the pricing signals that intentionally.
 
-> *"Deposit USDC on Base (Recommended for US Seed)"* or *"Deposit USDT/ETH on Arbitrum (Recommended for Global ICO)"*.
+**Testnet (Sepolia) deploys first** for all contracts. Chainlink VRF v2 has Sepolia + mainnet support. Foundry scripts for deploy + Etherscan verification + addresses written to `docs/contracts.md` in the launchpad repo.
 
 ## Payment tokens
 
@@ -126,7 +130,7 @@ Deck doesn't specify Public vesting; this follows the research PDF's "Utility Hy
 - **Phase 2 (now):** UI/UX + **EVM-compatible wallet integration** working. **QRY-ERC20 is the token connecting to the testnet** — not a separate native testnet coin. Contributors' purchased ERC-20 can be used on testnet directly, which simplifies any "testnet utility for buyers" flow.
 - **Phase 3 (upcoming):** Staking / Delegation features + minimum stake threshold for Quarry Miner candidacy. **Validator signup, on-chain governance voting, and staking rewards are NOT live today** — they're the Phase 3 build. Marketing the ICO around "buy and validate immediately" is premature.
 
-**Faucet:** Not available by default. A "push" system (auto-airdrop on purchase event) needs to be added to Phase 2 or Phase 3 explicitly. Requires a **Cross-Chain Listener** (Node.js / Go backend) watching `Purchase` events on Arbitrum/Base and triggering distribution on the QuarryChain testnet.
+**Faucet:** Not available by default. A "push" system (auto-airdrop on purchase event) needs to be added to Phase 2 or Phase 3 explicitly. Requires a **Cross-Chain Listener** (Node.js / Go backend) watching `Purchase` events on Ethereum mainnet and triggering distribution on the QuarryChain testnet.
 
 ## Implications for quarrychain-web
 
@@ -140,7 +144,7 @@ Already executed (Session 10, after this research landed):
 Deferred to separate `quarrychain-ico` repo (see `docs/qry-ico-starter-prompt.md`):
 - Wallet connect (wagmi + RainbowKit)
 - Sumsub KYC SDK integration + geoblock middleware
-- Purchase contracts (Base + Arbitrum) via LayerZero V2 OFT
+- Purchase contracts on Ethereum mainnet (standard ERC-20, no cross-chain OFT)
 - Registration / Priority / Lottery / Overflow round logic (VRF-backed)
 - Instant-Stake opt-in + Founding Validator badge mint
 - Cross-Chain Listener + testnet distribution contract
